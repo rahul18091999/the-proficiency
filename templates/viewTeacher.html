@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Teachers</title>
+    
+
+    {% include "admin.html" %}
+    
+</head>
+<body>
+
+    <div class="panel panel-success">
+        <div class="panel-heading">All Teachers</div>
+        <div class="panel-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Teacher ID</th>
+                        <th>Name</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Phone Number</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if data %}
+                    {% for i in data  %}
+                    <tr>
+                        <td>{{i.tId}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.d}}</td>
+                        <td>{{i.s}}</td>
+                        <td>{{i.number}}</td>
+                        <td>
+                            <a href='/editTeacher/<%= data[i].tId%>'> <button type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+{% endfor %}
+{% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -11,7 +11,7 @@ def getpass(a):
     return str(b64encode(p.encode()))
 def teacher(request):
     if request.method == "POST":
-        print('rahul')
+        # print('rahul')
         name=request.POST.get('name')
         number=request.POST.get('number')
         email=request.POST.get('email')
@@ -60,7 +60,7 @@ def teacher(request):
             from random import randint
             
             time_now=int(datetime.now().timestamp()*100)
-            print(time_now)
+            # print(time_now)
             database.child('tIds').child(number).update({
                 'createdOn':time_now,
                 'id':"12"+str(tempid),
@@ -100,3 +100,28 @@ def teacher(request):
             'info': ''
         }
         return render(request,'teacher.html',data)
+
+
+
+def viewTeacher(request):
+    teacherData=database.child('teachers').get()
+    # print(teacherData)
+    l=[]
+    for i in teacherData:
+        # print(i.key())
+        if(i.key()!='qBank'):
+            l.append(
+            {
+                'tId': i.key(),
+                'name': i.val()['details']['name'],
+                'number': i.val()['details']['phone'],
+                'email': i.val()['details']['email'],
+                's': i.val()['details']['state'],
+                'd': i.val()['details']['city'],
+                'age': i.val()['details']['age'],
+                'experience': i.val()['details']['experience'],
+                'gen': i.val()['details']['gen'],
+            }
+        )
+    # print(l)
+    return render(request,'viewTeacher.html',{'data':l})
