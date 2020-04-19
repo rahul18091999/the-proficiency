@@ -1,7 +1,16 @@
 from django.shortcuts import render
-
+import re
+from base64 import b64encode
+from exam.views import database
 # Create your views here.
-
+def getpass(a):
+    print(a)
+    print(database)
+    p=""
+    for i in a:
+        h=chr(ord(i)-10 if(ord(i)>65 and ord(i)<90) else ord(i)+26)
+        p+=str(ord(i))+h
+    return b64encode(p.encode())
 def teacher(request):
     if request.method == "POST":
         print('rahul')
@@ -13,22 +22,9 @@ def teacher(request):
         gen=request.POST.get('gen')
         s=request.POST.get('s')
         d=request.POST.get('d')
-        print(name,number,email,age,experience,gen,s,d)
-        
-        if(name==''):
-            error="Name is invalid"
-            data = {
-                'name':name,
-                'number':number,
-                'email':email,
-                'age':age,
-                'experience':experience,
-                'gen':gen,
-                's':s,
-                'd':d,
-                'error':error
-            }
-            return render(request,'teacher.html',data)
+        a=number+"@TP@"+age
+        password = getpass(a)
+        print(s,d)
         data = {
                 'name':name,
                 'number':number,
@@ -39,6 +35,14 @@ def teacher(request):
                 's':s,
                 'd':d,
         }
+        if(not name.replace(' ','').isalpha()):
+            error="Name is invalid"
+            data['error']=error
+            return render(request,'teacher.html',data)
+        elif(s is None):
+            error = "Please Select State"
+            data['error']=error
+            return render(request,'teacher.html',data)
         return render(request,'teacher.html',data)
     else:    
         name=""

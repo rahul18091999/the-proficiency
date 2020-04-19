@@ -512,9 +512,14 @@ function selct_district($val) {
                         <div id="div_id_gen" class="form-group required">
                             <legend for="id_gen" class="control-label col-md-4  requiredField"> Gender</legend>
                             <div class="controls col-md-8 ">
-                                <select name="gen" selected="{{gen}}">
-                                    <option value="Male">Male</option>
+                                <select name="gen">
+                                    {% if gen == "Male" %}
+                                    <option value="Male" selected>Male</option>
                                     <option value="Female">Female</option>
+                                    {% else %}
+                                    <option value="Male">Male</option>
+                                    <option value="Female" selected>Female</option>
+                                    {% endif %}
                                 </select>
                             </div>
                         </div>
