@@ -51,24 +51,22 @@ def teacher(request):
             data['error']=error
             return render(request,'teacher.html',data)
         else:
-            if(database.child('tIds').child('free').shallow().get().val()):
-                tempid=database.child('tIds').child('free').shallow().get().val()
+            free = database.child('tIds').child('free').shallow().get().val()
+            if free:
+                tempid=free
             else:
                 tempid=100001
-            import time
-            from datetime import datetime,timezone
-            import pytz
+            from datetime import datetime
             from random import randint
-            print()
             
             time_now=int(datetime.now().timestamp()*100)
             
             print(time_now)
             database.child('tIds').child(number).update({
-                'createsOn':time_now,
+                'createdOn':time_now,
                 'id':"12"+str(tempid),
                 'verify':randint(100000,999999),
-                'pass':getpass(number+"@TP@"+age)[2:-1]
+                'pass':getpass(number+"@T   P@"+age)[2:-1]
             })
             database.child('teachers').child("12"+str(tempid)).child('details').update(
                 {
@@ -93,7 +91,6 @@ def teacher(request):
         return render(request,'teacher.html',data)
     else:    
         name=""
-        print('rahul11')
         email=""
         data = {
             'name':name,
