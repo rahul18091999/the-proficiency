@@ -55,17 +55,12 @@ def teacher(request):
                 tempid=database.child('tIds').child('free').shallow().get().val()
             else:
                 tempid=100001
-            import time
-            from datetime import datetime,timezone
-            import pytz
+            from datetime import datetime
             from random import randint
-            print()
-            
             time_now=int(datetime.now().timestamp()*100)
-            
             print(time_now)
             database.child('tIds').child(number).update({
-                'createsOn':time_now,
+                'createdOn':time_now,
                 'id':"12"+str(tempid),
                 'verify':randint(100000,999999),
                 'pass':getpass(number+"@TP@"+age)[2:-1]
