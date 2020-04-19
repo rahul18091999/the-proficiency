@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add a new Question</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(this).parent().siblings().removeClass('open');
+                    $(this).parent().toggleClass('open');
+                });
+            });
+        })(jQuery);
+    </script>
+</head>
+
+<body onload="hideShow()">        <%- include('../../../../components/partials/header.ejs') %>
+
+    <div class="container">
+        <div id="addProductBox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-1">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Add a new Question in Topic ID: <%= topic%></div>
+                </div>
+                <div class="panel-body">
+                    <% if(error){ %>
+                    <div class="alert alert-danger">
+                        <center><%= error%></center>
+                    </div>
+                    <% }%>
+                    <% if(success){ %>
+                    <div class="alert alert-success">
+                        <center><%= success%></center>
+                    </div>
+                    <% }%>
+                    <form class="form-horizontal">
+                        <div id="div_id_picP" class="form-group required">
+                            <legend for="id_picP" class="control-label col-md-4  requiredField"> Pic/Plain
+                            </legend>
+                            <div class="controls col-md-8 ">
+                                <select class="input-md picPinput form-control" id="id_picP" name="picP"
+                                    onchange="hideShow()">
+                                    <option value="Plain" selected>Plain</option>
+                                    <option value="Pics">Pics</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal" id="plain" method='POST'>
+                        <div id="div_id_ques" class="form-group required">
+                            <legend for="id_ques" class="control-label col-md-4  requiredField"> Question
+                            </legend>
+                            <div class="controls col-md-8 ">
+                                <input class="input-md  textinput textInput form-control" id="id_ques" name="ques"
+                                    value="<%= body.ques %>" placeholder="eg. 12th" type="text" />
+                            </div>
+                        </div>
+                        <div id="div_id_opt1" class="form-group required">
+                            <legend for="id_opt1" class="control-label col-md-4  requiredField"> Option 1
+                            </legend>
+                            <div class="controls col-md-8 ">
+                                <input class="input-md opt1input form-control" id="id_opt1" name="opt1"
+                                    placeholder="eg. 12th Class is basic" value="<%= body.opt1 %>" type="text" />
+                            </div>
+                        </div>
+                        <div id="div_id_opt2" class="form-group required">
+                            <legend for="id_opt2" class="control-label col-md-4  requiredField"> Option 2
+                            </legend>
+                            <div class="controls col-md-8 ">
+                                <input class="input-md opt2input form-control" id="id_opt2" name="opt2"
+                                    placeholder="eg. 12th Class is basic" value="<%= body.opt2 %>" type="text" />
+                            </div>
+                        </div>
+                        <div id="div_id_opt3" class="form-group required">
+                            <legend for="id_opt3" class="control-label col-md-4  requiredField"> Option 3
+                            </legend>
+                            <div class="controls col-md-8 ">
+                                <input class="input-md opt3input form-control" id="id_opt3" name="opt3"
+                                    placeholder="eg. 12th Class is basic" value="<%= body.opt3 %>" type="text" />
+                            </div>
+                        </div>
+                        <div id="div_id_opt4" class="form-group required">
+                            <legend for="id_opt4" class="control-label col-md-4  requiredField"> Option 4
+                            </legend>
+                            <div class="controls col-md-8 ">
+                                <input class="input-md opt4input form-control" id="id_opt4" name="opt4"
+                                    placeholder="eg. 12th Class is basic" value="<%= body.opt4 %>" type="text" />
+                            </div>
+                        </div>
+
+                        <div id="div_id_optC" class="form-group required">
+                            <legend for="id_optC" class="control-label col-md-4  requiredField"> Correct Option
+                            </legend>
+                            <div class="controls col-md-8 ">
+                                <select class="input-md optCinput form-control" id="id_optC" name="optC"
+                                    selected="<%= body.optC %>">
+                                    <option value="" disabled selected>Select Correct Option</option>
+                                    <option value="opt1">Option 1</option>
+                                    <option value="opt2">Option 2</option>
+                                    <option value="opt3">Option 3</option>
+                                    <option value="opt4">Option 4</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="div_id_teacher" class="form-group required">
+                            <legend for="id_teacher" class="control-label col-md-4  requiredField"> Question Type
+                            </legend>
+                            <div class="controls col-md-8 ">
+                                <select class="input-md teacherinput form-control" id="id_teacher" name="teacher"
+                                    selected="<%= body.teacher %>">
+                                    <option value="" disabled selected>Question Type</option>
+                                    <option value="qBank">Question Bank</option>
+                                    <% for(var i=0; i<arrKey.length; i++){%>
+                                    <option value="<%= arrKey[i]%>"><%= arrName[i]%></option>
+                                    <%}%>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="aab controls col-md-4 "></div>
+                                <div class="controls col-md-8 ">
+                                    <input type="submit" name="addTopic" value="Add Topic"
+                                        class="btn btn-primary btn btn-info" id="submit-id-addTopic" />
+                                </div>
+                            </div> 
+                        </form>
+                    <form class="form-horizontal" enctype="multipart/form-data" action="/addQuesP/<%= sub%>-<%= topic%>"
+                                    id="pic" style="display: none" method='POST' >
+
+                                    <div id="div_id_ques" class="form-group required">
+                                        <legend for="id_ques" class="control-label col-md-4  requiredField"> Question
+                                        </legend>
+                                        <div class="controls col-md-8 ">
+                                            <input name="quesP" class="input-md  textinput form-control" type="file"
+                                                />
+                                        </div>
+                                    </div>
+                                    <div id="div_id_opt1" class="form-group required">
+                                        <legend for="id_opt1" class="control-label col-md-4  requiredField"> Option 1
+                                        </legend>
+                                        <div class="controls col-md-8 ">
+                                            <input name="quesP" class="input-md opt1input form-control" type="file"
+                                                />
+                                        </div>
+                                    </div>
+                                    <div id="div_id_opt2" class="form-group required">
+                                        <legend for="id_opt2" class="control-label col-md-4  requiredField"> Option 2
+                                        </legend>
+                                        <div class="controls col-md-8 ">
+                                            <input name="quesP" class="input-md opt2input form-control" type="file"
+                                                accept="image/*" />
+                                        </div>
+                                    </div>
+                                    <div id="div_id_opt3" class="form-group required">
+                                        <legend for="id_opt3" class="control-label col-md-4  requiredField"> Option 3
+                                        </legend>
+                                        <div class="controls col-md-8 ">
+                                            <input name="quesP" class="input-md opt3input form-control" type="file"
+                                                accept="image/*" />
+                                        </div>
+                                    </div>
+                                    <div id="div_id_opt4" class="form-group required">
+                                        <legend for="id_opt4" class="control-label col-md-4  requiredField"> Option 4
+                                        </legend>
+                                        <div class="controls col-md-8 ">
+                                            <input name="quesP" class="input-md opt4input form-control" type="file"
+                                                accept="image/*" />
+                                        </div>
+                                    </div>
+
+                                    <div id="div_id_optC" class="form-group required">
+                                        <legend for="id_optC" class="control-label col-md-4  requiredField"> Correct
+                                            Option
+                                        </legend>
+                                        <div class="controls col-md-8 ">
+                                            <select class="input-md optCinput form-control" id="id_optC" name="optC"
+                                                selected="<%= body.optC %>">
+                                                <option value="" disabled selected>Select Correct Option</option>
+                                                <option value="opt1">Option 1</option>
+                                                <option value="opt2">Option 2</option>
+                                                <option value="opt3">Option 3</option>
+                                                <option value="opt4">Option 4</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_teacher" class="form-group required">
+                                        <legend for="id_teacher" class="control-label col-md-4  requiredField"> Question
+                                            Type
+                                        </legend>
+                                        <div class="controls col-md-8 ">
+                                            <select class="input-md teacherinput form-control" id="id_teacher"
+                                                name="teacher" selected="<%= body.teacher %>">
+                                                <option value="" disabled selected>Question Type</option>
+                                                <option value="qBank">Question Bank</option>
+                                                <% for(var i=0; i<arrKey.length; i++){%>
+                                                <option value="<%= arrKey[i]%>"><%= arrName[i]%></option>
+                                                <%}%>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="aab controls col-md-4 "></div>
+                                <div class="controls col-md-8 ">
+                                    <input type="submit" name="addTopicP" value="Add Topic"
+                                        class="btn btn-primary btn btn-info" id="submit-id-addTopicP" />
+                                </div>
+                            </div>  
+                    </form>
+                        <script>
+                            function hideShow() {
+                                var picP = document.getElementById("id_picP");
+                                var plain = document.getElementById("plain");
+                                var pic = document.getElementById("pic");
+                                if (picP.value == "Plain") {
+                                    plain.style.display = "block";
+                                    pic.style.display = "none";
+                                } else {
+                                    plain.style.display = "none";
+                                    pic.style.display = "block";
+                                }
+                            }
+                        </script>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>
