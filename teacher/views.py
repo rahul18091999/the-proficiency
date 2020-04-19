@@ -4,8 +4,6 @@ from base64 import b64encode
 from exam.views import database
 # Create your views here.
 def getpass(a):
-    print(a)
-    print(database)
     p=""
     for i in a:
         h=chr(ord(i)-10 if(ord(i)>65 and ord(i)<90) else ord(i)+26)
