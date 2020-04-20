@@ -108,7 +108,7 @@ def viewTeacher(request):
     print(teacherData)
     l=[]
     for i in teacherData:
-        # print(i.key())
+        print(i.key())
         if(i.key()!='qBank'):
             l.append(
             {

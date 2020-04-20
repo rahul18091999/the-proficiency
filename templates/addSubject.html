@@ -3,8 +3,8 @@
 
 <head>
     <title>Add a new Subject</title>
-    
-        <%- include('../../components/partials/header.ejs') %>
+        {% include "admin.html" %}
+
 
     <div class="container">
         <div id="addProductBox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-1">
@@ -13,23 +13,24 @@
                     <div class="panel-title">Add a new Subject</div>
                 </div>
                 <div class="panel-body">
-                    <% if(error){ %>
+                    {% if error %}
                     <div class="alert alert-danger">
-                        <center><%= error%></center>
+                        <center>{{ error }}</center>
                     </div>
-                    <% }%>
-                    <% if(success){ %>
+                    {% endif %}
+                    {% if success %}
                     <div class="alert alert-success">
-                        <center><%= success%></center>
+                        <center>{{ success }}></center>
                     </div>
-                    <% }%>
-                    <form class="form-horizontal" method='POST'>
+                    {% endif %}
+                    <form class="form-horizontal" method='POST' action = "/subjects/addsubject">
+                    {% csrf_token %}
                         <div id="div_id_name" class="form-group required">
                             <legend for="id_name" class="control-label col-md-4  requiredField"> Subject Name
                             </legend>
                             <div class="controls col-md-8 ">
                                 <input class="input-md  textinput textInput form-control" id="id_name" name="name"
-                                    value="<%= body.name %>" placeholder="eg. 12th" type="text" />
+                                    value="{{name}}" placeholder="eg. mathematics" type="text" />
                             </div>
                         </div>
                         <div id="div_id_dis" class="form-group required">
@@ -37,7 +38,7 @@
                             </legend>
                             <div class="controls col-md-8 ">
                                 <input class="input-md disinput form-control" id="id_dis" name="dis"
-                                    placeholder="eg. 12th Class is basic" value="<%= body.dis %>" type="text" />
+                                    placeholder="eg. 12th Class is basic" value="{{dis}}" type="text" />
                             </div>
                         </div>
                         <div class="form-group">
@@ -53,5 +54,4 @@
         </div>
 
 </body>
-
 </html>
