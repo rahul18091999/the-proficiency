@@ -35,9 +35,6 @@ $('#topic').html(options);
 </head>
 
 <body onload="select_topic('a')">
-
-    
-        {% comment %} {{topic}} {% endcomment %}
             <div id="addProductBox" class="mainbox col-md-5">
                 <div class="panel panel-info">
                     <div class="panel-heading">
@@ -117,8 +114,9 @@ $('#topic').html(options);
                                     <select class="input-md teacherinput form-control" id="id_teacher" name="teacher"
                                         selected="<%= body.teacher %>">
                                         <option value="" disabled selected>select teacher</option>
+                                        
                                         {% for teacher in teach %}
-                                        <option value="{{teacher.id}}">{{teacher.name}}{{teacher.id}}</option>
+                                        <option value="{{teacher.tId}}">{{teacher.name}}({{teacher.tId}})</option>
                                         {% endfor %}
                                     </select>
                                 </div>
