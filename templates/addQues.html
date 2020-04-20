@@ -115,7 +115,7 @@ $('#topic').html(options);
                                     <select class="input-md teacherinput form-control" id="id_teacher" name="teacher"
                                         selected="<%= body.teacher %>">
                                         <option value="" disabled selected>select teacher</option>
-                                        
+                                        <option value="qBank">Question Bank</option>
                                         {% for teacher in teach %}
                                         <option value="{{teacher.tId}}">{{teacher.name}}({{teacher.tId}})</option>
                                         {% endfor %}
