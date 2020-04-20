@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('home',views.header),
     path('teacher/',include('teacher.urls')),
+    path('subjects/',include('subject.urls')),
     
 
 ]

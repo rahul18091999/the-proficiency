@@ -5,7 +5,7 @@
     <title>View Subjects</title>
     
 
-        <%- include('../../components/partials/header.ejs') %>
+        {% include "admin.html" %}
 
     <div class="panel panel-success">
         <div class="panel-heading">All Subjects</div>
@@ -21,13 +21,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% if(data){
-    for(var i=0;i<data.length;i++){
-        %>
+                    {% if data %}
+                    {% for i in data %}
                     <tr>
-                        <td><%= data[i].id%></td>
-                        <td><%= data[i].name%></td>
-                        <td><%= data[i].dis%></td>
+                        <td>{{i.sId}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.dis}}</td>
                         <td>
                             <a href='/viewTopics/<%= data[i].id%>'> <button type="button"
                                 class="btn btn-default btn-sm">
@@ -43,10 +42,7 @@
                             </a>
                         </td>
                     </tr>
-                    <%
-    }
-}
-%>
+                   {% endfor %}
                 </tbody>
             </table>
         </div>
