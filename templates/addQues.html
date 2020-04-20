@@ -37,11 +37,11 @@ $('#topic').html(options);
 <body onload="select_topic('a')">
 
     
-        {{topic}}
+        {% comment %} {{topic}} {% endcomment %}
             <div id="addProductBox" class="mainbox col-md-5">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <div class="panel-title">Add a new Question in Topic ID: <%= topic%></div>
+                        <div class="panel-title">Add a new Question</div>
                     </div>
                     <div class="panel-body">
                         {% if error %}
@@ -60,7 +60,7 @@ $('#topic').html(options);
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <input class="input-md  textinput textInput form-control" id="id_ques" name="ques"
-                                        value="<%= body.ques %>" placeholder="eg. 12th" type="text" />
+                                         placeholder="eg. 12th" type="text" />
                                 </div>
                             </div>
                             <div id="div_id_opt1" class="form-group required">
@@ -68,7 +68,7 @@ $('#topic').html(options);
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <input class="input-md opt1input form-control" id="id_opt1" name="opt1"
-                                        placeholder="eg. 12th Class is basic" value="<%= body.opt1 %>" type="text" />
+                                        placeholder="eg. 12th Class is basic" type="text" />
                                 </div>
                             </div>
                             <div id="div_id_opt2" class="form-group required">
@@ -76,7 +76,7 @@ $('#topic').html(options);
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <input class="input-md opt2input form-control" id="id_opt2" name="opt2"
-                                        placeholder="eg. 12th Class is basic" value="<%= body.opt2 %>" type="text" />
+                                        placeholder="eg. 12th Class is basic"  type="text" />
                                 </div>
                             </div>
                             <div id="div_id_opt3" class="form-group required">
@@ -84,7 +84,7 @@ $('#topic').html(options);
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <input class="input-md opt3input form-control" id="id_opt3" name="opt3"
-                                        placeholder="eg. 12th Class is basic" value="<%= body.opt3 %>" type="text" />
+                                        placeholder="eg. 12th Class is basic" type="text" />
                                 </div>
                             </div>
                             <div id="div_id_opt4" class="form-group required">
@@ -92,7 +92,7 @@ $('#topic').html(options);
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <input class="input-md opt4input form-control" id="id_opt4" name="opt4"
-                                        placeholder="eg. 12th Class is basic" value="<%= body.opt4 %>" type="text" />
+                                        placeholder="eg. 12th Class is basic"  type="text" />
                                 </div>
                             </div>
 
@@ -111,21 +111,20 @@ $('#topic').html(options);
                                 </div>
                             </div>
                             <div id="div_id_teacher" class="form-group required">
-                                <legend for="id_teacher" class="control-label col-md-4  requiredField"> Question Type
+                                <legend for="id_teacher" class="control-label col-md-4  requiredField"> Teacher
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <select class="input-md teacherinput form-control" id="id_teacher" name="teacher"
                                         selected="<%= body.teacher %>">
-                                        <option value="" disabled selected>Question Type</option>
-                                        <option value="qBank">Question Bank</option>
-                                        <% for(var i=0; i<arrKey.length; i++){%>
-                                        <option value="<%= arrKey[i]%>"><%= arrName[i]%></option>
-                                        <%}%>
+                                        <option value="" disabled selected>select teacher</option>
+                                        {% for teacher in teach %}
+                                        <option value="{{teacher.id}}">{{teacher.name}}{{teacher.id}}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                             </div>
                             <div id="div_id_subject" class="form-group required">
-                                <legend for="id_subject" class="control-label col-md-4  requiredField"> Subject Type
+                                <legend for="id_subject" class="control-label col-md-4  requiredField"> Subject
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <select class="input-md subjectinput form-control" id="id_subject" name="subject" onchange="select_topic(this.value)"
