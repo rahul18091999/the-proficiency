@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'teacher',
     'subject',
+    'question',
 ]
 
 MIDDLEWARE = [
