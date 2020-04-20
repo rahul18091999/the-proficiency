@@ -6,14 +6,14 @@ from exam.views import database
 def question(request):
     subjectData = database.child('subjects').get()
     teacherData = database.child('teachers').get()
+    data=[]
     subjectid = []
     topicName = []
     teacher = []
     k = 0
     for i in subjectData:
         if(i.key() != 'free'):
-            subjectid.append({'id': i.key(), 'name': i.val()[
-                'details']['name'], 'index': k})
+            subjectid.append({'id': i.key(), 'name': i.val()['details']['name'], 'index': k})
 
             topic = i.val()['topics']
             t = []
@@ -30,8 +30,37 @@ def question(request):
                     'tId': i.key(),
                     'name': i.val()['details']['name']
                 }
-            )
-    return render(request, 'addQues.html', {'data': subjectid, 'topic': topicName, 'teach': teacher})
+            )         
+
+    if request.method == "POST":
+        ques = request.POST.get('ques')
+        opt1 = request.POST.get('opt1')
+        opt2 = request.POST.get('opt2')
+        opt3 = request.POST.get('opt3')
+        opt4 = request.POST.get('opt4')
+        optc = request.POST.get('optC')
+        teach = request.POST.get('teacher')
+        subject = request.POST.get('subject')
+        topic = request.POST.get('topic')
+        print(optc)
+       
+        if(ques!="" and opt1!="" and opt2!="" and opt3!="" and opt4!="" and optc is not None and subject is not None and teach is not None and topic is not None):
+            pass
+        else:
+             data = {
+            'question': ques,
+            'opt1': opt1,
+            'opt2': opt2,
+            'opt3': opt3,
+            'opt4': opt4,
+            'teacher': teach,
+            'subject': subject,
+            'topic': topic,
+            'error':'Please check all the Details again.',
+            }   
+            
+
+    return render(request, 'addQues.html', {'subject': subjectid, 'topic': topicName, 'teach': teacher,'data':data})
 
 
 def addquestion(request):

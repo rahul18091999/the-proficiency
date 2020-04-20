@@ -41,24 +41,24 @@ $('#topic').html(options);
                         <div class="panel-title">Add a new Question</div>
                     </div>
                     <div class="panel-body">
-                        {% if error %}
+                        {% if data.error %}
                         <div class="alert alert-danger">
-                            <center>{{error}}</center>
+                            <center>{{data.error}}</center>
                         </div>
                         {% endif %}
-                        {% if success %}
+                        {% if data.success %}
                         <div class="alert alert-success">
-                            <center>{{success}}</center>
+                            <center>{{data.success}}</center>
                         </div>
                         {% endif %}
-                        <form class="form-horizontal" id="plain" method='POST' action = "/question/add">
+                        <form class="form-horizontal" id="plain" method='POST' action = "/question/addQuestion">
                         {% csrf_token %}
                             <div id="div_id_ques" class="form-group required">
                                 <legend for="id_ques" class="control-label col-md-4  requiredField"> Question
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <input class="input-md  textinput textInput form-control" id="id_ques" name="ques"
-                                      value = "{{question}}"   placeholder="eg. 12th" type="text" />
+                                      value = "{{data.question}}"   placeholder="eg. 12th" type="text" />
                                 </div>
                             </div>
                             <div id="div_id_opt1" class="form-group required">
@@ -66,7 +66,7 @@ $('#topic').html(options);
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <input class="input-md opt1input form-control" id="id_opt1" name="opt1"
-                                        value = "{{opt1}}" placeholder="eg. 12th Class is basic" type="text" />
+                                        value = "{{data.opt1}}" placeholder="eg. 12th Class is basic" type="text" />
                                 </div>
                             </div>
                             <div id="div_id_opt2" class="form-group required">
@@ -74,7 +74,7 @@ $('#topic').html(options);
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <input class="input-md opt2input form-control" id="id_opt2" name="opt2"
-                                        value = "{{opt2}}" placeholder="eg. 12th Class is basic"  type="text" />
+                                        value = "{{data.opt2}}" placeholder="eg. 12th Class is basic"  type="text" />
                                 </div>
                             </div>
                             <div id="div_id_opt3" class="form-group required">
@@ -82,7 +82,7 @@ $('#topic').html(options);
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <input class="input-md opt3input form-control" id="id_opt3" name="opt3"
-                                        placeholder="eg. 12th Class is basic" value = "{{opt3}}" type="text" />
+                                        placeholder="eg. 12th Class is basic" value = "{{data.opt3}}" type="text" />
                                 </div>
                             </div>
                             <div id="div_id_opt4" class="form-group required">
@@ -90,7 +90,7 @@ $('#topic').html(options);
                                 </legend>
                                 <div class="controls col-md-8 ">
                                     <input class="input-md opt4input form-control" id="id_opt4" name="opt4"
-                                        placeholder="eg. 12th Class is basic"  type="text"  value = "{{opt4}}">
+                                        placeholder="eg. 12th Class is basic"  type="text"  value = "{{data.opt4}}">
                                 </div>
                             </div>
 
@@ -130,14 +130,15 @@ $('#topic').html(options);
                                         selected="<%= body.teacher %>">
                                         <option value="" disabled selected>Subject Type</option>
                                        
-                                        {% for subject in data  %}  
+                                        {% for subj in subject  %}  
                                         
-                                        <option value="{{subject.index}}">{{subject.name}}</option>
+                                        <option value="{{subj.index}}">{{subj.name}}({{subj.id}})</option>
                                         {% endfor %}
                                         
                                     </select>
                                 </div>
                             </div>
+                            <input type="hidden" name="result" value="{{data}}">
                             <div id="div_id_topic" class="form-group required">
                                 <legend for="id_topic" class="control-label col-md-4  requiredField"> Topic
                                 </legend>
