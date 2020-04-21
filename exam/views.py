@@ -33,7 +33,8 @@ def index(request):
         elif(idp=='12'):
             return HttpResponse('Teacher')
         elif(idp=='13'):
-            return HttpResponse('admin')
+            request.session['user']=userid
+            return redirect('/home')
         else:
             return HttpResponse('Typers')
         return HttpResponse((userid,password))
@@ -43,3 +44,4 @@ def index(request):
 def addTeacher(request):
     name=request.GET.get('name')
     return render('/teacher',{'name':name})
+
