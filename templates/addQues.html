@@ -14,7 +14,7 @@
         var arr = {{topic|safe}}; 
         var options = '';
 for(var i=0;i<arr[$val].length;i++)
-        options+='<option value=' + i + '>' + arr[$val][i].name +'('+ arr[$val][i].id +')' + '</option>'
+        options+='<option value=' + arr[$val][i].id + '>' + arr[$val][i].name +'('+ arr[$val][i].id +')' + '</option>'
 $('#topic').html(options);
             }
         

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from exam.views import database
 # Create your views here.
-
+import json
 
 def question(request):
     subjectData = database.child('subjects').get()
@@ -13,21 +13,22 @@ def question(request):
     k = 0
     for i in subjectData:
         if(i.key() != 'free'):
-            subjectid.append({'id': i.key(), 'name': i.val()[
-                             'details']['name'], 'index': k})
-
+            subjectid.append({"id": i.key(), "name": i.val()[
+                             'details']['name'], "index": k})
+            k += 1
             topic = i.val()['topics']
             t = []
             for j in topic:
                 if(j != 'free'):
                     t.append({'id': j, 'name': topic[j]['details']['name']})
-                    topicName.append(t)
-                    k += 1
-
+            topicName.append(t)
+            
+    print(topicName)
     for i in teacherData:
         if (i.key() != 'qBank'):
             teacher.append(
                 {
+                    
                     'tId': i.key(),
                     'name': i.val()['details']['name']
                 }
@@ -43,8 +44,11 @@ def question(request):
         teach = request.POST.get('teacher')
         subject = request.POST.get('subject')
         topic = request.POST.get('topic')
-        print(optc)
-
+        import ast
+        subj = (request.POST.get('result'))
+        print(subject)
+        print(ast.literal_eval(subj))
+        subjId = ast.literal_eval(subj)[int(subject)]['id']
         if(ques != "" and opt1 != "" and opt2 != "" and opt3 != "" and opt4 != "" and optc is not None and subject is not None and teach is not None and topic is not None):
 
             free = database.child('questions').child(
@@ -66,13 +70,21 @@ def question(request):
                     'opt2': opt2,
                     'opt3': opt3,
                     'opt4': opt4,
-                    'teacher': teach,
-                    'subject': subject,
-                    'topic': topic,
+                    'optC': optc,   
                 }
             )
-            database.child('teachers').child(teach).child('questions').update({'topic': topic})
+            database.child('teachers').child(teach).child('questions').child("q"+str(tempid)).update({'topic': topic})
             database.child('questions').update({'free':tempid+1})
+            database.child('subjects').child(subjId).child('teachers').child(teach).child('topics').child(topic).child('questions').child("q"+str(tempid)).update(
+                {
+                    'by':teach
+                }
+            )
+            database.child('subjects').child(subjId).child('topics').child(topic).child('questions').child("q"+str(tempid)).update(
+                 {
+                    'by':teach
+                }
+            )
             data={
                 'question': "",
                 'opt1': "",
@@ -99,3 +111,14 @@ def question(request):
             }
     return render(request, 'addQues.html', {'subject': subjectid, 'topic': topicName, 'teach': teacher, 'data': data})
 
+
+
+def viewQuestion(request):
+    question=database.child('questions').get()
+    questiondata=[]
+    for i in question:
+        if(i.key()!='free'):
+            questiondata.append({'id':i.key(),'approved':i.val()['details']['approved'],'by':i.val()['details']['by']})
+            
+    print(questiondata)
+    return render(request,'viewQues.html',{'question':questiondata})
