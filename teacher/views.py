@@ -1,14 +1,9 @@
 from django.shortcuts import render
 import re
-from base64 import b64encode
-from exam.views import database
+
+from exam.views import database,getpass
 # Create your views here.
-def getpass(a):
-    p=""
-    for i in a:
-        h=chr(ord(i)-10 if(ord(i)>65 and ord(i)<90) else ord(i)+26)
-        p+=str(ord(i))+h
-    return str(b64encode(p.encode()))
+
 def teacher(request):
     if request.method == "POST":
         # print('rahul')
