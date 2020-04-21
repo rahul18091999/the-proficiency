@@ -83,7 +83,8 @@ def teacher(request):
             data['success']="Teacher has been added Successfully!"
             data['info']= number + "@TP@" + age + " and 12" + str(tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ")+ name 
         return render(request,'teacher.html',data)
-    else:    
+    else:   
+        print(request.session['user']) 
         name=""
         email=""
         data = {
