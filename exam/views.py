@@ -11,7 +11,7 @@ config={
     'messagingSenderId': "859931947137",
     'appId': "1:859931947137:web:66edfbcbe4489fab789d80"
 }
-firebase=pyrebase.initialize_app(config);
+firebase=pyrebase.initialize_app(config)
 auth = firebase.auth()
 database=firebase.database()
 def getpass(a):
