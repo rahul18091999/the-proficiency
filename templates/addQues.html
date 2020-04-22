@@ -3,22 +3,15 @@
 
 <head>
     <title>Add a new Question</title>
-    {% include "admin.html" %}
-
-    
-    <script>
-        
-        console.log('Hello');
+    {% include "navigator.html" %}
+    <script>    
          function select_topic($val) {
-        
         var arr = {{topic|safe}}; 
         var options = '';
 for(var i=0;i<arr[$val].length;i++)
         options+='<option value=' + arr[$val][i].id + '>' + arr[$val][i].name +'('+ arr[$val][i].id +')' + '</option>'
 $('#topic').html(options);
             }
-        
-        
                 (function ($) {
                     $(document).ready(function () {
                         $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
@@ -34,7 +27,7 @@ $('#topic').html(options);
             </script>
 </head>
 
-<body onload="select_topic('a')">
+<body>
             <div id="addProductBox" class="mainbox col-md-5">
                 <div class="panel panel-info">
                     <div class="panel-heading">

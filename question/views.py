@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from exam.views import database
+from exam.views import database,getuserdetail
 # Create your views here.
 import json
-
 def question(request):
     subjectData = database.child('subjects').get()
     teacherData = database.child('teachers').get()
@@ -23,7 +22,6 @@ def question(request):
                     t.append({'id': j, 'name': topic[j]['details']['name']})
             topicName.append(t)
             
-    print(topicName)
     for i in teacherData:
         if (i.key() != 'qBank'):
             teacher.append(
@@ -44,13 +42,13 @@ def question(request):
         teach = request.POST.get('teacher')
         subject = request.POST.get('subject')
         topic = request.POST.get('topic')
-        import ast
         subj = (request.POST.get('result'))
-        print(subject)
-        print(ast.literal_eval(subj))
-        subjId = ast.literal_eval(subj)[int(subject)]['id']
+        user=getuserdetail(request.session['us'])
+        userid=request.session['user']
+        
         if(ques != "" and opt1 != "" and opt2 != "" and opt3 != "" and opt4 != "" and optc is not None and subject is not None and teach is not None and topic is not None):
-
+            import ast
+            subjId = ast.literal_eval(subj)[int(subject)]['id']
             free = database.child('questions').child(
                 'free').shallow().get().val()
             if free:
@@ -61,6 +59,7 @@ def question(request):
                 check = "true"
             else:
                 check = "false"
+
             database.child('questions').child("q"+str(tempid)).child('details').update(
                 {   
                     'approved': check,
@@ -85,6 +84,13 @@ def question(request):
                     'by':teach
                 }
             )
+            database.child(user[0]).child(userid).child('questionsAdded').child("q"+str(tempid)).update(
+                {
+                    'by':teach,
+                    'topic':topic,
+                }
+            )
+
             data={
                 'question': "",
                 'opt1': "",

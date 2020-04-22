@@ -20,6 +20,19 @@ def getpass(a):
         h=chr(ord(i)-10 if(ord(i)>65 and ord(i)<90) else ord(i)+26)
         p+=str(ord(i))+h
     return str(b64encode(p.encode()))
+
+def getuserdetail(userid):
+    if(userid == '11'):
+        return
+    elif(userid == '12'):
+        return ['teachers','tIds',100001]
+    elif(userid == '13'):
+        return ['admin','aIds',1001]
+    elif(userid == '14'):
+        return ['typers','tyIds',100001]
+    elif(userid == '15'):
+        return ['superAdmin','sIds',1001]
+
 def header(request):
     return render(request,'admin.html')
 
@@ -28,15 +41,18 @@ def index(request):
         userid=request.POST.get('uID')
         password=request.POST.get('pass')
         idp=userid[0:2]
+        request.session['user']=userid
+        request.session['us']=idp
         if(idp=='11'):
             return HttpResponse('Marketers')
         elif(idp=='12'):
             return HttpResponse('Teacher')
         elif(idp=='13'):
-            request.session['user']=userid
             return redirect('/home')
+        elif(idp=='14'):
+            return redirect('/typer')
         else:
-            return HttpResponse('Typers')
+            return redirect('/')
         return HttpResponse((userid,password))
     return render(request,'index.html')
 

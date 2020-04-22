@@ -43,132 +43,138 @@ def teacher(request):
             error = "Please Select State"
             data['error'] = error
             return render(request, 'teacher.html', data)
-        if (database.child('tIds').child(number).shallow().get().val()):
-            error = "Phone Number Already exists"
-            data['error'] = error
+        
+        from datetime import datetime
+        from random import randint
+        time_now = int(datetime.now().timestamp()*100)
+        create = request.session['user']
+        
+        if userType == "Teacher":
+            if (database.child('tIds').child(number).shallow().get().val()):
+                error = "Phone Number Already exists"
+                data['error'] = error
+                return render(request, 'teacher.html', data)
+
+            free = database.child('tIds').child(
+                'free').shallow().get().val()
+            if free:
+                tempid = free
+            else:
+                tempid = 100001
+            database.child('tIds').child(number).update({
+                'createdOn': time_now,
+                'id': "12"+str(tempid),
+                'verify': randint(100000, 999999),
+                'pass': getpass(number+"@TP@"+age)[2:-1],
+                'createdBy': create
+            })
+            database.child('teachers').child("12"+str(tempid)).child('details').update(
+                {
+                    'name': name,
+                    'age': age,
+                    'state': s,
+                    'city': d,
+                    'experience': experience,
+                    'phone': number,
+                    'email': email,
+                    'gen': gen
+                }
+            )
+            database.child('tIds').update({'free': tempid+1})
+            data = {
+                'name': '',
+                'email': '',
+
+            }
+            data['success'] = "Teacher has been added Successfully!"
+            data['info'] = number + "@TP@" + age + " and 12" + str(
+                tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
             return render(request, 'teacher.html', data)
-        else:
-            if userType == "Teacher":
-                free = database.child('tIds').child(
-                    'free').shallow().get().val()
-                if free:
-                    tempid = free
-                else:
-                    tempid = 100001
-                from datetime import datetime
-                from random import randint
+        elif userType == "Admin":
+            if (database.child('aIds').child(number).shallow().get().val()):
+                error = "Phone Number Already exists"
+                data['error'] = error
+                return render(request, 'teacher.html', data)
+            free = database.child('aIds').child(
+                'free').shallow().get().val()
+            if free:
+                tempid = free
+            else:
+                tempid = 1000
 
-                time_now = int(datetime.now().timestamp()*100)
-                # print(time_now)
-                database.child('tIds').child("12"+str(tempid)).update({
+            
+            
+            database.child('aIds').child(number).update(
+                {
+                    'id':'13'+str(tempid),
                     'createdOn': time_now,
-                    'id': "12"+str(tempid),
-                    'verify': randint(100000, 999999),
+                    'createdBy': create,
                     'pass': getpass(number+"@TP@"+age)[2:-1]
-                })
-                database.child('teachers').child("12"+str(tempid)).child('details').update(
-                    {
-                        'name': name,
-                        'age': age,
-                        'state': s,
-                        'city': d,
-                        'experience': experience,
-                        'phone': number,
-                        'email': email,
-                        'gen': gen
-                    }
-                )
-                database.child('tIds').update({'free': tempid+1})
-                data = {
-                    'name': '',
-                    'email': '',
-
                 }
-                data['success'] = "Teacher has been added Successfully!"
-                data['info'] = number + "@TP@" + age + " and 12" + str(
-                    tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
-                return render(request, 'teacher.html', data)
-            elif userType == "Admin":
-                free = database.child('aIds').child(
-                    'free').shallow().get().val()
-                if free:
-                    tempid = free
-                else:
-                    tempid = 1000
-                from datetime import datetime
-                from random import randint
-
-                time_now = int(datetime.now().timestamp()*100)
-                create = request.session['user']
-                database.child('aIds').child("13"+str(tempid)).update(
-                    {
-                        'createdOn': time_now,
-                        'createdby': create,
-                        'pass': getpass(number+"@TP@"+age)[2:-1]
-                    }
-                )
-                database.child('admin').child('13'+str(tempid)).child('details').update(
-                    {
-                        'name': name,
-                        'phoneNo':number,
-                    }
-                )
-                database.child('aids').update({'free': tempid+1})
-                data = {
-                    'name': '',
-                    'email': '',
-
+            )
+            database.child('admin').child('13'+str(tempid)).child('details').update(
+                {
+                    'name': name,
+                    'phoneNo':number,
                 }
-                data['success'] = "Admin has been added Successfully!"
-                data['info'] = number + "@AP@" + age + " and 12" + str(
-                    tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
+            )
+            database.child('aids').update({'free': tempid+1})
+            data = {
+                'name': '',
+                'email': '',
+
+            }
+            data['success'] = "Admin has been added Successfully!"
+            data['info'] = number + "@AP@" + age + " and 13" + str(
+                tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
+            return render(request, 'teacher.html', data)
+            
+        elif userType == 'Typer':
+            if (database.child('tyIds').child(number).shallow().get().val()):
+                error = "Phone Number Already exists"
+                data['error'] = error
                 return render(request, 'teacher.html', data)
-                
-            elif userType == 'Typer':
-                free = database.child('tyIds').child(
-                    'free').shallow().get().val()
-                if free:
-                    tempid = free
-                else:
-                    tempid = 100000
-                from datetime import datetime
-                from random import randint
-
-                time_now = int(datetime.now().timestamp()*100)
-                create = request.session['user']
-                database.child('tyIds').child("14"+str(tempid)).update(
-                    {
-                        'createdOn': time_now,
-                        'createdby': create,
-                        'pass': getpass(number+"@TP@"+age)[2:-1]
-                    }
-                )
-                database.child('typers').child('14'+str(tempid)).child('details').update(
-                    {
-                        'name': name,
-                        'phoneNo':number,
-                    }
-                )
-                database.child('tyIds').update({'free': tempid+1})
-                data = {
-                    'name': '',
-                    'email': '',
-
+            free = database.child('tyIds').child(
+                'free').shallow().get().val()
+            if free:
+                tempid = free
+            else:
+                tempid = 100000
+            
+            database.child('tyIds').child(number).update(
+                {
+                    'id':'14'+str(tempid),
+                    'createdOn': time_now,
+                    'createdBy': create,
+                    'pass': getpass(number+"@TP@"+age)[2:-1]
                 }
-                data['success'] = "Typer has been added Successfully!"
-                data['info'] = number + "@TYP@" + age + " and 12" + str(
-                    tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
-                return render(request, 'teacher.html', data)
-            elif userType == "Marketer":
-                data = {
-                    'name': '',
-                    'email': '',
-
+            )
+            database.child('typers').child('14'+str(tempid)).child('details').update(
+                {
+                    'name': name,
+                    'phoneNo':number,
                 }
-                data['success'] = "Marketer has been added Successfully!"
-                data['info'] = number + "@MP@" + age + " and 12" + str(
-                    tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
-                return render(request, 'teacher.html', data)
+            )
+            database.child('tyIds').update({'free': tempid+1})
+            data = {
+                'name': '',
+                'email': '',
+
+            }
+            data['success'] = "Typer has been added Successfully!"
+            data['info'] = number + "@TYP@" + age + " and 14" + str(
+                tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
+            return render(request, 'teacher.html', data)
+        elif userType == "Marketer":
+            data = {
+                'name': '',
+                'email': '',
+
+            }
+            data['success'] = "Marketer has been added Successfully!"
+            data['info'] = number + "@MP@" + age + " and 11" + str(
+                tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
+            return render(request, 'teacher.html', data)
     else:
         # print(request.session['user'])
         name = ""
