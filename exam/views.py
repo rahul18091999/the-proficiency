@@ -14,6 +14,10 @@ config={
 firebase=pyrebase.initialize_app(config)
 auth = firebase.auth()
 database=firebase.database()
+
+# def checkpermission(url):
+
+
 def getpass(a):
     p=""
     for i in a:
@@ -38,22 +42,50 @@ def header(request):
 
 def index(request):
     if request.method=='POST':
-        userid=request.POST.get('uID')
+        number=request.POST.get('phone')
         password=request.POST.get('pass')
-        idp=userid[0:2]
-        request.session['user']=userid
-        request.session['us']=idp
-        if(idp=='11'):
+        user=request.POST.get('type')
+        # usertype=getuserdetail(user)
+        
+        # idp=userid[0:2]
+        # request.session['user']=userid
+        # request.session['us']=idp
+
+        if(user=='11'):
+
             return HttpResponse('Marketers')
-        elif(idp=='12'):
-            return HttpResponse('Teacher')
-        elif(idp=='13'):
-            return redirect('/home')
-        elif(idp=='14'):
-            return redirect('/typer')
+        elif(user=='12'):
+            teacherdata=database.child('tIds').child(number).get().val()
+            if( teacherdata and getpass(password)[2:-1]==teacherdata['pass']):
+                request.session['user']=teacherdata['id']
+                request.session['us']=user
+                return redirect('/home')
+            else:
+                return render(request,'index.html',{'error':"Please use correct id and password"})
+        elif(user=='13'):
+            admindata=database.child('aIds').child(number).get().val()
+            if( admindata and getpass(password)[2:-1]==admindata['pass']):
+                request.session['user']=admindata['id']
+                request.session['us']=user
+                return redirect('/home')
+            else:
+                return render(request,'index.html',{'error':"Please use correct id and password"})
+        elif(user=='14'):
+            typerdata=database.child('tyIds').child(number).get().val()
+            if( typerdata and getpass(password)[2:-1]==typerdata['pass']):
+                request.session['user']=typerdata['id']
+                request.session['us']=user
+                return redirect('/typer')
+            else:
+                return render(request,'index.html',{'error':"Please use correct id and password"})
         else:
-            return redirect('/')
-        return HttpResponse((userid,password))
+            superdata=database.child('sIds').child(number).get().val()
+            if( superdata and getpass(password)[2:-1]==superdata['pass']):
+                request.session['user']=superdata['id']
+                request.session['us']=user
+                return redirect('/home')
+            else:
+                return render(request,'index.html',{'error':"Please use correct id and password"})
     return render(request,'index.html')
 
 

@@ -425,7 +425,7 @@ function selct_district($val) {
         <div id="addProductBox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-1">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <div class="panel-title">Add a new Teacher</div>
+                    <div class="panel-title">Add a new User</div>
                 </div>
                 <div class="panel-body">
                     {% if error %}
@@ -446,7 +446,7 @@ function selct_district($val) {
                     <form action="/teacher/addTeacher" class="form-horizontal" method='POST'>
                     {% csrf_token %}
                         <div id="div_id_name" class="form-group required">
-                            <legend for="id_name" class="control-label col-md-4  requiredField"> Teacher's Name
+                            <legend for="id_name" class="control-label col-md-4  requiredField"> User's Name
                             </legend>
                             <div class="controls col-md-8 ">
                                 <input class="input-md  textinput textInput form-control" id="id_name" name="name"
@@ -521,7 +521,7 @@ function selct_district($val) {
                                     <option value="Male">Male</option>
                                     <option value="Female" selected>Female</option>
                                     {% else %}
-                                    <option selected>select gender</option>
+                                    <option selected disabled>Select Gender</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                     {% endif %}
@@ -532,12 +532,11 @@ function selct_district($val) {
                             <legend for="id_gen" class="control-label col-md-4  requiredField"> Type</legend>
                             <div class="controls col-md-8 ">
                                 <select name="userType">
-                                    <option selected value="">select Type</option>
+                                    <option selected value="" disabled>Select Type</option>
                                     <option value="Admin">Admin</option>
                                     <option value="Teacher">Teacher</option>
                                     <option value="Typer">Typer</option>
                                     <option value="Marketer">Marketer</option>
-                                    {% comment %} {% endif %} {% endcomment %}
                                 </select>
                             </div>
                         </div>
@@ -560,7 +559,7 @@ function selct_district($val) {
                         <div class="form-group">
                             <div class="aab controls col-md-4 "></div>
                             <div class="controls col-md-8 ">
-                                <input type="submit" name="addTeacher" value="Add Teacher"
+                                <input type="submit" name="addTeacher" value="Add User"
                                     class="btn btn-primary btn btn-info" id="submit-id-addTeacher" />
                             </div>
                         </div>
