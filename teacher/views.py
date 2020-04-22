@@ -116,6 +116,7 @@ def teacher(request):
                 {
                     'name': name,
                     'phoneNo':number,
+                    'age': age,
                 }
             )
             database.child('aids').update({'free': tempid+1})
@@ -153,6 +154,7 @@ def teacher(request):
                 {
                     'name': name,
                     'phoneNo':number,
+                    'age': age,
                 }
             )
             database.child('tyIds').update({'free': tempid+1})
