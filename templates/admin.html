@@ -1,7 +1,29 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
+<style>
+    .dropdown-submenu {
+        position: relative;
+    }
+    
+    .dropdown-submenu>.dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px;
+        border-radius: 0 6px 6px 6px;
+    }
+    
+    .dropdown-submenu:hover>.dropdown-menu {
+        display: block;
+    }
+    
+    .dropdown-submenu:hover>a:after {
+        border-left-color: #fff;
+    }
+</style>
 </head>
 
 <body>
@@ -19,10 +41,10 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="https://DsiteI.tech">Users<span
-                                class="caret"></span></a>
+                    <li>
+                        <a href="#" data-toggle="dropdown">Users<span class="caret"></span></a>
                         <ul class="dropdown-menu">
+<<<<<<< HEAD
                             <li>
                                  <ul class="dropdown-submenu">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">View Users<span
@@ -32,23 +54,32 @@
                                             <a href="/teacher/viewTeacher">View Typer</a> </li>
                                         <li>
                                             <a href="https://DsiteI.tech">View Teacher</a> </li>
+=======
+                            <ul class="dropdown-submenu">
+                                <li class=" btn btn-secondary dropdown-toggle " data-toggle=" dropdown ">View User<span class="caret"></span>
+                                </li>
+                                <ul class=" dropdown-menu ">
+                                    <li>
+                                        <a href=" /teacher/viewTeacher/typer ">View Typer</a> </li>
+                                    <li>
+                                        <a href=" /teacher/viewTeacher/teacher ">View Teacher</a> </li>
+>>>>>>> f402904ae85dc163272c6c34deb0a2443eaf3d0b
 
 
-                                    </ul>
                                 </ul>
-                            </li>
+                            </ul>
                             <li>
-                                <a href="/teacher/addTeacher">Add a New User</a> </li>
+                                <a href=" /teacher/addTeacher ">Add a New User</a> </li>
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="https://DsiteI.tech">Students<span
-                                class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Students<span
+                                class="caret "></span></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="https://DsiteI.tech">View Students</a> </li>
+                                <a href="https://DsiteI.tech ">View Students</a> </li>
                             <li>
-                                <a href="https://DsiteI.tech">Add a New Students</a> </li>
+                                <a href="https://DsiteI.tech ">Add a New Student</a> </li>
                         </ul>
                     </li>
                     <li class="dropdown">
