@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import re
+from django.http import HttpResponse
 
 from exam.views import database, getpass
 # Create your views here.
@@ -192,25 +193,43 @@ def teacher(request):
         return render(request, 'teacher.html', data)
 
 
-def viewTeacher(request):
-    teacherData = database.child('teachers').get()
-    print(teacherData)
-    l = []
-    for i in teacherData:
-        print(i.key())
-        if(i.key() != 'qBank'):
-            l.append(
-                {
-                    'tId': i.key(),
-                    'name': i.val()['details']['name'],
-                    'number': i.val()['details']['phone'],
-                    'email': i.val()['details']['email'],
-                    's': i.val()['details']['state'],
-                    'd': i.val()['details']['city'],
-                    'age': i.val()['details']['age'],
-                    'experience': i.val()['details']['experience'],
-                    'gen': i.val()['details']['gen'],
-                }
-            )
-    # print(l)
-    return render(request, 'viewTeacher.html', {'data': l})
+def viewTeacher(request,typ):
+    if typ == "teacher":
+        teacherData = database.child('teachers').get()
+        print(teacherData)
+        l = []
+        for i in teacherData:
+            print(i.key())
+            if(i.key() != 'qBank'):
+                l.append(
+                    {
+                        'tId': i.key(),
+                        'name': i.val()['details']['name'],
+                        'number': i.val()['details']['phone'],
+                        'email': i.val()['details']['email'],
+                        's': i.val()['details']['state'],
+                        'd': i.val()['details']['city'],
+                        'age': i.val()['details']['age'],
+                        'experience': i.val()['details']['experience'],
+                        'gen': i.val()['details']['gen'],
+                    }
+                )
+        teach = "teach"
+        return render(request, 'viewTeacher.html', {'data': l, 'teach': teach})
+    elif typ == "typer":
+        typerData = database.child('typers').get()
+        l = []
+        for i in typerData:
+            print(i.key())
+            if(i.key() != 'qBank'):
+                l.append(
+                    {
+                        'tId': i.key(),
+                        'name': i.val()['details']['name'],
+                        'number': i.val()['details']['phoneNo'],
+                    }
+                )
+                typ = "typ"
+        return render(request, 'viewTeacher.html', {'data': l, 'typ': typ})        
+    else:
+        return render(request,"admin.html")

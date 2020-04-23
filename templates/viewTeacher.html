@@ -9,7 +9,7 @@
     
 </head>
 <body>
-
+{% if teach %}
     <div class="panel panel-success">
         <div class="panel-heading">All Teachers</div>
         <div class="panel-body">
@@ -22,6 +22,7 @@
                         <th>State</th>
                         <th>Phone Number</th>
                         <th>Edit</th>
+                        <th>Dashboard</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,6 +40,12 @@
                                 </button>
                             </a>
                         </td>
+                        <td>
+                            <a href='/editTeacher/<%= data[i].tId%>'> <button type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span> Dashboard
+                                </button>
+                            </a>
+                        </td>
                     </tr>
 {% endfor %}
 {% endif %}
@@ -47,6 +54,48 @@
         </div>
     </div>
 
+{% endif %}
+{% if typ %}
+<div class="panel panel-success">
+        <div class="panel-heading">All Teachers</div>
+        <div class="panel-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Typer ID</th>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Edit</th>
+                        <th>Dashboard</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if data %}
+                    {% for i in data  %}
+                    <tr>
+                        <td>{{i.tId}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.number}}</td>
+                        <td>
+                            <a href='/editTeacher/<%= data[i].tId%>'> <button type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                </button>
+                            </a>
+                        </td>
+                        <td>
+                            <a href='/editTeacher/<%= data[i].tId%>'> <button type="button" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span> Dashboard
+                                </button>
+                            </a>
+                        </td>
+                    </tr>
+{% endfor %}
+{% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
 
 </body>
 
