@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
 from exam.views import checkpermission,database
 
+def dashboard(request):
+    print(request.GET.get('id'))
+    return render(request,'dashboard.html')
 
 def viewQues(request, ide):
     user = request.session['us']
@@ -48,3 +51,4 @@ def viewQues(request, ide):
         return render(request, 'viewQuestyper.html', {'question': l})
 
 
+# apiLogin/id=CryptedForm

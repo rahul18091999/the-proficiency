@@ -79,7 +79,7 @@ def header(request):
     else:
         us=request.session['us']
         if(us=='14'):
-            return render(request,'typerNavigator.html')
+            return redirect('/typer/dashbaord')
         elif(us=='15'):
             return render(request,'admin.html')
 
@@ -118,7 +118,7 @@ def index(request):
             if( typerdata and getpass(password)[2:-1]==typerdata['pass']):
                 request.session['user']=typerdata['id']
                 request.session['us']=user
-                return redirect('/home')
+                return redirect('/typer/dashboard')
             else:
                 return render(request,'index.html',{'error':"Please use correct id and password"})
         else:
