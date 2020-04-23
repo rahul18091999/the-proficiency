@@ -1,12 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 import re
 from django.http import HttpResponse
 
-from exam.views import database, getpass
+from exam.views import database, getpass,checkpermission
 # Create your views here.
 
 
 def teacher(request):
+    if(not checkpermission(request,request.path)):
+        return redirect('/')
     if request.method == "POST":
         # print('rahul')
         name = request.POST.get('name')
@@ -194,6 +196,8 @@ def teacher(request):
 
 
 def viewTeacher(request,typ):
+    if(not checkpermission(request,request.path)):
+        return redirect('/')
     if typ == "teacher":
         teacherData = database.child('teachers').get()
         print(teacherData)

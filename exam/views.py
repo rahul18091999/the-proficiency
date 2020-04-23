@@ -15,7 +15,43 @@ firebase=pyrebase.initialize_app(config)
 auth = firebase.auth()
 database=firebase.database()
 
-# def checkpermission(url):
+def checkpermission(r,url):
+    try:
+        idd=r.session['us']
+        l11=['/logout']
+        l12=['/logout']
+        l13=['/logout','/home','/teacher/addTeacher','/teacher/viewTeacher/typer','/teacher/viewTeacher/teacher','/question/addQuestion','/question/viewQuestion']
+        l14=['/logout','typer','/question/addQuestion','/question/viewQuestion']
+        l15=['/logout','/home','/teacher/addTeacher','/teacher/viewTeacher/typer','/teacher/viewTeacher/teacher','/question/addQuestion','/question/viewQuestion']
+        if(idd=='11'):
+            if url in l11:
+                return 1
+            else:
+                return 0
+        elif(idd=='12'):
+            if url in l12:
+                return 1
+            else:
+                return 0
+        elif(idd=='13'):
+            if url in l13:
+                return 1
+            else:
+                return 0
+        elif(idd=='14'):
+            if url in l14:
+                return 1
+            else:
+                return 0
+        elif(idd=='15'):
+            if url in l15:
+                return 1
+            else:
+                return 0
+        
+    except:
+        
+        return 0
 
 
 def getpass(a):
@@ -38,6 +74,8 @@ def getuserdetail(userid):
         return ['superAdmin','sIds',1001]
 
 def header(request):
+    if(not checkpermission(request,request.path)):
+        return redirect('/')
     return render(request,'admin.html')
 
 def index(request):
@@ -86,10 +124,17 @@ def index(request):
                 return redirect('/home')
             else:
                 return render(request,'index.html',{'error':"Please use correct id and password"})
-    return render(request,'index.html')
+    else:
+        return render(request,'index.html')
 
 
-def addTeacher(request):
-    name=request.GET.get('name')
-    return render('/teacher',{'name':name})
+# def addTeacher(request):
+#     name=request.GET.get('name')
+#     return render('/teacher',{'name':name})
+
+def logout(request):
+    if(checkpermission(request,'/logout')):
+        del request.session['user']
+        del request.session['us']
+    return redirect('/')
 

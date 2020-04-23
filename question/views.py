@@ -1,8 +1,10 @@
-from django.shortcuts import render
-from exam.views import database,getuserdetail
+from django.shortcuts import render,redirect
+from exam.views import database,getuserdetail,checkpermission
 # Create your views here.
 import json
 def question(request):
+    if(not checkpermission(request,request.path)):
+        return redirect('/')
     subjectData = database.child('subjects').get()
     teacherData = database.child('teachers').get()
     data = []
@@ -120,6 +122,8 @@ def question(request):
 
 
 def viewQuestion(request):
+    if(not checkpermission(request,request.path)):
+        return redirect('/')
     question=database.child('questions').get()
     questiondata=[]
     for i in question:
