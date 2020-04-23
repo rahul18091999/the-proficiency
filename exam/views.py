@@ -21,7 +21,7 @@ def checkpermission(r,url):
         l11=['/logout']
         l12=['/logout']
         l13=['/logout','/home','/teacher/addTeacher','/teacher/viewTeacher/typer','/teacher/viewTeacher/teacher','/question/addQuestion','/question/viewQuestion']
-        l14=['/logout','typer','/question/addQuestion','/question/viewQuestion']
+        l14=['/logout','/home','/question/addQuestion','/question/viewQuestion']
         l15=['/logout','/home','/teacher/addTeacher','/teacher/viewTeacher/typer','/teacher/viewTeacher/teacher','/question/addQuestion','/question/viewQuestion']
         if(idd=='11'):
             if url in l11:
@@ -48,10 +48,9 @@ def checkpermission(r,url):
                 return 1
             else:
                 return 0
-        
     except:
-        
-        return 0
+        return -1
+
 
 
 def getpass(a):
@@ -74,9 +73,15 @@ def getuserdetail(userid):
         return ['superAdmin','sIds',1001]
 
 def header(request):
-    if(not checkpermission(request,request.path)):
+    c=checkpermission(request,request.path)
+    if(c==-1):
         return redirect('/')
-    return render(request,'admin.html')
+    else:
+        us=request.session['us']
+        if(us=='14'):
+            return render(request,'typerNavigator.html')
+        elif(us=='15'):
+            return render(request,'admin.html')
 
 def index(request):
     if request.method=='POST':
@@ -113,7 +118,7 @@ def index(request):
             if( typerdata and getpass(password)[2:-1]==typerdata['pass']):
                 request.session['user']=typerdata['id']
                 request.session['us']=user
-                return redirect('/typer')
+                return redirect('/home')
             else:
                 return render(request,'index.html',{'error':"Please use correct id and password"})
         else:

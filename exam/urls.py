@@ -20,7 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.index),
     path('home',views.header),
-    path('typer/',include('typers.urls')),
     path('teacher/',include('teacher.urls')),
     path('subjects/',include('subject.urls')),
     path('question/',include('question.urls')),

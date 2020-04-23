@@ -3,8 +3,11 @@ from exam.views import database,getuserdetail,checkpermission
 # Create your views here.
 import json
 def question(request):
-    if(not checkpermission(request,request.path)):
+    c=checkpermission(request,request.path)
+    if(c==-1):
         return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     subjectData = database.child('subjects').get()
     teacherData = database.child('teachers').get()
     data = []
@@ -122,8 +125,11 @@ def question(request):
 
 
 def viewQuestion(request):
-    if(not checkpermission(request,request.path)):
+    c=checkpermission(request,request.path)
+    if(c==-1):
         return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     question=database.child('questions').get()
     questiondata=[]
     for i in question:

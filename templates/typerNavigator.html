@@ -1,7 +1,9 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
+{% if session == '15' %}
+{% include 'admin.html' %}
+{% endif %}
 </head>
 
 <body>
@@ -22,11 +24,13 @@
                             <li><a href="/question/viewQuestion">View Question</a></li>
                             <li><a href="/question/addQuestion">Add a new Question</a></li>
                 </ul>
+                {% if session == '14' %}
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/logout"><button class="btn btn-danger navbar-btn ">
                                 <span class="glyphicon glyphicon-log-in"></span>
                                 Logout</button></a></li>
                 </ul>
+                {% endif %}
             </div>
         </div>
     </nav>
