@@ -7,8 +7,11 @@ from exam.views import database, getpass,checkpermission
 
 
 def teacher(request):
-    if(not checkpermission(request,request.path)):
+    c=checkpermission(request,request.path)
+    if(c==-1):
         return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     if request.method == "POST":
         # print('rahul')
         name = request.POST.get('name')
@@ -196,8 +199,11 @@ def teacher(request):
 
 
 def viewTeacher(request,typ):
-    if(not checkpermission(request,request.path)):
+    c=checkpermission(request,request.path)
+    if(c==-1):
         return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     if typ == "teacher":
         teacherData = database.child('teachers').get()
         print(teacherData)
@@ -237,3 +243,7 @@ def viewTeacher(request,typ):
         return render(request, 'viewTeacher.html', {'data': l, 'typ': typ})        
     else:
         return render(request,"admin.html")
+
+
+def viewDashboard(request,idd):
+    return render(request,"typerNavigator.html")
