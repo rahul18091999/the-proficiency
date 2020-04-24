@@ -21,12 +21,11 @@ def checkpermission(r, url):
         idd = r.session['us']
         l11 = ['/logout']
         l12 = ['/logout']
-        l13 = ['/logout', '/home', '/teacher/addTeacher', '/teacher/viewTeacher/typer',
-               '/teacher/viewTeacher/teacher', '/question/addQuestion', '/question/viewQuestion']
+        l13 = ['/logout', '/home', '/teacher/addTeacher',
+                '/question/addQuestion', '/question/viewQuestion','/user/teacher','/user/typer','/user/addUser']
         l14 = ['/logout', '/home', '/question/addQuestion',
                '/question/viewQuestion']
-        l15 = ['/logout', '/home', '/teacher/addTeacher', '/teacher/viewTeacher/typer',
-               '/teacher/viewTeacher/teacher', '/question/addQuestion', '/question/viewQuestion']
+        l15 = ['/logout', '/home', '/teacher/addTeacher','/question/addQuestion', '/question/viewQuestion','/user/teacher','/user/typer','/user/addUser']
         if(idd == '11'):
             if url in l11:
                 return 1

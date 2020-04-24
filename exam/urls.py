@@ -25,6 +25,7 @@ urlpatterns = [
     path('question/',include('question.urls')),
     path('logout',views.logout),
     path('typer/',include('typers.urls')),
+    path('user/',include('user.urls')),
     
 
 ]
