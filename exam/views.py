@@ -26,7 +26,7 @@ def checkpermission(r, url):
         l14 = ['/logout', '/home', '/question/addQuestion',
                '/question/viewQuestion']
         l15 = ['/logout', '/home', '/teacher/addTeacher', '/teacher/viewTeacher/typer',
-               '/teacher/viewTeacher/teacher', '/question/addQuestion', '/question/viewQuestion']
+               '/teacher/viewTeacher/teacher', '/question/addQuestion', '/question/viewQuestion','/user/addUser']
         if(idd == '11'):
             if url in l11:
                 return 1

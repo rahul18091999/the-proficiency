@@ -18,11 +18,14 @@ def dashboard(request):
     return render(request, 'viewQuestyper.html', {'question': l})
 
 
-def user(request):
+def users(request):
+    print("abc")
     c=checkpermission(request, request.path)
     if(c==-1):
+        print('hh')
         return redirect('/')
     elif(c==0):
+        print("xyz")
         return redirect('/home')
     if request.method == "POST":
         # print('rahul')
@@ -149,6 +152,7 @@ def user(request):
             return render(request, 'teacher.html', data)
             
         elif userType == 'Typer':
+            print("wxx")
             if (database.child('tyIds').child(number).shallow().get().val()):
                 error = "Phone Number Already exists"
                 data['error'] = error
