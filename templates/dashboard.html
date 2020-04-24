@@ -6,8 +6,11 @@
     
 
         {% include "navigator.html" %}
-
+        {% if data %}
+        {{data}}
+        {% else %}
         no of question type
+        {% endif %}
 
     <!-- <div class="panel panel-success">
         <div class="panel-heading">All Subjects</div>
