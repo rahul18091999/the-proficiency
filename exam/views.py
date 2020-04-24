@@ -86,7 +86,7 @@ def header(request):
         if(us == '14'):
             return redirect('/typer/dashbaord')
         elif(us == '15'):
-            return render(request, 'admin.html')
+            return render(request, 'index.html')
 
 
 def index(request):
@@ -140,7 +140,7 @@ def index(request):
             else:
                 return render(request, 'index.html', {'error': "Please enter all the Details"})
         else:
-            return render(request, 'index.html')
+            return render(request, 'login.html')
     else:
         return redirect('/home')
 
