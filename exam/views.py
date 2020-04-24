@@ -90,6 +90,7 @@ def header(request):
 
 
 def index(request):
+<<<<<<< HEAD
     if request.method == 'POST':
         # usertype=getuserdetail(user)
 
@@ -110,7 +111,64 @@ def index(request):
                     request.session['user'] = teacherdata['id']
                     request.session['us'] = user
                     return redirect('/home')
+
+    if(checkpermission(request,request.path)==-1):
+        if request.method == 'POST':
+            number = request.POST.get('phone')
+            password = request.POST.get('pass')
+            user = request.POST.get('type')
+            # usertype=getuserdetail(user)
+
+            # idp=userid[0:2]
+            # request.session['user']=userid
+            # request.session['us']=idp
+
+            if(number and password and user):
+                if(user == '11'):
+
+                    return HttpResponse('Marketers')
+                elif(user == '12'):
+                    teacherdata = database.child('tIds').child(number).get().val()
+                    if(teacherdata and getpass(password)[2:-1] == teacherdata['pass']):
+                        request.session['user'] = teacherdata['id']
+                        request.session['us'] = user
+                        return redirect('/home')
+                    else:
+                        return render(request, 'index.html', {'error': "Please use correct id and password"})
+                elif(user == '13'):
+                    admindata = database.child('aIds').child(number).get().val()
+                    if(admindata and getpass(password)[2:-1] == admindata['pass']):
+                        request.session['user'] = admindata['id']
+                        request.session['us'] = user
+                        return redirect('/home')
+                    else:
+                        return render(request, 'index.html', {'error': "Please use correct id and password"})
+                elif(user == '14'):
+                    typerdata = database.child('tyIds').child(number).get().val()
+                    if(typerdata and getpass(password)[2:-1] == typerdata['pass']):
+                        request.session['user'] = typerdata['id']
+                        request.session['us'] = user
+                        return redirect('/home')
+                    else:
+                        return render(request, 'index.html', {'error': "Please use correct id and password"})
+>>>>>>> 0ecbc8973d7530f36b1f25dafbc77f11ab006bb1
                 else:
+<<<<<<< HEAD
+                    superdata = database.child('sIds').child(number).get().val()
+                    if(superdata and getpass(password)[2:-1] == superdata['pass']):
+                        request.session['user'] = superdata['id']
+                        request.session['us'] = user
+                        return redirect('/home')
+                    else:
+                        return render(request, 'index.html', {'error': "Please use correct id and password"})
+            else:
+                return render(request, 'index.html', {'error': "Please enter all the Details"})
+        else:
+            return render(request, 'index.html')
+    else:
+        return redirect('/home')
+
+=======
                     return render(request, 'login.html', {'error': "Please use correct id and password"})
             elif(user == '13'):
                 admindata = database.child('aIds').child(number).get().val()
@@ -140,6 +198,7 @@ def index(request):
             return render(request, 'login.html', {'error': "Please enter all the Details"})
     else:
         return render(request, 'login.html')
+>>>>>>> 5ac2cda8dd4d6e6f3d2981f752781a8a4fa55163
 
 
 # def addTeacher(request):
