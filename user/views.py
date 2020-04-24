@@ -18,15 +18,14 @@ def dashboard(request):
     return render(request, 'viewQuestyper.html', {'question': l})
 
 
-def adduser(request):
-    print('hello')
-    c=checkpermission(request,request.path)
-    print(c)
+def users(request):
+    print("abc")
+    c=checkpermission(request, request.path)
     if(c==-1):
-        print('logout')
+        print('hh')
         return redirect('/')
     elif(c==0):
-        print('1234')
+        print("xyz")
         return redirect('/home')
     else:
         print('8752768')
@@ -155,6 +154,7 @@ def adduser(request):
             return render(request, 'teacher.html', data)
             
         elif userType == 'Typer':
+            print("wxx")
             if (database.child('tyIds').child(number).shallow().get().val()):
                 error = "Phone Number Already exists"
                 data['error'] = error
@@ -217,48 +217,52 @@ def adduser(request):
         return render(request, 'teacher.html', data)
 
 
-def viewuser(request,typ):
+def viewteacher(request):
     c=checkpermission(request,request.path)
     if(c==-1):
         return redirect('/')
     elif(c==0):
         return redirect('/home')
-    if typ == "teacher":
-        teacherData = database.child('teachers').get()
-        print(teacherData)
-        l = []
-        for i in teacherData:
-            print(i.key())
-            if(i.key() != 'qBank'):
-                l.append(
-                    {
-                        'tId': i.key(),
-                        'name': i.val()['details']['name'],
-                        'number': i.val()['details']['phone'],
-                        'email': i.val()['details']['email'],
-                        's': i.val()['details']['state'],
-                        'd': i.val()['details']['city'],
-                        'age': i.val()['details']['age'],
-                        'experience': i.val()['details']['experience'],
-                        'gen': i.val()['details']['gen'],
-                    }
-                )
-        teach = "teach"
-        return render(request, 'viewTeacher.html', {'data': l, 'teach': teach})
-    elif typ == "typer":
-        typerData = database.child('typers').get()
-        l = []
-        for i in typerData:
-            print(i.key())
-            if(i.key() != 'qBank'):
-                l.append(
-                    {
-                        'tId': i.key(),
-                        'name': i.val()['details']['name'],
-                        'number': i.val()['details']['phoneNo'],
-                    }
-                )
-                typ = "typ"
-        return render(request, 'viewTeacher.html', {'data': l, 'typ': typ})        
-    else:
-        return render(request,"admin.html")
+    teacherData = database.child('teachers').get()
+    print(teacherData)
+    l = []
+    for i in teacherData:
+        print(i.key())
+        if(i.key() != 'qBank'):
+            l.append(
+                {
+                    'tId': i.key(),
+                    'name': i.val()['details']['name'],
+                    'number': i.val()['details']['phone'],
+                    'email': i.val()['details']['email'],
+                    's': i.val()['details']['state'],
+                    'd': i.val()['details']['city'],
+                    'age': i.val()['details']['age'],
+                    'experience': i.val()['details']['experience'],
+                    'gen': i.val()['details']['gen'],
+                }
+            )
+    teach = "teach"
+    return render(request, 'viewTeacher.html', {'data': l, 'teach': teach})
+
+def viewtyper(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
+    typerData = database.child('typers').get()
+    l = []
+    for i in typerData:
+        print(i.key())
+        if(i.key() != 'qBank'):
+            l.append(
+                {
+                    'tId': i.key(),
+                    'name': i.val()['details']['name'],
+                    'number': i.val()['details']['phoneNo'],
+                }
+            )
+            typ = "typ"
+    return render(request, 'viewTeacher.html', {'data': l, 'typ': typ})        
+    

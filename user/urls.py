@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
 urlpatterns = [
-    path('<typ>', views.viewuser),
-    path('addUser',views.adduser),
+    path('teacher', views.viewteacher),
+    path('typer',views.viewtyper),
+    path('addUser',views.users),
     path('viewTyper',views.dashboard),
 ]
