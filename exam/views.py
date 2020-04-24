@@ -86,23 +86,23 @@ def header(request):
         if(us == '14'):
             return redirect('/typer/dashbaord')
         elif(us == '15'):
-            return render(request, 'admin.html')
+            return render(request, 'index.html')
 
 
 def index(request):
     if request.method == 'POST':
-        number = request.POST.get('phone')
-        password = request.POST.get('pass')
-        user = request.POST.get('type')
         # usertype=getuserdetail(user)
 
         # idp=userid[0:2]
         # request.session['user']=userid
         # request.session['us']=idp
 
+        number = request.POST.get('phone')
+        password = request.POST.get('pass')
+        user = request.POST.get('type')
         if(number and password and user):
-            if(user == '11'):
 
+            if(user == '11'):
                 return HttpResponse('Marketers')
             elif(user == '12'):
                 teacherdata = database.child('tIds').child(number).get().val()
