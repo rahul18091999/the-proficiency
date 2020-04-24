@@ -245,5 +245,13 @@ def viewTeacher(request,typ):
         return render(request,"admin.html")
 
 
-def viewDashboard(request,idd):
+def viewDashboard(request):
+    idd=20100003
+    t=database.child('teachers').child(idd).child('reviews').child('dailyExams').get()
+    print(t.val())
+    import matplotlib.pyplot as plt, mpld3
+    plt.plot([3,1,4,1,5], 'ks-', mec='w', mew=5, ms=20)
+    plt.savefig('./templates/rahul.png')
     return render(request,"typerNavigator.html")
+
+
