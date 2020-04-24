@@ -111,7 +111,7 @@ def index(request):
                     request.session['us'] = user
                     return redirect('/home')
                 else:
-                    return render(request, 'index.html', {'error': "Please use correct id and password"})
+                    return render(request, 'login.html', {'error': "Please use correct id and password"})
             elif(user == '13'):
                 admindata = database.child('aIds').child(number).get().val()
                 if(admindata and getpass(password)[2:-1] == admindata['pass']):
@@ -119,7 +119,7 @@ def index(request):
                     request.session['us'] = user
                     return redirect('/home')
                 else:
-                    return render(request, 'index.html', {'error': "Please use correct id and password"})
+                    return render(request, 'login.html', {'error': "Please use correct id and password"})
             elif(user == '14'):
                 typerdata = database.child('tyIds').child(number).get().val()
                 if(typerdata and getpass(password)[2:-1] == typerdata['pass']):
@@ -127,7 +127,7 @@ def index(request):
                     request.session['us'] = user
                     return redirect('/typer/dashboard')
                 else:
-                    return render(request, 'index.html', {'error': "Please use correct id and password"})
+                    return render(request, 'login.html', {'error': "Please use correct id and password"})
             else:
                 superdata = database.child('sIds').child(number).get().val()
                 if(superdata and getpass(password)[2:-1] == superdata['pass']):
@@ -135,11 +135,11 @@ def index(request):
                     request.session['us'] = user
                     return redirect('/home')
                 else:
-                    return render(request, 'index.html', {'error': "Please use correct id and password"})
+                    return render(request, 'login.html', {'error': "Please use correct id and password"})
         else:
-            return render(request, 'index.html', {'error': "Please enter all the Details"})
+            return render(request, 'login.html', {'error': "Please enter all the Details"})
     else:
-        return render(request, 'index.html')
+        return render(request, 'login.html')
 
 
 # def addTeacher(request):
