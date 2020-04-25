@@ -26,7 +26,8 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>By</th>
+                        <th>Teacher</th>
+                        <th>Approved</th>
 
                        
                         <th>See Question</th>
@@ -39,6 +40,7 @@
                     <tr>
                         <td>{{data.id}}</td>
                         <td>{{data.by}}</td>
+                        <td>{{data.approved}}</td>
                         <td>
                             <a href='/editQues/<%= sub%>-<%= data[i].id%>'> <button type="button"
                                     class="btn btn-default btn-sm">

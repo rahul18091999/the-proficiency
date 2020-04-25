@@ -14,13 +14,17 @@ def dashboard(request):
 def viewQues(request):
     iduser = request.session['user']
     typerdata = database.child('typers').child(iduser).child('questionsAdded').get()
+    questions = database.child('questions').get()
     print(typerdata.val())
     l = []
     for i in typerdata:
-        l.append(
-            {
-                'id': i.key(),
-                'by': iduser,
-            }
-        )
+        for j in questions:
+            if j.key() == i.key() and j.key() != 'free':
+                l.append(
+                    {
+                        'id': i.key(),
+                        'approved': j.val()['details']['approved'],
+                        'by': j.val()['details']['by']
+                    }
+                )
     return render(request, 'viewQuestyper.html', {'question': l})
