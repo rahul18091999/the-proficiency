@@ -62,6 +62,30 @@ def getpass(a):
         p += str(ord(i))+h
     return str(b64encode(p.encode()))
 
+def getname(idd):
+    user=getuserdetail(str(idd)[:2])
+    username=database.child(user[0]).child(idd).child('details').get().val()['name']
+    return username
+
+def getimage(idd):
+    user=getuserdetail(str(idd)[:2])
+    try:
+        url=storage.child(user[0]).child(idd).get_url(1)
+        
+        import requests
+        import ast
+        # import urllib.parse
+            
+        #     urllib.parse.quote(query)
+        x = requests.get(url)
+        try:
+            ast.literal_eval(x.text)['error']
+            url="https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/teachers%2F200X200.png?alt=media&token=1"
+        except:
+            pass
+    except:
+         url="https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/teachers%2F200X200.png?alt=media&token=1"   
+    return url
 
 def getuserdetail(userid):
     if(userid == '11'):
@@ -107,32 +131,40 @@ def index(request):
                 elif(user == '12'):
                     teacherdata = database.child('tIds').child(number).get().val()
                     if(teacherdata and getpass(password)[2:-1] == teacherdata['pass']):
+                        request.session['name']=database.child('teachers').child(superdata['id']).child('details').get().val()['name']
                         request.session['user'] = teacherdata['id']
                         request.session['us'] = user
+                        request.session['image']=getimage(teacherdata['id'])
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
                 elif(user == '13'):
                     admindata = database.child('aIds').child(number).get().val()
                     if(admindata and getpass(password)[2:-1] == admindata['pass']):
+                        request.session['name']=database.child('admin').child(superdata['id']).child('details').get().val()['name']
                         request.session['user'] = admindata['id']
                         request.session['us'] = user
+                        request.session['image']=getimage(admindata['id'])
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
                 elif(user == '14'):
                     typerdata = database.child('tyIds').child(number).get().val()
                     if(typerdata and getpass(password)[2:-1] == typerdata['pass']):
+                        request.session['name']=database.child('typers').child(superdata['id']).child('details').get().val()['name']
                         request.session['user'] = typerdata['id']
                         request.session['us'] = user
+                        request.session['image']=getimage(typerdata['id'])
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
                 else:
                     superdata = database.child('sIds').child(number).get().val()
                     if(superdata and getpass(password)[2:-1] == superdata['pass']):
+                        request.session['name']=database.child('superAdmin').child(superdata['id']).child('details').get().val()['name']
                         request.session['user'] = superdata['id']
                         request.session['us'] = user
+                        request.session['image']=getimage(superdata['id'])
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})

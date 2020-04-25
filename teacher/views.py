@@ -282,11 +282,20 @@ def viewDashboard(request):
     # plt.ylabel('Rating') 
     # plt.title('Your Performance from '+str(date[0])+' to '+str(date[-1])) 
     # plt.savefig('./templates/teacherReviews/'+str(idd)+'.png')
+    
+    url=storage.child('teachers').child('20100003.jpg').get_url(1)
+    
+    import requests
+    import ast
+    # import urllib.parse
+        
+    #     urllib.parse.quote(query)
+    x = requests.get(url)
     try:
-        url=storage.child('teachers').child('20100004.jpg').get_url()
-        print(url)
-    except:
+        print(ast.literal_eval(x.text)['error'])
         url="https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/teachers%2F200X200.png?alt=media&token=1"
+    except:
+        pass
     data={'data':date,'url':url}
     return render(request,"teacherreview.html",data)
 
