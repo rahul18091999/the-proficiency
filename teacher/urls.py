@@ -4,4 +4,6 @@ urlpatterns = [
     path('addTeacher',views.teacher),
     path('viewTeacher/<typ>',views.viewTeacher),
     path('viewDashboard',views.viewDashboard),
+    path('rating',views.rating),
+    path('viewQuestion',views.viewQuestion),
 ]

@@ -182,13 +182,10 @@ def index(request):
         return redirect('/home')
 
 
-
-# def addTeacher(request):
-#     name=request.GET.get('name')
-#     return render('/teacher',{'name':name})
-
 def logout(request):
     if(checkpermission(request, '/logout')):
+        
+        
         del request.session['user']
         del request.session['us']
     return redirect('/')

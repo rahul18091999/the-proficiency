@@ -300,4 +300,25 @@ def viewDashboard(request):
     return render(request,"teacherreview.html",data)
 
 
+def rating(request):
+    idd=request.session['user']
+    t=database.child('teachers').child(idd).child('reviews').child('dailyExams').get()
+    date=[]
+    for i in t:
+        dat=i.key()
+        dat=dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
+        s=0
+        l=(len(i.val()))
+        for j in i.val():
+            s+=i.val()[j]['rate']
+        date.append({'date':dat,'rate':s/l})
+    return render(request,'./teacher/reviews.html',{'data':date})
 
+
+def viewQuestion(request):
+    idd=request.session['user']
+    t=database.child('teachers').child(idd).child('questions').get()
+    data=[]
+    for i in t:
+        data.append({'qid':i.key(),'topicid':i.val()['topic']})
+    return render(request,'./teacher/questions.html',{'data':data})
