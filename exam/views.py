@@ -107,9 +107,15 @@ def header(request):
     else:
         us = request.session['us']
         if(us == '14'):
-            return redirect('/typer/dashboard')
+            return render(request, './typer/dashboard.html')
         elif(us == '15'):
             return render(request, 'index.html')
+        elif(us=='12'):
+            return render(request, './teacher/dashboard.html')
+        elif(us=='13'):
+            return render(request, './admin/dashboard.html')
+        elif(us=='11'):
+            return render(request, './marketer/dashboard.html')
 
 
 def index(request):
