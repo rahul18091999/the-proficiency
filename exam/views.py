@@ -151,7 +151,7 @@ def index(request):
                 elif(user == '14'):
                     typerdata = database.child('tyIds').child(number).get().val()
                     if(typerdata and getpass(password)[2:-1] == typerdata['pass']):
-                        request.session['name']=database.child('typers').child(superdata['id']).child('details').get().val()['name']
+                        request.session['name']=database.child('typers').child(typerdata['id']).child('details').get().val()['name']
                         request.session['user'] = typerdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(typerdata['id'])

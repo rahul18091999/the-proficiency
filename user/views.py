@@ -132,8 +132,13 @@ def users(request):
                 database.child('admin').child('13'+str(tempid)).child('details').update(
                     {
                         'name': name,
-                        'phoneNo': number,
                         'age': age,
+                        'state': s,
+                        'city': d,
+                        'experience': experience,
+                        'phone': number,
+                        'email': email,
+                        'gen': gen
                     }
                 )
                 database.child('aids').update({'free': tempid+1})
@@ -171,8 +176,13 @@ def users(request):
                 database.child('typers').child('14'+str(tempid)).child('details').update(
                     {
                         'name': name,
-                        'phoneNo': number,
                         'age': age,
+                        'state': s,
+                        'city': d,
+                        'experience': experience,
+                        'phone': number,
+                        'email': email,
+                        'gen': gen
                     }
                 )
                 database.child('tyIds').update({'free': tempid+1})
