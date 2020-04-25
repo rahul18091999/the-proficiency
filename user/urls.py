@@ -5,4 +5,5 @@ urlpatterns = [
     path('typer',views.viewtyper),
     path('addUser',views.users),
     path('viewTyper',views.dashboard),
+    path('admin',views.viewmyquestion)
 ]

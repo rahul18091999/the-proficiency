@@ -259,7 +259,7 @@ def viewtyper(request):
     l = []
     for i in typerData:
         print(i.key())
-        if(i.key() != 'qBank'):
+        if(i.key()!='qBank'):
             l.append(
                 {
                     'tId': i.key(),
@@ -268,3 +268,17 @@ def viewtyper(request):
                 }
             )
     return render(request, './users/typersList.html', {'data': l, 'type': 'typer'})
+
+def viewmyquestion(request):
+    c = checkpermission(request, request.path)
+    id = request.session['user']
+    adminQues = database.child['admin'].child[id].child['questionsAdded'].get()
+    for i in adminQues:
+        l.append(
+            {
+                'id': i.key(),
+                'by': id
+            }
+        )
+
+
