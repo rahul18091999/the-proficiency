@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from exam.views import checkpermission, database
 from datetime import date
 
+
 def dashboard(request):
     id = request.session['user']
     typersquestion = database.child('typers').child(
@@ -14,41 +15,8 @@ def dashboard(request):
 
 def viewQues(request):
     iduser = request.session['user']
-<<<<<<< HEAD
-    typerdata = database.child('typers').child(
-        iduser).child('questionsAdded').get()
-    print(typerdata.val())
-    l = []
-    for i in typerdata:
-        l.append(
-            {
-                'id': i.key(),
-                'by': iduser,
-            }
-        )
-    return render(request, 'viewQuestyper.html', {'question': l})
-
-
-def editProfile(request):
-    iduser = request.session['user']
-    i = database.child('typers').child(iduser).child('details').get()
-    l = {
-        'id': iduser,
-        'name': i.val()["name"],
-        'age':i.val()["age"],
-        'city':i.val()["city"],
-        'email':i.val()["email"],
-        'experience':i.val()["experience"],
-        'gen':i.val()["gen"],
-        'phone':i.val()["phone"],
-        'state':i.val()["state"],
-        'createdOn':database.child('tyIds').child(i.val()["phone"]).child('createdOn').get().val()
-    }
-    return render(request, './typer/editProfile.html', {'data': l})
-=======
     typerdata = database.child('typers').child(iduser).child('questionsAdded').get()
     questions = database.child('questions').get()
-    print(typerdata.val())
     l = []
     for i in typerdata:
         for j in questions:
@@ -61,4 +29,21 @@ def editProfile(request):
                     }
                 )
     return render(request, 'viewQuestyper.html', {'question': l})
->>>>>>> fb176d3e064a86fbd1aa3c2a74719a303053c323
+
+
+def editProfile(request):
+    iduser = request.session['user']
+    i = database.child('typers').child(iduser).child('details').get()
+    l = {
+        'id': iduser,
+        'name': i.val()["name"],
+        'age': i.val()["age"],
+        'city': i.val()["city"],
+        'email': i.val()["email"],
+        'experience': i.val()["experience"],
+        'gen': i.val()["gen"],
+        'phone': i.val()["phone"],
+        'state': i.val()["state"],
+        'createdOn': database.child('tyIds').child(i.val()["phone"]).child('createdOn').get().val()
+    }
+    return render(request, './typer/editProfile.html', {'data': l})
