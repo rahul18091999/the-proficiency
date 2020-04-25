@@ -11,7 +11,7 @@ def add_variable_to_context(request):
         except:
             pass
         return {
-            'session': ses,'image':image,'name':name,'subid':path[:2]
+            'session': ses,'image':image,'name':name
         }
     except:
         return {}
