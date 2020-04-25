@@ -3,8 +3,14 @@ from exam.views import checkpermission, database
 
 
 def dashboard(request):
+<<<<<<< HEAD
     id = request.session['user']
     typersquestion = database.child('typers').child(id).child('questionsAdded').get()
+=======
+    idd = request.session['user']
+    typersquestion = database.child('typers').child(idd).child('questionsAdded').get(
+    )
+>>>>>>> 84e3df2c0b68d4470f14bc3efc6758f401af4887
     data = 0
     for i in typersquestion:
         data += 1
