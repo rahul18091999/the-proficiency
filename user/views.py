@@ -166,8 +166,7 @@ def users(request):
                     tempid = 100000
 
                 database.child('tyIds').child(number).update(
-                    {admin
-admin
+                    {
                         'id': '14'+str(tempid),
                         'createdOn': time_now,
                         'createdBy': create,

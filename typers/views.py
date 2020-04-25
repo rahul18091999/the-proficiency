@@ -2,6 +2,16 @@ from django.shortcuts import render, redirect
 from exam.views import checkpermission, database
 
 
+def dashboard(request):
+    idd = request.session['user']
+    typersquestion = database.child('typers').child(idd).child('questionsAdded').get(
+    )
+    data = 0
+    for i in typersquestion:
+        data += 1
+    return render(request, 'dashboard.html', {'data': data})
+
+
 def viewQues(request, ide):
     iduser = request.session['user']
     typerdata = database.child('typers').child(
