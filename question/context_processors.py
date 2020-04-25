@@ -13,7 +13,7 @@ def add_variable_to_context(request):
         else:
             path='999'
         return {
-            'session': ses,'image':image,'name':name,'subid':path
+            'session': ses,'homeimage':image,'homename':name,'subid':str(path)[:2]
             }
     except:
         return {}
