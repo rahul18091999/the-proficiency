@@ -166,7 +166,8 @@ def users(request):
                     tempid = 100000
 
                 database.child('tyIds').child(number).update(
-                    {
+                    {admin
+admin
                         'id': '14'+str(tempid),
                         'createdOn': time_now,
                         'createdBy': create,
@@ -268,17 +269,27 @@ def viewtyper(request):
                 }
             )
     return render(request, './users/typersList.html', {'data': l, 'type': 'typer'})
-
 def viewmyquestion(request):
     c = checkpermission(request, request.path)
-    id = request.session['user']
-    adminQues = database.child['admin'].child[id].child['questionsAdded'].get()
-    for i in adminQues:
-        l.append(
-            {
-                'id': i.key(),
-                'by': id
-            }
-        )
-
+    id1 = request.session['us']
+    if id1 == "15":
+        id = request.session['user']
+        adminQues = database.child['superAdmin'].child[id].child['questionsAdded'].get()
+        for i in adminQues:
+            l.append(
+                {
+                    'id': i.key(),
+                    'by': id
+                }
+            )
+    elif id1 == "12":
+        id = request.session['user']
+        adminQues = database.child['admin'].child[id].child['questionsAdded'].get()
+        for i in adminQues:
+            l.append(
+                {
+                    'id': i.key(),
+                    'by': id
+                }
+            )
 
