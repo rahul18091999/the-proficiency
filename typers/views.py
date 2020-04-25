@@ -12,8 +12,9 @@ def dashboard(request):
     return render(request, 'dashboard.html', {'data': data})
 
 
-def viewQues(request, ide):
+def viewQues(request):
     iduser = request.session['user']
+<<<<<<< HEAD
     typerdata = database.child('typers').child(
         iduser).child('questionsAdded').get()
     print(typerdata.val())
@@ -44,3 +45,20 @@ def editProfile(request):
         'createdOn':database.child('tyIds').child(i.val()["phone"]).child('createdOn').get().val()
     }
     return render(request, './typer/editProfile.html', {'data': l})
+=======
+    typerdata = database.child('typers').child(iduser).child('questionsAdded').get()
+    questions = database.child('questions').get()
+    print(typerdata.val())
+    l = []
+    for i in typerdata:
+        for j in questions:
+            if j.key() == i.key() and j.key() != 'free':
+                l.append(
+                    {
+                        'id': i.key(),
+                        'approved': j.val()['details']['approved'],
+                        'by': j.val()['details']['by']
+                    }
+                )
+    return render(request, 'viewQuestyper.html', {'question': l})
+>>>>>>> fb176d3e064a86fbd1aa3c2a74719a303053c323

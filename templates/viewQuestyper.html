@@ -3,8 +3,16 @@
 
 <head>
     <title>View Questions</title>
+<<<<<<< HEAD
+=======
     
-    {% include "navigator.html" %}
+>>>>>>> a30b9c6cf67154bb761c00431fdaa5fdab9b9d53
+    {% include "./includes/top.html" %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    {% include "./includes/mainSlider.html" %}
+    {% include "./includes/navBar.html" %}
     
     <!-- <div class="text-center mb-6">
         <a href='/addQues/<%= sub%>-<%= topic%>'>
@@ -20,8 +28,10 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
+                        
                         <th>ID</th>
-                        <th>By</th>
+                        <th>Teacher</th>
+                        <th>Approved</th>
 
                        
                         <th>See Question</th>
@@ -34,6 +44,7 @@
                     <tr>
                         <td>{{data.id}}</td>
                         <td>{{data.by}}</td>
+                        <td>{{data.approved}}</td>
                         <td>
                             <a href='/editQues/<%= sub%>-<%= data[i].id%>'> <button type="button"
                                     class="btn btn-default btn-sm">
