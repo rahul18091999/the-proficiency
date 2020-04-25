@@ -14,7 +14,7 @@ config = {
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 database = firebase.database()
-
+storage = firebase.storage()
 
 def checkpermission(r, url):
     try:

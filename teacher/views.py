@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 import re
 from django.http import HttpResponse
 
-from exam.views import database, getpass,checkpermission
+from exam.views import database, getpass,checkpermission,storage
 # Create your views here.
 
 
@@ -246,33 +246,48 @@ def viewTeacher(request,typ):
 
 
 def viewDashboard(request):
-    idd=20100003
+    idd=request.session['user']
     t=database.child('teachers').child(idd).child('reviews').child('dailyExams').get()
     date=[]
-    rate=[]
     for i in t:
         dat=i.key()
-        date.append(dat[0:2]+'/'+dat[2:4]+'/'+dat[4:])
+        dat=dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
         s=0
         l=(len(i.val()))
         for j in i.val():
             s+=i.val()[j]['rate']
-        rate.append(s/l)
-        #     print(j['rate']) 
+        date.append({'date':dat,'rate':s/l})
+        #     print(j['rate'])
+    # date=[]
+    # rate=[]
+    # for i in t:
+    #     dat=i.key()
+    #     date.append(dat[0:2]+'/'+dat[2:4]+'/'+dat[4:])
+    #     s=0
+    #     l=(len(i.val()))
+    #     for j in i.val():
+    #         s+=i.val()[j]['rate']
+    #     rate.append(s/l) 
     # print(date,rate)
-    if(len(date)>7):
-        date=date[-7:]
-        rate=rate[-7:]
-    import matplotlib.pyplot as plt
-    plt.plot(date,rate, color='green', linestyle='dashed', linewidth = 3, 
-         marker='o', markerfacecolor='blue', markersize=12) 
-    plt.ylim(0,5) 
-    # naming the x axis 
-    plt.xlabel('Date') 
-    # naming the y axis 
-    plt.ylabel('Rating') 
-    plt.title('Your Performance from '+str(date[0])+' to '+str(date[-1])) 
-    plt.savefig('./templates/teacherReviews/'+str(idd)+'.png')
-    return render(request,"typerNavigator.html")
+    # if(len(date)>7):
+    #     date=date[-7:]
+    #     rate=rate[-7:]
+    # import matplotlib.pyplot as plt
+    # plt.plot(date,rate, color='green', linestyle='dashed', linewidth = 3, 
+    #      marker='o', markerfacecolor='blue', markersize=12) 
+    # plt.ylim(0,5) 
+    # # naming the x axis 
+    # plt.xlabel('Date') 
+    # # naming the y axis 
+    # plt.ylabel('Rating') 
+    # plt.title('Your Performance from '+str(date[0])+' to '+str(date[-1])) 
+    # plt.savefig('./templates/teacherReviews/'+str(idd)+'.png')
+    try:
+        url=storage.child('teachers').child('20100004.jpg').get_url()
+        print(url)
+    except:
+        url="https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/teachers%2F200X200.png?alt=media&token=1"
+    data={'data':date,'url':url}
+    return render(request,"teacherreview.html",data)
 
 
