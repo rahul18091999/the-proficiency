@@ -285,6 +285,7 @@ def viewmyquestion(request):
     if id1 == "15":
         id = request.session['user']
         adminQues = database.child['superAdmin'].child[id].child['questionsAdded'].get()
+        l=[]
         for i in adminQues:
             l.append(
                 {
@@ -292,9 +293,11 @@ def viewmyquestion(request):
                     'by': id
                 }
             )
+        return render(request, 'viewQuestyper.html', {'question': l})
     elif id1 == "12":
         id = request.session['user']
         adminQues = database.child['admin'].child[id].child['questionsAdded'].get()
+        l=[]
         for i in adminQues:
             l.append(
                 {
@@ -302,4 +305,5 @@ def viewmyquestion(request):
                     'by': id
                 }
             )
+    return render(request, 'viewQuestyper.html', {'question': l})
 
