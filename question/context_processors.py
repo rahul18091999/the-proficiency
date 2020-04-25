@@ -4,6 +4,7 @@ def add_variable_to_context(request):
         image=request.session['image']
         name=request.session['name']
         
+        
         if(request.path.find('id')):
             path=request.GET.get('id')
         else:
@@ -11,5 +12,6 @@ def add_variable_to_context(request):
         return {
             'session': ses,'homeimage':image,'homename':name,'subid':str(path)[:2]
             }
+
     except:
         return {}

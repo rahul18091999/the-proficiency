@@ -109,8 +109,6 @@ def header(request):
         if(us == '14'):
             return render(request, './typer/dashboard.html')
         elif(us == '15'):
-            
-            print(dt_object)
             return render(request, 'index.html')
         elif(us=='12'):
             return render(request, './teacher/dashboard.html')
