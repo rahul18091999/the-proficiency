@@ -4,7 +4,7 @@ def add_variable_to_context(request):
         image=request.session['image']
         name=request.session['name']
         
-        
+        path='99'
         try:
             
             path=request.GET.get('id')
