@@ -131,7 +131,7 @@ def index(request):
                 elif(user == '12'):
                     teacherdata = database.child('tIds').child(number).get().val()
                     if(teacherdata and getpass(password)[2:-1] == teacherdata['pass']):
-                        request.session['name']=database.child('teachers').child(superdata['id']).child('details').get().val()['name']
+                        request.session['name']=database.child('teachers').child(teacherdata['id']).child('details').get().val()['name']
                         request.session['user'] = teacherdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(teacherdata['id'])
@@ -141,7 +141,7 @@ def index(request):
                 elif(user == '13'):
                     admindata = database.child('aIds').child(number).get().val()
                     if(admindata and getpass(password)[2:-1] == admindata['pass']):
-                        request.session['name']=database.child('admin').child(superdata['id']).child('details').get().val()['name']
+                        request.session['name']=database.child('admin').child(admindata['id']).child('details').get().val()['name']
                         request.session['user'] = admindata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(admindata['id'])
@@ -151,7 +151,7 @@ def index(request):
                 elif(user == '14'):
                     typerdata = database.child('tyIds').child(number).get().val()
                     if(typerdata and getpass(password)[2:-1] == typerdata['pass']):
-                        request.session['name']=database.child('typers').child(superdata['id']).child('details').get().val()['name']
+                        request.session['name']=database.child('typers').child(typerdata['id']).child('details').get().val()['name']
                         request.session['user'] = typerdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(typerdata['id'])

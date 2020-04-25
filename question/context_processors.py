@@ -3,12 +3,15 @@ def add_variable_to_context(request):
         ses = request.session['us']
         image=request.session['image']
         name=request.session['name']
-        path=request.path
-        print(path)
-        if 'id' in path:
-            print(path)
+        
+        
+        try:
+            
+            path=request.GET.get('id')
+        except:
+            pass
         return {
-            'session': ses,'image':image,'name':name,'path':path
+            'session': ses,'image':image,'name':name,'subid':path[:2]
         }
     except:
         return {}
