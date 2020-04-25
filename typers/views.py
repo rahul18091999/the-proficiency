@@ -11,7 +11,7 @@ def dashboard(request):
     return render(request, 'dashboard.html', {'data': data})
 
 
-def viewQues(request, ide):
+def viewQues(request):
     iduser = request.session['user']
     typerdata = database.child('typers').child(iduser).child('questionsAdded').get()
     print(typerdata.val())

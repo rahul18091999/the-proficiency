@@ -227,26 +227,29 @@ def viewteacher(request):
         return redirect('/')
     elif(c == 0):
         return redirect('/home')
-    teacherData = database.child('teachers').get()
-    print(teacherData)
-    l = []
-    for i in teacherData:
-        print(i.key())
-        if(i.key() != 'qBank'):
-            l.append(
-                {
-                    'tId': i.key(),
-                    'name': i.val()['details']['name'],
-                    'number': i.val()['details']['phone'],
-                    'email': i.val()['details']['email'],
-                    's': i.val()['details']['state'],
-                    'd': i.val()['details']['city'],
-                    'age': i.val()['details']['age'],
-                    'experience': i.val()['details']['experience'],
-                    'gen': i.val()['details']['gen'],
-                }
-            )
-    return render(request, './users/teachersList.html', {'data': l, 'type': 'teacher'})
+    # try:    
+        teacherData = database.child('teachers').get()
+        # if teacherData:
+        print(teacherData)
+        l = []
+        for i in teacherData:
+            print(i.key())
+            if(i.key() != 'qBank'):
+                l.append(
+                    {
+                        'tId': i.key(),
+                        'name': i.val()['details']['name'],
+                        'number': i.val()['details']['phone'],
+                        'email': i.val()['details']['email'],
+                        's': i.val()['details']['state'],
+                        'd': i.val()['details']['city'],
+                        'age': i.val()['details']['age'],
+                        'experience': i.val()['details']['experience'],
+                        'gen': i.val()['details']['gen'],
+                    }
+                )
+            return render(request, './users/teachersList.html', {'data': l, 'type': 'teacher'})
+    #     else:
 
 
 def viewtyper(request):
@@ -255,19 +258,27 @@ def viewtyper(request):
         return redirect('/')
     elif(c == 0):
         return redirect('/home')
-    typerData = database.child('typers').get()
-    l = []
-    for i in typerData:
-        print(i.key())
-        if(i.key()!='qBank'):
-            l.append(
-                {
-                    'tId': i.key(),
-                    'name': i.val()['details']['name'],
-                    'number': i.val()['details']['phoneNo'],
-                }
-            )
-    return render(request, './users/typersList.html', {'data': l, 'type': 'typer'})
+        # try:
+        typerData = database.child('typers').get()
+        if typerData:
+            l = []
+            for i in typerData:
+                print(i.key())
+                if(i.key()!='qBank'):
+                    l.append(
+                        {
+                            'tId': i.key(),
+                            'name': i.val()['details']['name'],
+                            'number': i.val()['details']['phoneNo'],
+                        }
+                    )
+            return render(request, './users/typersList.html', {'data': l, 'type': 'typer'})
+        else: 
+            pass
+    # except:
+    #     error = "no data availabe"
+    #     data['error'] = error
+    #     return render(request, './users/teachersList.html', {'data': data})
 def viewmyquestion(request):
     c = checkpermission(request, request.path)
     id1 = request.session['us']
