@@ -6,55 +6,7 @@
     
 
         {% include "navigator.html" %}
-        {% if data %}
-        {{data}}
-        {% else %}
-        no of question type
-        {% endif %}
-
-    <!-- <div class="panel panel-success">
-        <div class="panel-heading">All Subjects</div>
-        <div class="panel-body">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Discription</th>
-                        <th>Topics</th>
-                        <th>Edit</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if data %}
-                    {% for i in data %}
-                    <tr>
-                        <td>{{i.sId}}</td>
-                        <td>{{i.name}}</td>
-                        <td>{{i.dis}}</td>
-                        <td>
-                            <a href='/viewTopics/<%= data[i].id%>'> <button type="button"
-                                class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-edit"></span> View Topics
-                                </button>
-                            </a>
-                        </td>
-                        <td>
-                            <a href='/editSubject/<%= data[i].id%>'> <button type="button"
-                                class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-edit"></span> Edit
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                   {% endfor %}
-                   {% endif %}
-                </tbody>
-            </table>
-        </div>
-    </div> -->
-
-
+ 
 </body>
 
 </html>

@@ -107,9 +107,15 @@ def header(request):
     else:
         us = request.session['us']
         if(us == '14'):
-            return redirect('/typer/dashboard')
+            return render(request, './typer/dashboard.html')
         elif(us == '15'):
             return render(request, 'index.html')
+        elif(us=='12'):
+            return render(request, './teacher/dashboard.html')
+        elif(us=='13'):
+            return render(request, './admin/dashboard.html')
+        elif(us=='11'):
+            return render(request, './marketer/dashboard.html')
 
 
 def index(request):
@@ -131,7 +137,7 @@ def index(request):
                 elif(user == '12'):
                     teacherdata = database.child('tIds').child(number).get().val()
                     if(teacherdata and getpass(password)[2:-1] == teacherdata['pass']):
-                        request.session['name']=database.child('teachers').child(superdata['id']).child('details').get().val()['name']
+                        request.session['name']=database.child('teachers').child(teacherdata['id']).child('details').get().val()['name']
                         request.session['user'] = teacherdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(teacherdata['id'])
@@ -141,7 +147,7 @@ def index(request):
                 elif(user == '13'):
                     admindata = database.child('aIds').child(number).get().val()
                     if(admindata and getpass(password)[2:-1] == admindata['pass']):
-                        request.session['name']=database.child('admin').child(superdata['id']).child('details').get().val()['name']
+                        request.session['name']=database.child('admin').child(admindata['id']).child('details').get().val()['name']
                         request.session['user'] = admindata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(admindata['id'])
