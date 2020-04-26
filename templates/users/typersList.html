@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>View Teachers</title>
+    <title>View Typers</title>
 
 
     {% include "../includes/top.html" %}
@@ -41,7 +41,7 @@
                                     <tr>
                                         <td>{{i.tId}}</td>
                                         <td>{{i.name}}</td>
-                                        <td>{{i.d}}, {{i.s}}</td>
+                                        <td>{{i.city}}, {{i.state}}</td>
                                         <td>{{i.number}}</td>
                                         <td>
                                             <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"

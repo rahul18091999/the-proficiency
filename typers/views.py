@@ -15,18 +15,19 @@ def dashboard(request):
 
 def viewQues(request):
     iduser = request.session['user']
-    typerdata = database.child('typers').child(
-        iduser).child('questionsAdded').get()
-    print(typerdata.val())
-    l = []
-    for i in typerdata:
-        l.append(
-            {
-                'id': i.key(),
-                'by': iduser,
-            }
-        )
-    return render(request, 'viewQuestyper.html', {'question': l})
+    typerdata = database.child('typers').child(iduser).child('questionsAdded').get()
+    try:
+        l = []
+        for i in typerdata:
+            l.append(
+                {
+                    'id': i.key(),
+                    'by': i.val()["by"],
+                }
+            )
+        return render(request, 'viewQuestyper.html', {'question': l})
+    except:
+        return render(request, 'viewQuestyper.html', {})
 
 
 def editProfile(request):

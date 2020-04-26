@@ -268,6 +268,8 @@ def viewtyper(request):
                         'tId': i.key(),
                         'name': i.val()['details']['name'],
                         'number': i.val()['details']['phone'],
+                        'state': i.val()['details']['state'],
+                        'city': i.val()['details']['city'],
                     }
                 )
         return render(request, './users/typersList.html', {'data': l, 'type': 'typer'})
