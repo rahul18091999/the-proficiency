@@ -25,7 +25,7 @@ def checkpermission(r, url):
                 '/question/addQuestion', '/question/viewQuestion','/user/teacher','/user/typer','/user/addUser']
         l14 = ['/logout', '/home', '/question/addQuestion',
                '/question/viewQuestion']
-        l15 = ['/logout', '/home', '/question/addQuestion', '/question/viewQuestion','/user/addUser','/user/teacher','/user/typer']
+        l15 = ['/logout', '/home', '/question/addQuestion', '/question/viewQuestion','/user/addUser','/user/teacher','/user/typer','/user/marketer']
         if(idd == '11'):
             if url in l11:
                 return 1
@@ -48,6 +48,11 @@ def checkpermission(r, url):
                 return 0
         elif(idd == '15'):
             if url in l15:
+                return 1
+            else:
+                return 0
+        elif(idd == '16'):
+            if url in l16:
                 return 1
             else:
                 return 0
@@ -133,7 +138,15 @@ def index(request):
             if(number and password and user):
                 if(user == '11'):
 
-                    return HttpResponse('Marketers')
+                    marketerdata = database.child('mIds').child(number).get().val()
+                    if(marketerdata and getpass(password)[2:-1] == marketerdata['pass']):
+                        request.session['name']=database.child('marketers').child(marketerdata['id']).child('details').get().val()['name']
+                        request.session['user'] = marketerdata['id']
+                        request.session['us'] = user
+                        request.session['image']=getimage(marketerdata['id'])
+                        return HttpResponse("hello")
+                    else:
+                        return render(request, 'login.html', {'error': "Please use correct id and password"})
                 elif(user == '12'):
                     teacherdata = database.child('tIds').child(number).get().val()
                     if(teacherdata and getpass(password)[2:-1] == teacherdata['pass']):
