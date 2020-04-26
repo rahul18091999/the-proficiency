@@ -99,6 +99,36 @@ def users(request):
                         'gen': gen
                     }
                 )
+                teachers = database.child('share').child('teachers').child('12'+str(tempid))
+                teachers.update(
+                    {
+                        'earned': '0'
+                    }
+                )
+                import random
+                import string
+                res = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, k = 3))
+                print(str(res)) 
+                teachers.child('typeA').update(
+                    {
+                        'code': "12"+str(tempid)+str(res)
+                    }
+                )
+                ren = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, k = 3)) 
+                teachers.child('typeB').update(
+                    {
+                        'code': "12"+str(tempid)+str(ren)
+                    }
+                )
+                ret = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, k = 3)) 
+                teachers.child('typeC').update(
+                    {
+                        'code': "12"+str(tempid)+str(ret)
+                    }
+                )
                 database.child('tIds').update({'free': tempid+1})
                 data = {
                     'name': '',
@@ -319,7 +349,6 @@ def viewmarketer(request):
         return redirect('/')
     elif(c == 0):
         return redirect('/home')
-        # try:
     marketerData = database.child('marketers').get()
     if marketerData:
         l = []
@@ -332,7 +361,7 @@ def viewmarketer(request):
                     'number': i.val()['details']['phone'],
                 }
             )
-        return render(request, './users/typersList.html', {'data': l, 'type': 'typer'})
+        return render(request, './users/marketerList.html', {'data': l, 'type': 'typer'})
     else: 
         return render(request,'./users/typersList.html')
 
