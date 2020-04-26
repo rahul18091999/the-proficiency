@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns = [
     path('edit',views.editprofile),
+    path('referral',views.referral),
 ]
