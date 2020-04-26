@@ -326,3 +326,42 @@ def viewQuestion(request):
     for i in t:
         data.append({'qid': i.key(), 'topicid': i.val()['topic']})
     return render(request, './teacher/questions.html', {'data': data})
+
+def editProfile(request):
+    iduser = request.session['user']
+    i = database.child('teachers').child(iduser).child('details').get()
+    from datetime import date
+    data=database.child('tIds').child(i.val()["phone"]).child('createdOn').get().val()/100
+    date=date.fromtimestamp(data)
+    l = {
+        'id': iduser,
+        'name': i.val()["name"],
+        'age':i.val()["age"],
+        'city':i.val()["city"],
+        'email':i.val()["email"],
+        'experience':i.val()["experience"],
+        'gen':i.val()["gen"],
+        'phone':i.val()["phone"],
+        'state':i.val()["state"],
+        'createdOn':date
+    }
+    if(request.method=="POST"):
+        currentpassword=request.POST.get("currentpassword")
+        newpassword=request.POST.get("newpassword")
+        confirmpassword=request.POST.get("confirmpassword")
+        if (currentpassword=="" and newpassword=="" and confirmpassword==""):
+            return redirect("/home")
+        else:
+            if(newpassword!=confirmpassword or len(newpassword)<6):
+                return render(request, './teacher/editProfile.html', {'data': l,'error':"Check Your Password"})
+            else:
+                current=database.child('tyIds').child(i.val()["phone"]).child('pass').get().val()
+                if(getpass(currentpassword)[2:-1]!=current):
+                    return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Current Password"})
+                else:
+                    database.child('tyIds').child(i.val()["phone"]).update({'pass':getpass(newpassword)[2:-1]})
+                    return redirect('/home')
+    else:
+        
+        return render(request, './typer/editProfile.html', {'data': l})
+

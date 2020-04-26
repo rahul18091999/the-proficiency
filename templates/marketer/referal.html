@@ -22,6 +22,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            
                             <table id="example1" class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
@@ -43,6 +44,78 @@
                                         <td>Type C</td>
                                         <td>{{code.typec}}</td>
                                     </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Code</th>
+                                        
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <table id="example1" class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction ID</th>
+                                        <th>Earn</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for data in typeatrnc  %}
+                                    <tr>
+                                        <td>{{data.trnc}}</td>
+                                        <td>{{data.earn}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Code</th>
+                                        
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <table id="example1" class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction ID</th>
+                                        <th>Earn</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for data in typebtrnc  %}
+                                    <tr>
+                                        <td>{{data.trnc}}</td>
+                                        <td>{{data.earn}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Code</th>
+                                        
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <table id="example1" class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Transaction ID</th>
+                                        <th>Earn</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {% for data in typectrnc  %}
+                                    <tr>
+                                        <td>{{data.trnc}}</td>
+                                        <td>{{data.earn}}</td>
+                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                                 <tfoot>
                                     <tr>
