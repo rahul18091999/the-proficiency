@@ -15,18 +15,19 @@ def dashboard(request):
 
 def viewQues(request):
     iduser = request.session['user']
-    typerdata = database.child('typers').child(
-        iduser).child('questionsAdded').get()
-    print(typerdata.val())
-    l = []
-    for i in typerdata:
-        l.append(
-            {
-                'id': i.key(),
-                'by': iduser,
-            }
-        )
-    return render(request, 'viewQuestyper.html', {'question': l})
+    typerdata = database.child('typers').child(iduser).child('questionsAdded').get()
+    try:
+        l = []
+        for i in typerdata:
+            l.append(
+                {
+                    'id': i.key(),
+                    'by': i.val()["by"],
+                }
+            )
+        return render(request, 'viewQuestyper.html', {'question': l})
+    except:
+        return render(request, 'viewQuestyper.html', {})
 
 
 def editProfile(request):
@@ -48,42 +49,38 @@ def editProfile(request):
         'createdOn':date
     }
     if(request.method=="POST"):
-        print('rahul')
-        pic=request.FILES['images']
-        print(pic)
         currentpassword=request.POST.get("currentpassword")
         newpassword=request.POST.get("newpassword")
         confirmpassword=request.POST.get("confirmpassword")
-        if(pic==""):
-            if (currentpassword=="" and newpassword=="" and confirmpassword==""):
-                return redirect("/home")
-            else:
-                if(newpassword!=confirmpassword or len(newpassword)<6):
-                    return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Password"})
-                else:
-                    current=database.child('tyIds').child(i.val()["phone"]).child('pass').get().val()
-                    if(getpass(currentpassword)[2:-1]!=current):
-                        return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Current Password"})
-                    else:
-                        database.child('tyIds').child(i.val()["phone"]).update({'pass':getpass(newpassword)[2:-1]})
-                        return redirect('/home')
-
-
+        if (currentpassword=="" and newpassword=="" and confirmpassword==""):
+            return redirect("/home")
         else:
-            if (currentpassword=="" and newpassword=="" and confirmpassword==""):
-                #add pic
-                return
+            if(newpassword!=confirmpassword or len(newpassword)<6):
+                return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Password"})
             else:
-                # add pic and pass
-                if(newpassword!=confirmpassword or len(newpassword)<6):
-                    return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Password"})
+                current=database.child('tyIds').child(i.val()["phone"]).child('pass').get().val()
+                if(getpass(currentpassword)[2:-1]!=current):
+                    return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Current Password"})
                 else:
-                    current=database.child('tyIds').child(i.val()["phone"]).child('pass').get().val()
-                    if(getpass(currentpassword)[2:-1]!=current):
-                        return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Current Password"})
-                    else:
-                        database.child('tyIds').child(i.val()["phone"]).update({'pass':getpass(newpassword)[2:-1]})
-                        return redirect('/home')
+                    database.child('tyIds').child(i.val()["phone"]).update({'pass':getpass(newpassword)[2:-1]})
+                    return redirect('/home')
+
+
+        
+            # if (currentpassword=="" and newpassword=="" and confirmpassword==""):
+            #     #add pic
+            #     return
+            # else:
+            #     # add pic and pass
+            #     if(newpassword!=confirmpassword or len(newpassword)<6):
+            #         return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Password"})
+            #     else:
+            #         current=database.child('tyIds').child(i.val()["phone"]).child('pass').get().val()
+            #         if(getpass(currentpassword)[2:-1]!=current):
+            #             return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Current Password"})
+            #         else:
+            #             database.child('tyIds').child(i.val()["phone"]).update({'pass':getpass(newpassword)[2:-1]})
+            #             return redirect('/home')
              
         
 
