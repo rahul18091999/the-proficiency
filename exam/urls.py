@@ -27,6 +27,4 @@ urlpatterns = [
     path('typer/',include('typers.urls')),
     path('user/',include('user.urls')),
     path('marketer/',include('marketer.urls')),
-    
-
 ]
