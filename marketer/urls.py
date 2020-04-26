@@ -2,6 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('edit',views.editprofile),
-    path('referral',views.referral),
+    path('editProfile',views.editprofile),
+    path('referal',views.referal),
 ]
