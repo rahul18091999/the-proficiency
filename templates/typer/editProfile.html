@@ -36,15 +36,20 @@
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
-
+            {% if error %}
+            
             <!-- Main content -->
-            {{data}}
             <div class="container">
+                <div class="alert alert-danger">
+                    <center>{{error}}</center>
+                  </div>
+                  {% endif %}
                 <div class="row flex-lg-nowrap">
                     <div class="col">
                         <div class="row">
                             <div class="col mb-3">
-                                <form action='' method="POST">
+                                <form action='/typer/editProfile' method="POST">
+                                    {% csrf_token %}
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="e-profile">
@@ -67,14 +72,16 @@
                                                             <p class="mb-0">@{{data.id}}</p>
                                                             <div class="text-muted"><small>Active User</small>
                                                             </div>
-                                                            <div class="mt-2">
-                                                                <button class="btn btn-primary" type="button">
-                                                                    <i class="fa fa-fw fa-camera"></i>
-                                                                    <input type='file'>
-                                                                    <span>Change Photo</span>
-                                                                </button>
-                                                            </div>
+                                                            <!-- <!-- <div class="mt-2"> -->
+                                                                <!-- <button class="btn btn-primary" type="button"> -->
+                                                                    <!-- <i class="fa fa-fw fa-camera"></i> -->
+                                                                    <!-- <input type="file" name="images" #images onchange="onIconUrlChanges($event)"> -->
+                                                                    <!-- <input type='file' id="p"> -->
+                                                                    <!-- <span>Change Photo</span> -->
+                                                                <!-- </button> -->
+                                                            <!-- </div> --> 
                                                         </div>
+                                                        <input type="hidden" name="pic" id="hidpic">
                                                         <div class="text-center text-sm-right">
                                                             <span class="badge badge-secondary">typer</span>
                                                             <div class="text-muted"><small>Joined
@@ -202,7 +209,7 @@
                                                                                 <label>Current Password</label>
                                                                                 <input class="form-control"
                                                                                     type="password"
-                                                                                    placeholder="••••••">
+                                                                                    placeholder="••••••" name="currentpassword">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -212,7 +219,7 @@
                                                                                 <label>New Password</label>
                                                                                 <input class="form-control"
                                                                                     type="password"
-                                                                                    placeholder="••••••">
+                                                                                    placeholder="••••••" name="newpassword">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -223,15 +230,14 @@
                                                                                       class="d-none d-xl-inline">Password</span></label>
                                                                                 <input class="form-control"
                                                                                     type="password"
-                                                                                    placeholder="••••••"></div>
+                                                                                    placeholder="••••••" name="confirmpassword"></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col d-flex justify-content-end">
-                                                                    <button class="btn btn-primary" type="submit">Save
-                                                                        Changes</button>
+                                                                    <button type="submit" class="btn btn-primary" onclick="s()">Save Changes</button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -267,5 +273,11 @@
 
     {% include '../includes/bottom.html' %}
 </body>
-
+<script>
+    onIconUrlChanges(event) {
+        console.log("rahul");
+         //console.log(event.target.files[0]);
+        
+        }
+</script>
 </html>
