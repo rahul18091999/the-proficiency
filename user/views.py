@@ -196,6 +196,38 @@ def users(request):
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
             elif userType == "Marketer":
+                if (database.child('MIds').child(number).shallow().get().val()):
+                    error = "Phone Number Already exists"
+                    data['error'] = error
+                    return render(request, './users/addUser.html', data)
+                free = database.child('mIds').child(
+                    'free').shallow().get().val()
+                if free:
+                    tempid = free
+                else:
+                    tempid = 1000000
+
+                database.child('mIds').child(number).update(
+                    {
+                        'id': '11'+str(tempid),
+                        'createdOn': time_now,
+                        'createdBy': create,
+                        'pass': getpass(number+"@TP@"+age)[2:-1]
+                    }
+                )
+                database.child('marketers').child('11'+str(tempid)).child('details').update(
+                    {
+                        'name': name,
+                        'age': age,
+                        'state': s,
+                        'city': d,
+                        'experience': experience,
+                        'phone': number,
+                        'email': email,
+                        'gen': gen
+                    }
+                )
+                database.child('mIds').update({'free': tempid+1})
                 data = {
                     'name': '',
                     'email': '',
@@ -205,6 +237,7 @@ def users(request):
                 data['info'] = number + "@MP@" + age + " and 11" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
+            
         else:
             # print(request.session['user'])
             name = ""
@@ -277,6 +310,30 @@ def viewtyper(request):
     #     error = "no data availabe"
     #     data['error'] = error
     #     return render(request, './users/teachersList.html', {'data': data})
+
+def viewmarketer(request):
+    c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home')
+    marketerData = database.child('marketers').get()
+    if marketerData:
+        l = []
+        for i in marketerData:
+            print(i.key())
+            l.append(
+                {
+                    'tId': i.key(),
+                    'name': i.val()['details']['name'],
+                    'number': i.val()['details']['phone'],
+                }
+            )
+        return render(request, './users/marketerList.html', {'data': l, 'type': 'typer'})
+    else: 
+        return render(request,'./users/typersList.html')
+
+
 def viewmyquestion(request):
     c = checkpermission(request, request.path)
     id1 = request.session['us']

@@ -36,9 +36,14 @@
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
-
+            {% if error %}
+            
             <!-- Main content -->
             <div class="container">
+                <div class="alert alert-danger">
+                    <center>{{error}}</center>
+                  </div>
+                  {% endif %}
                 <div class="row flex-lg-nowrap">
                     <div class="col">
                         <div class="row">
@@ -67,15 +72,16 @@
                                                             <p class="mb-0">@{{data.id}}</p>
                                                             <div class="text-muted"><small>Active User</small>
                                                             </div>
-                                                            <div class="mt-2">
-                                                                <button class="btn btn-primary" type="button">
-                                                                    <i class="fa fa-fw fa-camera"></i>
-                                                                    <input type='file' name="pic" id="p">
-                                                                    <span>Change Photo</span>
-                                                                </button>
-                                                            </div>
+                                                            <!-- <!-- <div class="mt-2"> -->
+                                                                <!-- <button class="btn btn-primary" type="button"> -->
+                                                                    <!-- <i class="fa fa-fw fa-camera"></i> -->
+                                                                    <!-- <input type="file" name="images" #images onchange="onIconUrlChanges($event)"> -->
+                                                                    <!-- <input type='file' id="p"> -->
+                                                                    <!-- <span>Change Photo</span> -->
+                                                                <!-- </button> -->
+                                                            <!-- </div> --> 
                                                         </div>
-                                                        <input type="hidden" id="hidpic">
+                                                        <input type="hidden" name="pic" id="hidpic">
                                                         <div class="text-center text-sm-right">
                                                             <span class="badge badge-secondary">typer</span>
                                                             <div class="text-muted"><small>Joined
@@ -203,7 +209,7 @@
                                                                                 <label>Current Password</label>
                                                                                 <input class="form-control"
                                                                                     type="password"
-                                                                                    placeholder="••••••">
+                                                                                    placeholder="••••••" name="currentpassword">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -213,7 +219,7 @@
                                                                                 <label>New Password</label>
                                                                                 <input class="form-control"
                                                                                     type="password"
-                                                                                    placeholder="••••••">
+                                                                                    placeholder="••••••" name="newpassword">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -224,7 +230,7 @@
                                                                                       class="d-none d-xl-inline">Password</span></label>
                                                                                 <input class="form-control"
                                                                                     type="password"
-                                                                                    placeholder="••••••"></div>
+                                                                                    placeholder="••••••" name="confirmpassword"></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -268,10 +274,10 @@
     {% include '../includes/bottom.html' %}
 </body>
 <script>
-    function s(){
-        var x = document.getElementById("p").value;
-
-        document.getElementById("hidpic").value=x;
-    }
+    onIconUrlChanges(event) {
+        console.log("rahul");
+         //console.log(event.target.files[0]);
+        
+        }
 </script>
 </html>

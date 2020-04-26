@@ -135,5 +135,5 @@ def viewQuestion(request):
     for i in question:
         if(i.key()!='free'):
             questiondata.append({'id':i.key(),'approved':i.val()['details']['approved'],'by':i.val()['details']['by']})
-            
-    return render(request,'viewQues.html',{'question':questiondata})
+    
+    return render(request, './question/viewquestion.html',{'question':questiondata})
