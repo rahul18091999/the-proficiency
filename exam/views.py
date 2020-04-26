@@ -144,7 +144,7 @@ def index(request):
                         request.session['user'] = marketerdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(marketerdata['id'])
-                        return redirect('home')
+                        return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
                 elif(user == '12'):

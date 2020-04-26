@@ -1,7 +1,23 @@
 from django.shortcuts import render, redirect
 from exam.views import database, checkpermission, getpass
 # Create your views here.
-
+def getcode(typ):
+    import random
+    import string
+    temp = ''.join(random.choices(string.ascii_uppercase +
+                             string.digits, k = 3))
+    if(typ=='a'):
+        return temp
+    elif(typ == 'b'):
+        if(temp==typea):
+            getcode('b')
+        else:
+            return temp 
+    elif(typ=='c'):
+        if(temp==typea or temp==typeb):
+            getcode('c')
+        else:
+            return temp 
 
 def dashboard(request):
     id = request.GET.get('id')
@@ -19,6 +35,7 @@ def dashboard(request):
 
 
 def users(request):
+    global typea,typeb,typec
     c = checkpermission(request, request.path)
     if(c == -1):
         return redirect('/')
@@ -99,34 +116,32 @@ def users(request):
                         'gen': gen
                     }
                 )
-                teachers = database.child('share').child('teachers').child('12'+str(tempid))
-                teachers.update(
+                teachers = database.child('share').child('teachers').child('12'+str(tempid)).update(
                     {
                         'earned': '0'
                     }
                 )
-                import random
-                import string
-                res = ''.join(random.choices(string.ascii_uppercase +
-                             string.digits, k = 3))
-                print(str(res)) 
-                teachers.child('typeA').update(
+                
+                
+                typea = getcode('a')
+                typeb = getcode('b')
+                typec = getcode('c')
+
+                database.child('share').child('teachers').child('12'+str(tempid)).child('typeA').update(
                     {
-                        'code': "12"+str(tempid)+str(res)
+                        'code': "12"+str(tempid)+str(typea)
                     }
                 )
-                ren = ''.join(random.choices(string.ascii_uppercase +
-                             string.digits, k = 3)) 
-                teachers.child('typeB').update(
+                
+                database.child('share').child('teachers').child('12'+str(tempid)).child('typeB').update(
                     {
-                        'code': "12"+str(tempid)+str(ren)
+                        'code': "12"+str(tempid)+str(typeb)
                     }
                 )
-                ret = ''.join(random.choices(string.ascii_uppercase +
-                             string.digits, k = 3)) 
-                teachers.child('typeC').update(
+                
+                database.child('share').child('teachers').child('12'+str(tempid)).child('typeC').update(
                     {
-                        'code': "12"+str(tempid)+str(ret)
+                        'code': "12"+str(tempid)+str(typec)
                     }
                 )
                 database.child('tIds').update({'free': tempid+1})
@@ -257,6 +272,36 @@ def users(request):
                         'gen': gen
                     }
                 )
+
+                teachers = database.child('share').child('marketers').child('11'+str(tempid)).update(
+                    {
+                        'earned': '0'
+                    }
+                )
+                
+                
+                typea = getcode('a')
+                typeb = getcode('b')
+                typec = getcode('c')
+
+                database.child('share').child('marketers').child('11'+str(tempid)).child('typeA').update(
+                    {
+                        'code': "11"+str(tempid)+str(typea)
+                    }
+                )
+                
+                database.child('share').child('marketers').child('11'+str(tempid)).child('typeB').update(
+                    {
+                        'code': "11"+str(tempid)+str(typeb)
+                    }
+                )
+                
+                database.child('share').child('marketers').child('11'+str(tempid)).child('typeC').update(
+                    {
+                        'code': "11"+str(tempid)+str(typec)
+                    }
+                )
+
                 database.child('mIds').update({'free': tempid+1})
                 data = {
                     'name': '',
