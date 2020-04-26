@@ -1,11 +1,11 @@
-from django.shortcuts import render
-from exam.views import checkpermission, database
+from django.shortcuts import render,redirect
+from exam.views import checkpermission, database,getpass
 # Create your views here.
 
 
 def editprofile(request):
-    id = request.session['user']
-    marketerdata = database.child('marketers').child(id).child('details').get()
+    idd = request.session['user']
+    marketerdata = database.child('marketers').child(idd).child('details').get()
     from datetime import date
     data=database.child('mIds').child(marketerdata.val()["phone"]).child('createdOn').get().val()/100
     date=date.fromtimestamp(data)
@@ -21,7 +21,24 @@ def editprofile(request):
         'state': marketerdata.val()["state"],
         'createdOn':date
     }
-    return render(request, './marketer/editProfile.html', {'data': l})
+    if(request.method=="POST"):
+        currentpassword=request.POST.get("currentpassword")
+        newpassword=request.POST.get("newpassword")
+        confirmpassword=request.POST.get("confirmpassword")
+        if (currentpassword=="" and newpassword=="" and confirmpassword==""):
+            return redirect("/home")
+        else:
+            if(newpassword!=confirmpassword or len(newpassword)<6):
+                return render(request, './marketer/editProfile.html', {'data': l,'error':"Check Your Password"})
+            else:
+                current=database.child('mIds').child(marketerdata.val()["phone"]).child('pass').get().val()
+                if(getpass(currentpassword)[2:-1]!=current):
+                    return render(request, './marketer/editProfile.html', {'data': l,'error':"Check Your Current Password"})
+                else:
+                    database.child('mIds').child(marketerdata.val()["phone"]).update({'pass':getpass(newpassword)[2:-1]})
+                    return redirect('/home')
+    else:
+        return render(request, './marketer/editProfile.html', {'data': l})
 
 
 def referal(request):
