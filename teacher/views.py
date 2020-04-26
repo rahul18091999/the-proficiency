@@ -1,16 +1,16 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 import re
 from django.http import HttpResponse
 
-from exam.views import database, getpass,checkpermission,storage
+from exam.views import database, getpass, checkpermission, storage
 # Create your views here.
 
 
 def teacher(request):
-    c=checkpermission(request,request.path)
-    if(c==-1):
+    c = checkpermission(request, request.path)
+    if(c == -1):
         return redirect('/')
-    elif(c==0):
+    elif(c == 0):
         return redirect('/home')
     if request.method == "POST":
         # print('rahul')
@@ -49,12 +49,12 @@ def teacher(request):
             error = "Please Select State"
             data['error'] = error
             return render(request, 'teacher.html', data)
-        
+
         from datetime import datetime
         from random import randint
         time_now = int(datetime.now().timestamp()*100)
         create = request.session['user']
-        
+
         if userType == "Teacher":
             if (database.child('tIds').child(number).shallow().get().val()):
                 error = "Phone Number Already exists"
@@ -108,11 +108,9 @@ def teacher(request):
             else:
                 tempid = 1000
 
-            
-            
             database.child('aIds').child(number).update(
                 {
-                    'id':'13'+str(tempid),
+                    'id': '13'+str(tempid),
                     'createdOn': time_now,
                     'createdBy': create,
                     'pass': getpass(number+"@TP@"+age)[2:-1]
@@ -121,7 +119,7 @@ def teacher(request):
             database.child('admin').child('13'+str(tempid)).child('details').update(
                 {
                     'name': name,
-                    'phoneNo':number,
+                    'phoneNo': number,
                     'age': age,
                 }
             )
@@ -135,7 +133,7 @@ def teacher(request):
             data['info'] = number + "@AP@" + age + " and 13" + str(
                 tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
             return render(request, 'teacher.html', data)
-            
+
         elif userType == 'Typer':
             if (database.child('tyIds').child(number).shallow().get().val()):
                 error = "Phone Number Already exists"
@@ -147,10 +145,10 @@ def teacher(request):
                 tempid = free
             else:
                 tempid = 100000
-            
+
             database.child('tyIds').child(number).update(
                 {
-                    'id':'14'+str(tempid),
+                    'id': '14'+str(tempid),
                     'createdOn': time_now,
                     'createdBy': create,
                     'pass': getpass(number+"@TP@"+age)[2:-1]
@@ -159,7 +157,7 @@ def teacher(request):
             database.child('typers').child('14'+str(tempid)).child('details').update(
                 {
                     'name': name,
-                    'phoneNo':number,
+                    'phoneNo': number,
                     'age': age,
                 }
             )
@@ -198,11 +196,11 @@ def teacher(request):
         return render(request, 'teacher.html', data)
 
 
-def viewTeacher(request,typ):
-    c=checkpermission(request,request.path)
-    if(c==-1):
+def viewTeacher(request, typ):
+    c = checkpermission(request, request.path)
+    if(c == -1):
         return redirect('/')
-    elif(c==0):
+    elif(c == 0):
         return redirect('/home')
     if typ == "teacher":
         teacherData = database.child('teachers').get()
@@ -240,23 +238,24 @@ def viewTeacher(request,typ):
                     }
                 )
                 typ = "typ"
-        return render(request, 'viewTeacher.html', {'data': l, 'typ': typ})        
+        return render(request, 'viewTeacher.html', {'data': l, 'typ': typ})
     else:
-        return render(request,"admin.html")
+        return render(request, "admin.html")
 
 
 def viewDashboard(request):
-    idd=request.session['user']
-    t=database.child('teachers').child(idd).child('reviews').child('dailyExams').get()
-    date=[]
+    idd = request.session['user']
+    t = database.child('teachers').child(idd).child(
+        'reviews').child('dailyExams').get()
+    date = []
     for i in t:
-        dat=i.key()
-        dat=dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
-        s=0
-        l=(len(i.val()))
+        dat = i.key()
+        dat = dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
+        s = 0
+        l = (len(i.val()))
         for j in i.val():
-            s+=i.val()[j]['rate']
-        date.append({'date':dat,'rate':s/l})
+            s += i.val()[j]['rate']
+        date.append({'date': dat, 'rate': s/l})
         #     print(j['rate'])
     # date=[]
     # rate=[]
@@ -267,58 +266,63 @@ def viewDashboard(request):
     #     l=(len(i.val()))
     #     for j in i.val():
     #         s+=i.val()[j]['rate']
-    #     rate.append(s/l) 
+    #     rate.append(s/l)
     # print(date,rate)
     # if(len(date)>7):
     #     date=date[-7:]
     #     rate=rate[-7:]
     # import matplotlib.pyplot as plt
-    # plt.plot(date,rate, color='green', linestyle='dashed', linewidth = 3, 
-    #      marker='o', markerfacecolor='blue', markersize=12) 
-    # plt.ylim(0,5) 
-    # # naming the x axis 
-    # plt.xlabel('Date') 
-    # # naming the y axis 
-    # plt.ylabel('Rating') 
-    # plt.title('Your Performance from '+str(date[0])+' to '+str(date[-1])) 
+    # plt.plot(date,rate, color='green', linestyle='dashed', linewidth = 3,
+    #      marker='o', markerfacecolor='blue', markersize=12)
+    # plt.ylim(0,5)
+    # # naming the x axis
+    # plt.xlabel('Date')
+    # # naming the y axis
+    # plt.ylabel('Rating')
+    # plt.title('Your Performance from '+str(date[0])+' to '+str(date[-1]))
     # plt.savefig('./templates/teacherReviews/'+str(idd)+'.png')
-    
-    url=storage.child('teachers').child('20100003.jpg').get_url(1)
-    
+
+    url = storage.child('teachers').child('20100003.jpg').get_url(1)
+
     import requests
     import ast
     # import urllib.parse
-        
+
     #     urllib.parse.quote(query)
     x = requests.get(url)
     try:
         print(ast.literal_eval(x.text)['error'])
-        url="https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/teachers%2F200X200.png?alt=media&token=1"
+        url = "https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/teachers%2F200X200.png?alt=media&token=1"
     except:
         pass
-    data={'data':date,'url':url}
-    return render(request,"teacherreview.html",data)
+    data = {'data': date, 'url': url}
+    return render(request, "teacherreview.html", data)
 
 
 def rating(request):
-    idd=request.session['user']
-    t=database.child('teachers').child(idd).child('reviews').child('dailyExams').get()
-    date=[]
+    idd = request.session['user']
+    t = database.child('teachers').child(idd).child(
+        'reviews').child('dailyExams').get()
+    date = []
+    x = []
+    y = []
     for i in t:
-        dat=i.key()
-        dat=dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
-        s=0
-        l=(len(i.val()))
+        dat = i.key()
+        dat = dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
+        s = 0
+        l = (len(i.val()))
         for j in i.val():
-            s+=i.val()[j]['rate']
-        date.append({'date':dat,'rate':s/l})
-    return render(request,'./teacher/reviews.html',{'data':date})
+            s += i.val()[j]['rate']
+        date.append({'x': dat, 'y': s/l})
+        x.append(dat)
+        y.append(s/l)
+    return render(request, './teacher/reviews.html', {'data': date, 'x': x, 'y': y})
 
 
 def viewQuestion(request):
-    idd=request.session['user']
-    t=database.child('teachers').child(idd).child('questions').get()
-    data=[]
+    idd = request.session['user']
+    t = database.child('teachers').child(idd).child('questions').get()
+    data = []
     for i in t:
-        data.append({'qid':i.key(),'topicid':i.val()['topic']})
-    return render(request,'./teacher/questions.html',{'data':data})
+        data.append({'qid': i.key(), 'topicid': i.val()['topic']})
+    return render(request, './teacher/questions.html', {'data': data})
