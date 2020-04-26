@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from exam.views import checkpermission, database
+from exam.views import checkpermission, database,storage
 from datetime import date
 
 
@@ -30,18 +30,27 @@ def viewQues(request):
 
 
 def editProfile(request):
-    iduser = request.session['user']
-    i = database.child('typers').child(iduser).child('details').get()
-    l = {
-        'id': iduser,
-        'name': i.val()["name"],
-        'age':i.val()["age"],
-        'city':i.val()["city"],
-        'email':i.val()["email"],
-        'experience':i.val()["experience"],
-        'gen':i.val()["gen"],
-        'phone':i.val()["phone"],
-        'state':i.val()["state"],
-        'createdOn':database.child('tyIds').child(i.val()["phone"]).child('createdOn').get().val()
-    }
-    return render(request, './typer/editProfile.html', {'data': l})
+    if(request.method=="POST"):
+        print('rahul')
+        pic=request.POST.get('pic')
+        print(pic)
+        storage.child('typers').child(request.session['user']).put(pic)
+    else:
+        iduser = request.session['user']
+        i = database.child('typers').child(iduser).child('details').get()
+        from datetime import date
+        data=database.child('tyIds').child(i.val()["phone"]).child('createdOn').get().val()/100
+        date=date.fromtimestamp(data)
+        l = {
+            'id': iduser,
+            'name': i.val()["name"],
+            'age':i.val()["age"],
+            'city':i.val()["city"],
+            'email':i.val()["email"],
+            'experience':i.val()["experience"],
+            'gen':i.val()["gen"],
+            'phone':i.val()["phone"],
+            'state':i.val()["state"],
+            'createdOn':date
+        }
+        return render(request, './typer/editProfile.html', {'data': l})

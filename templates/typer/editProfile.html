@@ -38,13 +38,13 @@
             <!-- /.content-header -->
 
             <!-- Main content -->
-            {{data}}
             <div class="container">
                 <div class="row flex-lg-nowrap">
                     <div class="col">
                         <div class="row">
                             <div class="col mb-3">
-                                <form action='' method="POST">
+                                <form action='/typer/editProfile' method="POST">
+                                    {% csrf_token %}
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="e-profile">
@@ -70,11 +70,12 @@
                                                             <div class="mt-2">
                                                                 <button class="btn btn-primary" type="button">
                                                                     <i class="fa fa-fw fa-camera"></i>
-                                                                    <input type='file'>
+                                                                    <input type='file' name="pic" id="p">
                                                                     <span>Change Photo</span>
                                                                 </button>
                                                             </div>
                                                         </div>
+                                                        <input type="hidden" id="hidpic">
                                                         <div class="text-center text-sm-right">
                                                             <span class="badge badge-secondary">typer</span>
                                                             <div class="text-muted"><small>Joined
@@ -230,8 +231,7 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col d-flex justify-content-end">
-                                                                    <button class="btn btn-primary" type="submit">Save
-                                                                        Changes</button>
+                                                                    <button type="submit" class="btn btn-primary" onclick="s()">Save Changes</button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -267,5 +267,11 @@
 
     {% include '../includes/bottom.html' %}
 </body>
+<script>
+    function s(){
+        var x = document.getElementById("p").value;
 
+        document.getElementById("hidpic").value=x;
+    }
+</script>
 </html>
