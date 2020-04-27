@@ -1,14 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from exam.views import database
 from django.http import HttpResponse
+from exam.views import checkpermission
 # Create your views here.
 
 
-def subject(request):
-    return render(request, 'addSubject.html')
+
 
 
 def viewsubjects(request):
+    c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home')
     subjectdata = database.child('subjects').get()
     print(subjectdata)
     studentlist = []
@@ -27,7 +32,11 @@ def viewsubjects(request):
 
 
 def addsubject(request):
-
+    c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home')
     if request.method == "POST":
         name = request.POST.get('name')
         dis = request.POST.get('dis')
@@ -65,6 +74,6 @@ def addsubject(request):
             database.child('subjects').update({'free': tempid+1})
             return render(request, 'addSubject.html', data)
     else:
-        return HttpResponse("method not allowed")
+        return render(request, 'addSubject.html')
 
 

@@ -406,7 +406,7 @@ def viewmarketer(request):
                     'number': i.val()['details']['phone'],
                 }
             )
-        return render(request, './users/marketerList.html', {'data': l, 'type': 'typer'})
+        return render(request, './users/marketerlist.html', {'data': l, 'type': 'typer'})
     else: 
         return render(request,'./users/typersList.html')
 
