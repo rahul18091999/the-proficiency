@@ -8,4 +8,7 @@ urlpatterns = [
     path('viewDaily',views.viewDaily),
     path('viewNLEs',views.viewNLEs),
     path('addNLEQues',views.addNLEQues),
+    path('viewCoupons',views.viewCoupons),
+    path('addCoupon',views.addCoupon),
+
 ]
