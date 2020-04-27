@@ -6,4 +6,5 @@ urlpatterns = [
     path('viewDashboard',views.viewDashboard),
     path('rating',views.rating),
     path('viewQuestion',views.viewQuestion),
+    path('earning',views.teacherearning),
 ]

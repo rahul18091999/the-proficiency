@@ -326,3 +326,143 @@ def viewQuestion(request):
     for i in t:
         data.append({'qid': i.key(), 'topicid': i.val()['topic']})
     return render(request, './teacher/questions.html', {'data': data})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def teacherearning(request):
+    idd =  request.session['user']
+    data = database.child('teachers').child(idd).get()
+    l = []
+
+    print(data.val())
+    if 'income' in data.val():
+        print("xyz")
+        exams = data.val()['income']['exams']
+        if 'daily' in exams:
+            for i in exams['daily']:
+                print("hdbvsh")
+                dat = i
+                dat = dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
+                print(dat)
+        else:
+            return HttpResponse('hello')
+    else:
+        print("ccc")
