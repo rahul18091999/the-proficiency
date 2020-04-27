@@ -1,7 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from exam.views import database, checkpermission
 # Create your views here.
 def addBU(request):
+    c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home') 
     if request.method == "POST":
         name = request.POST.get('name')
         dis = request.POST.get('dis')

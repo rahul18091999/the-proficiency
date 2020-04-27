@@ -79,7 +79,10 @@ def users(request):
                 error = "Please Select State"
                 data['error'] = error
                 return render(request, './users/addUser.html', data)
-
+            elif(userType is None):
+                error = "Please Select User Type"
+                data['error'] = error
+                return render(request, './users/addUser.html', data)
             from datetime import datetime
             from random import randint
             time_now = int(datetime.now().timestamp()*100)
@@ -339,22 +342,23 @@ def viewteacher(request):
     # if teacherData:
     print(teacherData)
     l = []
-    for i in teacherData:
-        print(i.key())
-        if(i.key() != 'qBank'):
-            l.append(
-                {
-                    'tId': i.key(),
-                    'name': i.val()['details']['name'],
-                    'number': i.val()['details']['phone'],
-                    'email': i.val()['details']['email'],
-                    's': i.val()['details']['state'],
-                    'd': i.val()['details']['city'],
-                    'age': i.val()['details']['age'],
-                    'experience': i.val()['details']['experience'],
-                    'gen': i.val()['details']['gen'],
-                }
-            )
+    if(teacherData.val()):
+        for i in teacherData:
+            print(i.key())
+            if(i.key() != 'qBank'):
+                l.append(
+                    {
+                        'tId': i.key(),
+                        'name': i.val()['details']['name'],
+                        'number': i.val()['details']['phone'],
+                        'email': i.val()['details']['email'],
+                        's': i.val()['details']['state'],
+                        'd': i.val()['details']['city'],
+                        'age': i.val()['details']['age'],
+                        'experience': i.val()['details']['experience'],
+                        'gen': i.val()['details']['gen'],
+                    }
+                )
     return render(request, './users/teachersList.html', {'data': l, 'type': 'teacher'})
 
 
@@ -366,8 +370,8 @@ def viewtyper(request):
         return redirect('/home')
         # try:
     typerData = database.child('typers').get()
-    if typerData:
-        l = []
+    l = []
+    if typerData.val():
         for i in typerData:
             print(i.key())
             if(i.key()!='qBank'):
@@ -380,14 +384,7 @@ def viewtyper(request):
                         'city': i.val()['details']['city'],
                     }
                 )
-        return render(request, './users/typersList.html', {'data': l, 'type': 'typer'})
-    else: 
-        return render(request,'./users/typersList.html')
-    # except:
-    #     error = "no data availabe"
-    #     data['error'] = error
-    #     return render(request, './users/teachersList.html', {'data': data})
-
+    return render(request, './users/typersList.html', {'data': l, 'type': 'typer'})
 def viewmarketer(request):
     c = checkpermission(request, request.path)
     if(c == -1):
@@ -395,8 +392,8 @@ def viewmarketer(request):
     elif(c == 0):
         return redirect('/home')
     marketerData = database.child('marketers').get()
-    if marketerData:
-        l = []
+    l=[]
+    if marketerData.val():
         for i in marketerData:
             print(i.key())
             l.append(
@@ -406,13 +403,15 @@ def viewmarketer(request):
                     'number': i.val()['details']['phone'],
                 }
             )
-        return render(request, './users/marketerList.html', {'data': l, 'type': 'typer'})
-    else: 
-        return render(request,'./users/typersList.html')
+    return render(request, './users/marketerList.html', {'data': l, 'type': 'typer'})
 
 
 def viewmyquestion(request):
     c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home')
     id1 = request.session['us']
     if id1 == "15":
         id = request.session['user']
@@ -426,7 +425,7 @@ def viewmyquestion(request):
                 }
             )
         return render(request, 'viewQuestyper.html', {'question': l})
-    elif id1 == "12":
+    elif id1 == "13":
         id = request.session['user']
         adminQues = database.child['admin'].child[id].child['questionsAdded'].get()
         l=[]
@@ -439,10 +438,4 @@ def viewmyquestion(request):
             )
     return render(request, 'viewQuestyper.html', {'question': l})
 
-
-
-
-
-
-# def addTopic(request):
     

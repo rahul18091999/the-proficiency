@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TheProficiency | Add BU</title>
+    <title>TheProficiency | Add Daily Exam</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include "../includes/top.html" %}
@@ -43,7 +43,7 @@
                             {% endif %}
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Add Board / University</h3>
+                                    <h3 class="card-title">Add Daily Exam</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
@@ -51,18 +51,18 @@
                                     {% csrf_token %}
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Board / Univercity Name</label>
-                                            <input type="text" class="form-control" name="name" value="{{name}}"
+                                            <label for="exampleInputEmail1">Daily Exam Date</label>
+                                            <input type="date" class="form-control" name="name" value="{{name}}"
                                                 placeholder="">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Discription</label>
-                                            <input type="text" class="form-control" name="dis" value="{{dis}}"
+                                            <label for="exampleInputEmail1">Daily Exam Time</label>
+                                            <input type="time" class="form-control" name="dis" value="{{dis}}"
                                                 placeholder="">
                                         </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Add Board / University</button>
+                                            <button type="submit" class="btn btn-primary">Add Daily</button>
                                         </div>
                                 </form>
                             </div>
