@@ -47,17 +47,17 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
-                                <form action="/academics/addBU" class="form-horizontal" method='POST'>
+                                <form action="/exams/addNLE" class="form-horizontal" method='POST'>
                                     {% csrf_token %}
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">NLE Date</label>
-                                            <input type="date" class="form-control" name="name" value="{{name}}"
+                                            <input type="date" class="form-control" name="date" value="{{name}}"
                                                 placeholder="">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Time</label>
-                                            <input type="time" class="form-control" name="dis" value="{{dis}}"
+                                            <input type="time" class="form-control" name="time" value="{{dis}}"
                                                 placeholder="">
                                         </div>
                                         <!-- /.card-body -->
