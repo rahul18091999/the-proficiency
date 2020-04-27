@@ -36,6 +36,11 @@ def dashboard(request):
 
 def users(request):
     global typea,typeb,typec
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     c = checkpermission(request, request.path)
     if(c == -1):
         return redirect('/')
@@ -403,7 +408,7 @@ def viewmarketer(request):
                     'number': i.val()['details']['phone'],
                 }
             )
-    return render(request, './users/marketerList.html', {'data': l, 'type': 'typer'})
+    return render(request, './users/marketerlist.html', {'data': l, 'type': 'typer'})
 
 
 def viewmyquestion(request):
@@ -438,4 +443,3 @@ def viewmyquestion(request):
             )
     return render(request, 'viewQuestyper.html', {'question': l})
 
-    

@@ -25,10 +25,8 @@
                             <table id="example1" class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Discription</th>
-                                        <th>Preparing For</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
                                         <th>Edit</th>
                                     </tr>
                                 </thead>
@@ -38,10 +36,8 @@
                                     {% if data %}
                                     {% for i in data  %}
                                     <tr>
-                                        <td>{{i.id}}</td>
-                                        <td>{{i.name}}</td>
-                                        <td>{{i.dis}}</td>
-                                        <td>{{i.sub}}</td>
+                                        <td>{{i.date}}</td>
+                                        <td>{{i.time}}</td>
                                         <td>
                                             <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
                                                     class="btn btn-default btn-sm">
@@ -55,10 +51,8 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Discription</th>
-                                        <th>Preparing For</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
                                         <th>Edit</th>
                                     </tr>
                                 </tfoot>

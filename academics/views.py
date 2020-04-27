@@ -42,6 +42,11 @@ def addBU(request):
         return render(request, './academics/addBU.html')
 
 def addPrepFor(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     if request.method == "POST":
         name = request.POST.get('name')
         dis = request.POST.get('dis')
@@ -77,6 +82,11 @@ def addPrepFor(request):
         return render(request, './academics/addPrepFor.html')
 
 def addHd(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     if request.method == "POST":
         name = request.POST.get('name')
         dis = request.POST.get('dis')
@@ -112,6 +122,11 @@ def addHd(request):
         return render(request, './academics/addHD.html')
 
 def addSubject(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     if request.method == "POST":
         name = request.POST.get('name')
         dis = request.POST.get('dis')
@@ -147,6 +162,11 @@ def addSubject(request):
         return render(request, './academics/addSubject.html')
 
 def addTopic(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     subdata=database.child('subjects').get()
     subjectdata=[]
     if subdata.val():
@@ -191,6 +211,11 @@ def addTopic(request):
         return render(request, './academics/addTopic.html',{'data':subjectdata})
 
 def addMainly(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     prepdata=database.child('prepration').get()
     preprationdata=[]
     if prepdata.val():
@@ -236,6 +261,11 @@ def addMainly(request):
 
 
 def viewBU(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     data = database.child('boards').get()
     l=[]
     if data.val():
@@ -250,6 +280,11 @@ def viewBU(request):
                 )
     return render(request, './academics/viewBU.html',{'data': l})
 def viewHd(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     data = database.child('hDegree').get()
     l=[]
     if data.val():
@@ -265,6 +300,11 @@ def viewHd(request):
     return render(request, './academics/viewHD.html',{'data': l})
 
 def viewPrepFor(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     data = database.child('prepration').get()
     l=[]
     if data.val():
@@ -280,6 +320,11 @@ def viewPrepFor(request):
     return render(request, './academics/viewPrepFor.html',{'data': l})
 
 def viewSubjects(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     data = database.child('subjects').get()
     l=[]
     if data.val():
@@ -295,6 +340,11 @@ def viewSubjects(request):
     return render(request, './academics/viewSubjects.html',{'data': l})
 
 def viewTopic(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     data = database.child('subjects').get()
     l=[]
     if data.val():
@@ -310,6 +360,11 @@ def viewTopic(request):
     return render(request, './academics/viewTopics.html',{'data': l})
 
 def viewMainly(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     data = database.child('prepration').get()
     l=[]
     if data.val():

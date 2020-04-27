@@ -15,5 +15,4 @@ urlpatterns = [
     path('viewTopics',views.viewTopic),
     path('viewMainly',views.viewMainly),
 
-
 ]
