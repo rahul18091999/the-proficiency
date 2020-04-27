@@ -306,16 +306,17 @@ def rating(request):
     date = []
     x = []
     y = []
-    for i in t:
-        dat = i.key()
-        dat = dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
-        s = 0
-        l = (len(i.val()))
-        for j in i.val():
-            s += i.val()[j]['rate']
-        date.append({'x': dat, 'y': s/l})
-        x.append(dat)
-        y.append(s/l)
+    if t.val() is not None:
+        for i in t:
+            dat = i.key()
+            dat = dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
+            s = 0
+            l = (len(i.val()))
+            for j in i.val():
+                s += i.val()[j]['rate']
+            date.append({'x': dat, 'y': s/l})
+            x.append(dat)
+            y.append(s/l)
     return render(request, './teacher/reviews.html', {'data': date, 'x': x, 'y': y})
 
 
@@ -323,129 +324,11 @@ def viewQuestion(request):
     idd = request.session['user']
     t = database.child('teachers').child(idd).child('questions').get()
     data = []
-    for i in t:
-        data.append({'qid': i.key(), 'topicid': i.val()['topic']})
+    print(t.val())
+    if t.val() is not None:
+        for i in t:
+            data.append({'qid': i.key(), 'topicid': i.val()['topic']})
     return render(request, './teacher/questions.html', {'data': data})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def teacherearning(request):
     idd =  request.session['user']
@@ -461,8 +344,83 @@ def teacherearning(request):
                 print("hdbvsh")
                 dat = i
                 dat = dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
-                print(dat)
+                l.append(
+                    {
+                        'date': dat,
+                        'earning': exams['daily'][i]['totalSale']
+                    }
+                )
+        # if '' in exams:
+        #     for i in exams['daily']:
+        #         print("hdbvsh")
+        #         dat = i
+        #         dat = dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
+        #         print(dat)
         else:
             return HttpResponse('hello')
     else:
         print("ccc")
+
+
+def editProfile(request):
+    iduser = request.session['user']
+    i = database.child('teachers').child(iduser).child('details').get()
+    from datetime import date
+    data=database.child('tIds').child(i.val()["phone"]).child('createdOn').get().val()/100 
+    date=date.fromtimestamp(data)
+    l = {
+        'id': iduser,
+        'name': i.val()["name"],
+        'age':i.val()["age"],
+        'city':i.val()["city"],
+        'email':i.val()["email"],
+        'experience':i.val()["experience"],
+        'gen':i.val()["gen"],
+        'phone':i.val()["phone"],
+        'state':i.val()["state"],
+        'createdOn':date
+    }
+    if(request.method=="POST"):
+        currentpassword=request.POST.get("currentpassword")
+        newpassword=request.POST.get("newpassword")
+        confirmpassword=request.POST.get("confirmpassword")
+        if (currentpassword=="" and newpassword=="" and confirmpassword==""):
+            return redirect("/home")
+        else:
+            if(newpassword!=confirmpassword or len(newpassword)<6):
+                return render(request, './teacher/editProfile.html', {'data': l,'error':"Check Your Password"})
+            else:
+                current=database.child('tIds').child(i.val()["phone"]).child('pass').get().val()
+                if(getpass(currentpassword)[2:-1]!=current):
+                    return render(request, './teacher/editProfile.html', {'data': l,'error':"Check Your Current Password"})
+                else:
+                    database.child('tIds').child(i.val()["phone"]).update({'pass':getpass(newpassword)[2:-1]})
+                    return redirect('/home')
+    else:
+        
+        return render(request, './teacher/editProfile.html', {'data': l})
+
+
+
+def referal(request):
+    idd = request.session['user']
+    data = database.child('share').child('teachers').child(idd).get()
+    totalearning = data.val()['earned']
+    typea = data.val()['typeA']
+    typeb = data.val()['typeB']
+    typec = data.val()['typeC']
+    code = {'typea': typea['code'],
+            'typeb': typeb['code'], 'typec': typec['code']}
+    typeatrnc = []
+    typebtrnc = []
+    typectrnc = []
+    if 'trnc' in typea:
+        for i in typea['trnc']:
+            typeatrnc.append({'trnc': i, 'earn': typea['trnc'][i]})
+    if 'trnc' in typeb:
+        for i in typeb['trnc']:
+            typebtrnc.append({'trnc': i, 'earn': typeb['trnc'][i]})
+    if 'trnc' in typec:
+        for i in typec['trnc']:
+            typectrnc.append({'trnc': i, 'earn': typec['trnc'][i]})
+    return render(request, './teacher/referal.html', {'code': code, 'typeatrnc': typeatrnc, 'typebtrnc': typebtrnc, 'typectrnc': typectrnc})

@@ -66,3 +66,5 @@ def addsubject(request):
             return render(request, 'addSubject.html', data)
     else:
         return HttpResponse("method not allowed")
+
+
