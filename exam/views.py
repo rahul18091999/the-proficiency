@@ -19,9 +19,9 @@ storage = firebase.storage()
 def checkpermission(r, url):
     try:
         idd = r.session['us']
-        l11 = ['/logout']
-        l12 = ['/logout']
-        l13 = ['/logout', '/home', '/teacher/addTeacher',
+        l11 = ['/logout','/home']
+        l12 = ['/logout','/home']
+        l13 = ['/logout', '/home','/teacher/addTeacher',
                 '/question/addQuestion', '/question/viewQuestion','/user/teacher','/user/typer','/user/addUser']
         l14 = ['/logout', '/home', '/question/addQuestion',
                '/question/viewQuestion']
