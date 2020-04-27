@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>View High Degrees</title>
+    <title>View High Degree</title>
 
 
     {% include "../includes/top.html" %}
@@ -18,19 +18,17 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">View High Degrees</h3>
+                            <h3 class="card-title">View High Degree</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table id="example1" class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Teacher ID</th>
+                                        <th>ID</th>
                                         <th>Name</th>
-                                        <th>City, State</th>
-                                        <th>Phone Number</th>
+                                        <th>Discription</th>
                                         <th>Edit</th>
-                                        <th>Dashboard</th>
                                     </tr>
                                 </thead>
 
@@ -39,21 +37,13 @@
                                     {% if data %}
                                     {% for i in data  %}
                                     <tr>
-                                        <td>{{i.tId}}</td>
+                                        <td>{{i.id}}</td>
                                         <td>{{i.name}}</td>
-                                        <td>{{i.d}}, {{i.s}}</td>
-                                        <td>{{i.number}}</td>
+                                        <td>{{i.dis}}</td>
                                         <td>
                                             <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
                                                     class="btn btn-default btn-sm">
                                                     <span class="glyphicon glyphicon-edit"></span> Edit
-                                                </button>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href='/home/{{i.tId}}'> <button type="button"
-                                                    class="btn btn-default btn-sm">
-                                                    <span class="glyphicon glyphicon-edit"></span> Dashboard
                                                 </button>
                                             </a>
                                         </td>
@@ -63,12 +53,10 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Teacher ID</th>
+                                        <th>ID</th>
                                         <th>Name</th>
-                                        <th>City, State</th>
-                                        <th>Phone Number</th>
+                                        <th>Discription</th>
                                         <th>Edit</th>
-                                        <th>Dashboard</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -82,3 +70,5 @@
     </div>
     {% include "../includes/bottom.html" %}
 </body>
+
+</html>

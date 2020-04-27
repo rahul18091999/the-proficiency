@@ -7,8 +7,5 @@ urlpatterns = [
     path('viewTyper',views.dashboard),
     path('admin',views.viewmyquestion),
     path('marketer',views.viewmarketer),
-    path('acedemics/addBU',views.addBU),
-    path('acedemics/',views.addHd),
-    path('acedemics/',views.viewHd),
-    path('acedemics/',views.viewBU),
+    
 ]

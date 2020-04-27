@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'typers',
     'user',
     'marketer',
+    'academics',
 ]
 
 MIDDLEWARE = [

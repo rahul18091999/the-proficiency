@@ -25,12 +25,11 @@
                             <table id="example1" class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Teacher ID</th>
+                                        <th>ID</th>
                                         <th>Name</th>
-                                        <th>City, State</th>
-                                        <th>Phone Number</th>
+                                        <th>Discription</th>
+                                        <th>Subject</th>
                                         <th>Edit</th>
-                                        <th>Dashboard</th>
                                     </tr>
                                 </thead>
 
@@ -39,21 +38,14 @@
                                     {% if data %}
                                     {% for i in data  %}
                                     <tr>
-                                        <td>{{i.tId}}</td>
+                                        <td>{{i.id}}</td>
                                         <td>{{i.name}}</td>
-                                        <td>{{i.d}}, {{i.s}}</td>
-                                        <td>{{i.number}}</td>
+                                        <td>{{i.dis}}</td>
+                                        <td>{{i.sub}}</td>
                                         <td>
                                             <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
                                                     class="btn btn-default btn-sm">
                                                     <span class="glyphicon glyphicon-edit"></span> Edit
-                                                </button>
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href='/home/{{i.tId}}'> <button type="button"
-                                                    class="btn btn-default btn-sm">
-                                                    <span class="glyphicon glyphicon-edit"></span> Dashboard
                                                 </button>
                                             </a>
                                         </td>
@@ -63,12 +55,11 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Teacher ID</th>
+                                        <th>ID</th>
                                         <th>Name</th>
-                                        <th>City, State</th>
-                                        <th>Phone Number</th>
+                                        <th>Discription</th>
+                                        <th>Subject</th>
                                         <th>Edit</th>
-                                        <th>Dashboard</th>
                                     </tr>
                                 </tfoot>
                             </table>

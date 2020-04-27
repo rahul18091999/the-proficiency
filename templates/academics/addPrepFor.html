@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TheProficiency | Add User</title>
+    <title>TheProficiency | Add Preparing For</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include "../includes/top.html" %}
@@ -43,101 +43,30 @@
                             {% endif %}
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Add New User</h3>
+                                    <h3 class="card-title">Add Preparing For</h3>
                                 </div>
                                 <!-- /.card-header -->
 
 
 
                                 <!-- form start -->
-                                <form action="/user/addUser" class="form-horizontal" method='POST'>
+                                <form action="/academics/addPrepFor" class="form-horizontal" method='POST'>
                                     {% csrf_token %}
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">User Name</label>
+                                            <label for="exampleInputEmail1">Preparing For Name</label>
                                             <input type="text" class="form-control" name="name" value="{{name}}"
-                                                placeholder="eg. Rishi Sharma">
+                                                placeholder="">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputPassword1">Phone Number</label>
-                                            <input type="number" class="form-control" name="number" value="{{number}}"
-                                                placeholder="eg. 77009XXXXX" maxlength="10">
+                                            <label for="exampleInputPassword1">Discription</label>
+                                            <input type="text" class="form-control" name="dis" value="{{dis}}"
+                                                placeholder="">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Email address</label>
-                                            <input type="email" class="form-control" name="email" value="{{email}}"
-                                                placeholder="eg. tp@tp.com">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="customRange1">Age</label>
-                                            <input type="range" min="16" max="50" value="{{age}}" id="age" name="age"
-                                                class="custom-range custom-range-teal" id="customRange1">
-                                            <p>Value: <span id="ageV"></span> Years</p>
-                                            <script>
-                                                var sliderA = document.getElementById("age");
-                                                var outputA = document.getElementById("ageV");
-                                                outputA.innerHTML = sliderA.value;
-                                                sliderA.oninput = function () {
-                                                    outputA.innerHTML = this.value;
-                                                }
-                                            </script>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="customRange1">Experience</label>
-                                            <input type="range" min="0" max="50" value="{{experience}}" id="experience"
-                                                name="experience" class="custom-range" id="customRange1">
-                                            <p>Value: <span id="experienceV"></span> Years</p>
-                                            <script>
-                                                var sliderE = document.getElementById("experience");
-                                                var outputE = document.getElementById("experienceV");
-                                                outputE.innerHTML = sliderA.value;
-                                                sliderE.oninput = function () {
-                                                    outputE.innerHTML = this.value;
-                                                }
-                                            </script>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Gender</label>
-                                            <select class="form-control" name="gen" style="width: 100%;">
-                                                {% if gen == "Male" %}
-                                                <option value="Male" selected>Male</option>
-                                                <option value="Female">Female</option>
-                                                {% endif %}
-                                                {% if gen == "Female" %}
-                                                <option value="Male">Male</option>
-                                                <option value="Female" selected>Female</option>
-                                                {% else %}
-                                                <option selected disabled>Select Gender</option>
-                                                <option value="Male">Male</option>
-                                                <option value="Female">Female</option>
-                                                {% endif %}
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>User Type</label>
-                                            <select class="form-control select2" name="userType" style="width: 100%;">
-                                                <option selected value="" disabled>Select Type</option>
-                                                <option value="Admin">Admin</option>
-                                                <option value="Teacher">Teacher</option>
-                                                <option value="Typer">Typer</option>
-                                                <option value="Marketer">Marketer</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>State</label>
-                                            <select class="form-control select2" id="listBox"
-                                                onchange='selct_district(this.value)' selected="{{s}}" name=s>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>User Type</label>
-                                            <select class="form-control select2" id='secondlist' name=d>
-                                                <option value="{{d}}">Select City First</option>
-                                            </select>
-                                        </div>
+                                        
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Add new User</button>
+                                            <button type="submit" class="btn btn-primary">Add Preparing For</button>
                                         </div>
                                 </form>
 
