@@ -10,5 +10,6 @@ urlpatterns = [
     path('addNLEQues',views.addNLEQues),
     path('viewCoupons',views.viewCoupons),
     path('addCoupon',views.addCoupon),
+    path('viewCouponsTo',views.viewCouponsTo),
 
 ]

@@ -26,19 +26,19 @@
                         <!-- left column -->
                         <div class="col-md-12">
                             <!-- general form elements -->
-                            {% if error %}
+                            {% if data.error %}
                             <div class="alert alert-danger">
-                                <center>{{error}}</center>
+                                <center>{{data.error}}</center>
                             </div>
                             {% endif %}
-                            {% if success %}
+                            {% if data.success %}
                             <div class="alert alert-success">
-                                <center>{{success}}</center>
+                                <center>{{data.success}}</center>
                             </div>
                             {% endif %}
-                            {% if info %}
+                            {% if data.info %}
                             <div class="alert alert-info">
-                                <center>{{info}}</center>
+                                <center>{{data.info}}</center>
                             </div>
                             {% endif %}
                             <div class="card card-primary">
@@ -47,22 +47,22 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
-                                <form action="/exams/addCoupan" class="form-horizontal" method='POST'>
+                                <form action="/exams/addCoupon" class="form-horizontal" method='POST'>
                                     {% csrf_token %}
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Coupon Code</label>
-                                            <input type="text" class="form-control" name="name" value="{{name}}"
+                                            <input type="text" class="form-control" name="name" value="{{data.name}}"
                                                 placeholder="">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">SP %</label>
-                                            <input type="number" class="form-control" name="sp" value="{{sp}}"
+                                            <input type="number" class="form-control" name="sp" value="{{data.sp}}"
                                                 placeholder="">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Minimum Rs.</label>
-                                            <input type="number" class="form-control" name="min"
+                                            <input type="number" class="form-control" name="min" value="{{data.min}}"
                                                 placeholder="">
                                         </div>
                                         <div class="form-group">
@@ -71,30 +71,29 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label>Min</label>
-                                                        <input class="form-control" type="number"
-                                                            {% comment %} name="no" {% endcomment %}
+                                                        <input class="form-control" type="number" name="rmin"
                                                             placeholder="0"
                                                             min='1'
-                                                            max="{{max}}"
-                                                            value="{{max}}">
+                                                            max="{{count}}"
+                                                            value="{{data.rmin}}">
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <label>Max</label>
                                                         <input class="form-control" type="number"
-                                                            name="no"
+                                                            name="rmax"
                                                             placeholder="10"
                                                             min='1'
-                                                            max="{{max}}"
-                                                            value="{{max}}">
+                                                            max="{{count}}"
+                                                            value="{{data.rmax}}">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Expiry Date</label>
-                                            <input type="date" class="form-control" name="date" value="{{date}}"
+                                            <input type="date" class="form-control" name="date" value="{{data.date}}"
                                                 placeholder="">
                                         </div>
                                         <!-- /.card-body -->

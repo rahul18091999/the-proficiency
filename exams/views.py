@@ -243,17 +243,18 @@ def viewCoupons(request):
         return redirect('/')
     elif(c==0):
         return redirect('/home')
-    coupans = database.child('coupans').get()
+    coupans = database.child('coupons').get()
     l = []
-    for i in coupans:
-        l.append(
-            {
-                'name': i,
-                'exp': i.val()['expDate'],
-                'min': i.val()['minAmt'],
-                'sp': i.val()['sp']
-            }
-        )
+    if coupans.val():
+        for i in coupans:
+            l.append(
+                {
+                    'name': i.key(),
+                    'exp': i.val()['expDate'],
+                    'min': i.val()['minAmt'],
+                    'sp': i.val()['sp']
+                }
+            )
     return render(request,'./exams/viewCoupons.html',{'data': l})
 
 def addCoupon(request):
@@ -265,28 +266,43 @@ def addCoupon(request):
     rank = database.child('ranks').child('students').get()
     count = 0
     for i in rank:
-        count += 1
+        count = max(count,len(i.val()))
     if request.method == "POST":
-        name = request.POST.get['name']
-        sp = request.POST.get['sp']
-        no = request.POST.get['no']
-        date = request.POST.get['date']
-        mini = request.POST.get['min']
-        if name and sp and no and date and mini != "":
-            database.child('coupans').child(name).update(
+        name = request.POST.get('name')
+        sp = request.POST.get('sp')
+        rmin = request.POST.get('rmin')
+        rmax = request.POST.get('rmax')
+        date = request.POST.get('date')
+        mini = request.POST.get('min')
+        if name and sp and rmin and rmax and date and mini != "":
+            if(rmin>rmax):
+                data = {
+                'name': name,
+                'sp': sp,
+                'min': mini,
+                'rmax': rmax,
+                'rmin': rmin,
+                'date': date,
+                }
+                error = "Min must be greater than Max."
+                data['error'] = error
+                return render(request,'./exams/addCoupon.html', {'data': data,'count':count})
+            database.child('coupons').child(name).update(
                 {
                     'expDate': date,
                     'minAmt': mini,
                     'sp': sp,
                 }
             )
-            countno = 1
-            idd = database.chid('preprations').get()
+            idd = database.child('ranks').child('students').get()
+            l={}
             for i in idd:
-                countno += countno
-                if countno == no:
-                    iddd = i
-            database.child('coupans').child(name).child('to').update({iddd: 'false'})
+                if(i.val()):
+                    for j in i.val():
+                        r=i.val()[j]['rank']
+                        if(r>=int(rmin) and r<=int(rmax)):
+                            l[j]='false'
+            database.child('coupons').child(name).update({'to': l})
             data = {
                 'name': "",
                 'sp': "",
@@ -294,20 +310,25 @@ def addCoupon(request):
                 'max': "",
                 'date': "",
             }
-            success = "submitted successfully"
+            success = "Coupon added successfully."
             data['success'] = success
-            return render(request,'./exams/addCoupan.html', data,count)
+            
+            return render(request,'./exams/addCoupon.html',{'data': data,'count':count})
         else:
             data = {
-                'name': "",
-                'sp': "",
-                'min': "",
-                'max': "",
-                'date': "",
+                'name': name,
+                'sp': sp,
+                'min': mini,
+                'rmax': rmax,
+                'rmin': rmin,
+                'date': date,
             }
-            error = "submitted successfully"
+            error = "Please fill all details."
             data['error'] = error
-            return render(request,'./exams/addCoupan.html', data, count)
+            return render(request,'./exams/addCoupon.html', {'data': data,'count':count})
 
     else:
-        return render(request,'./exams/addCoupon.html',count)
+        return render(request,'./exams/addCoupon.html',{'count':count})
+
+def viewCouponsTo(request):
+    print(request.GET.get('cid'))
