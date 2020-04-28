@@ -47,38 +47,54 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
-                                <form action="/exams/addDaily" class="form-horizontal" method='POST'>
+                                <form action="/exams/addCoupan" class="form-horizontal" method='POST'>
                                     {% csrf_token %}
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Coupon Code</label>
-                                            <input type="text" class="form-control" name="date" value="{{name}}"
+                                            <input type="text" class="form-control" name="name" value="{{name}}"
                                                 placeholder="">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">SP %</label>
-                                            <input type="number" class="form-control" name="date" value="{{name}}"
+                                            <input type="number" class="form-control" name="sp" value="{{sp}}"
                                                 placeholder="">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Minimum Rs.</label>
-                                            <input type="number" class="form-control" name="date" value="{{name}}"
+                                            <input type="number" class="form-control" name="min"
                                                 placeholder="">
                                         </div>
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Select Range</label>
-                                            <div data-role="rangeslider">
-                                                <label for="price-min">Price:</label>
-                                                <input type="range" name="price-min" id="price-min" value="200" min="0"
-                                                    max="1000">
-                                                <label for="price-max">Price:</label>
-                                                <input type="range" name="price-max" id="price-max" value="800" min="0"
-                                                    max="1000">
+                                            <label for="exampleInputEmail1">Select Ranks Range</label>
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label>Min</label>
+                                                        <input class="form-control" type="number"
+                                                            {% comment %} name="no" {% endcomment %}
+                                                            placeholder="0"
+                                                            min='1'
+                                                            max="{{max}}"
+                                                            value="{{max}}">
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="form-group">
+                                                        <label>Max</label>
+                                                        <input class="form-control" type="number"
+                                                            name="no"
+                                                            placeholder="10"
+                                                            min='1'
+                                                            max="{{max}}"
+                                                            value="{{max}}">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Expiry Date</label>
-                                            <input type="date" class="form-control" name="time" value="{{dis}}"
+                                            <input type="date" class="form-control" name="date" value="{{date}}"
                                                 placeholder="">
                                         </div>
                                         <!-- /.card-body -->

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from exam.views import database, checkpermission
+from exam.views import database, checkpermission, getuserdetail
 
 # Create your views here.
 
@@ -238,7 +238,76 @@ def addNLEQues(request):
 
 
 def viewCoupons(request):
-    return render(request,'./exams/viewCoupons.html')
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
+    coupans = database.child('coupans').get()
+    l = []
+    for i in coupans:
+        l.append(
+            {
+                'name': i,
+                'exp': i.val()['expDate'],
+                'min': i.val()['minAmt'],
+                'sp': i.val()['sp']
+            }
+        )
+    return render(request,'./exams/viewCoupons.html',{'data': l})
 
 def addCoupon(request):
-    return render(request,'./exams/addCoupon.html')
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
+    rank = database.child('ranks').child('students').get()
+    count = 0
+    for i in rank:
+        count += 1
+    if request.method == "POST":
+        name = request.POST.get['name']
+        sp = request.POST.get['sp']
+        no = request.POST.get['no']
+        date = request.POST.get['date']
+        mini = request.POST.get['min']
+        if name and sp and no and date and mini != "":
+            database.child('coupans').child(name).update(
+                {
+                    'expDate': date,
+                    'minAmt': mini,
+                    'sp': sp,
+                }
+            )
+            countno = 1
+            idd = database.chid('preprations').get()
+            for i in idd:
+                countno += countno
+                if countno == no:
+                    iddd = i
+            database.child('coupans').child(name).child('to').update({iddd: 'false'})
+            data = {
+                'name': "",
+                'sp': "",
+                'min': "",
+                'max': "",
+                'date': "",
+            }
+            success = "submitted successfully"
+            data['success'] = success
+            return render(request,'./exams/addCoupan.html', data,count)
+        else:
+            data = {
+                'name': "",
+                'sp': "",
+                'min': "",
+                'max': "",
+                'date': "",
+            }
+            error = "submitted successfully"
+            data['error'] = error
+            return render(request,'./exams/addCoupan.html', data, count)
+
+    else:
+        return render(request,'./exams/addCoupon.html',count)

@@ -25,9 +25,12 @@
                             <table id="example1" class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Edit</th>
+                                        <th>name</th>
+                                        <th>expDate</th>
+                                        <th>minAmt</th>
+                                        <th>sp</th>
+                                        <th>edit</th>
+                                        <th>to</th>
                                     </tr>
                                 </thead>
 
@@ -36,12 +39,21 @@
                                     {% if data %}
                                     {% for i in data  %}
                                     <tr>
-                                        <td>{{i.date}}</td>
-                                        <td>{{i.time}}</td>
+                                        <td>{{i.name}}</td>
+                                        <td>{{i.exp}}</td>
+                                        <td>{{i.min}}</td>
+                                        <td>{{i.sp}}</td>
                                         <td>
                                             <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
                                                     class="btn btn-default btn-sm">
                                                     <span class="glyphicon glyphicon-edit"></span> Edit
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> To
                                                 </button>
                                             </a>
                                         </td>
