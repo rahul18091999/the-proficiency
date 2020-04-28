@@ -331,4 +331,24 @@ def addCoupon(request):
         return render(request,'./exams/addCoupon.html',{'count':count})
 
 def viewCouponsTo(request):
-    print(request.GET.get('cid'))
+    idd = request.GET.get('cid')
+    dat = database.child('coupons').child(idd).get()
+    l=[]
+    l.append(
+        {
+            'name': dat.key(),
+        }
+    )
+    print(dat.key())
+    # if 'to' in dat:
+    to = database.child('coupons').child(idd).get()
+    print(to)
+    for i in to:
+        l.append(
+            {
+                'id': i.key(),
+                'status': i.val(),
+            }
+        )
+    return render(request, './exams/viewTo.html', {'data': l})
+    
