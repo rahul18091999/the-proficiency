@@ -19,7 +19,7 @@
                     <div class="card">
                         <div class="card-header">
                         {% for i in data  %}
-                            <h3 class="card-title">{{"i.name"}}</h3>
+                            <h3 class="card-title">{{i.name}}</h3>
                         {% endfor %}
                         </div>
                         <!-- /.card-header -->
@@ -45,9 +45,8 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Edit</th>
+                                        <th>id</th>
+                                        <th>status</th>
                                     </tr>
                                 </tfoot>
                             </table>
