@@ -341,7 +341,7 @@ def viewCouponsTo(request):
     )
     print(dat.key())
     # if 'to' in dat:
-    to = database.child('coupons').child(idd).get()
+    to = database.child('coupons').child(idd).child('to').get()
     print(to)
     for i in to:
         l.append(
@@ -351,4 +351,8 @@ def viewCouponsTo(request):
             }
         )
     return render(request, './exams/viewTo.html', {'data': l})
+    
+
+
+
     

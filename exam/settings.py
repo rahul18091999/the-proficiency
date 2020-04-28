@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'marketer',
     'academics',
     'exams',
+    'students',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'exam.urls'
+
+
 
 TEMPLATES = [
     {
