@@ -21,13 +21,16 @@
                             <h3 class="card-title">View NLE Questions</h3>
                         </div>
                         <!-- /.card-header -->
+                        {% for i in mainly  %}
                         <div class="card card-primary collapsed-card">
                             <div class="card-header">
-                                <h3 class="card-title">MAINLY NAME (MAINLY ID)</h3>
+                                <h3 class="card-title">{{i.name}} ({{i.id}})</h3>
                                 <div class="card-tools">
+                                    <a href="/exams/addAnsKey?nle={{nle}}&mid={{i.id}}">
                                     <div class="card-footer">
                                         <button type="submit" class="btn btn-primary">Add Answer Key</button>
                                     </div>
+                                    </a>
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
                                             class="fas fa-plus"></i>
                                     </button>
@@ -40,25 +43,29 @@
                                     <thead>
                                         <tr>
                                             <th>Question ID</th>
-                                            <th>Question</th>
                                             <th>Answer</th>
                                             <th>Edit</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        {% for data in typeatrnc  %}
+                                        {% for data in i.question  %}
                                         <tr>
-                                            <td>{{data.trnc}}</td>
-                                            <td>{{data.earn}}</td>
-                                            <td>{{data.earn}}</td>
+                                            <td>{{data.id}}</td>
+                                            <td>{{data.ans}}</td>
+                                            <td>
+                                            <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                                </button>
+                                            </a>
+                                        </td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <th>Question ID</th>
-                                            <th>Question</th>
                                             <th>Answer</th>
                                             <th>Edit</th>
                                         </tr>
@@ -67,6 +74,7 @@
                             </div>
                             <!-- /.card-body -->
                         </div>
+                        {% endfor %}
                         <!-- /.card-body -->
                     </div>
 
