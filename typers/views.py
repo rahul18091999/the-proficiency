@@ -52,8 +52,37 @@ def editProfile(request):
         currentpassword=request.POST.get("currentpassword")
         newpassword=request.POST.get("newpassword")
         confirmpassword=request.POST.get("confirmpassword")
+        name = request.POST.get('name')
+        number = request.POST.get('number')
+        mail = request.POST.get('email')
+        sate = request.POST.get('state')
+        city = request.POST.get('city')
+        age = request.POST.get('age')
+        experience = request.POST.get('experience')
         if (currentpassword=="" and newpassword=="" and confirmpassword==""):
-            return redirect("/home")
+            if (number == i.val()["phone"]):
+                print(i.val()['phone'])
+                database.child('teachers').child(iduser).child('details').update(
+                    {
+                        'name': name,
+                        'age':age,
+                        'city':city,
+                        'email':mail,
+                        'experience': experience,
+                        'gen':i.val()["gen"],
+                        'phone':i.val()["phone"],
+                        'state':sate,
+                    }
+                )
+                return render(request, './teacher/editProfile.html', {'data':l,'success': "data updated successfully"})
+
+            else:
+                if (database.child('tIds').child(number).shallow().get().val()):
+                    error = "Phone Number Already exists"
+                    data['error'] = error
+                    return render(request, './teacher/editProfile.html', data)
+                else:
+                    from random import  randint
         else:
             if(newpassword!=confirmpassword or len(newpassword)<6):
                 return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Password"})

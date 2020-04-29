@@ -87,7 +87,7 @@ def analysis(request):
                     database.child('teachers').child(item).child('income').child('exams').child('daily').child(date).update({
                         'totalSale':income[index]
                     })
-                'success':'Data has been analyzed Successfully.'
+                success: 'Data has been analyzed Successfully.'
                         
             return render(request,'./students/viewAnalysis.html',{'NLE':NLEdate,'daily':dailyTimedate,'success':success})
         else:
