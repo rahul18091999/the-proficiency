@@ -56,14 +56,15 @@
                     <center>{{data.success}}</center>
                 </div>
                 {% endif %}
-                <form class="form-horizontal" id="plain" method='POST' action="/question/addQuestion">
+                <form class="form-horizontal" id="plain" method='POST' action="">
                     {% csrf_token %}
-                    {% count %}
+                    {% for i in count %}
+                    
                     <div id="div_id_optC" class="form-group required">
-                        <legend for="id_optC" class="control-label col-md-4  requiredField"> Correct Option for qID 
+                        <legend for="id_optC" class="control-label col-md-4  requiredField"> Correct Option for {{ i }}
                         </legend>
                         <div class="controls col-md-8 ">
-                            <select class="input-md optCinput form-control" id="id_optC" name="optC{{varLoop}}"
+                            <select class="input-md optCinput form-control" id="id_optC" name="optC{{i}}"
                                 selected="<%= body.optC %>">
                                 <option value="" disabled selected>Select Correct Option</option>
                                 <option value="opt1">Option 1</option>
@@ -73,6 +74,7 @@
                             </select>
                         </div>
                     </div>
+                    {% endfor %}
                     <div class="form-group">
                         <div class="aab controls col-md-4 "></div>
                         <div class="controls col-md-8 ">

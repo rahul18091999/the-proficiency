@@ -330,9 +330,18 @@ def addAnsKey(request):
     nle=request.GET.get('nle')
     mid=request.GET.get('mid')
     count = database.child('exams').child('NLE').child(nle).child('mainly').child(mid).child('questions').child('free').shallow().get().val()
-    
-
-    return render(request,'./exams/addAnsKey.html',{'count':count-1})
+    if request.method == 'POST':
+        ans=[]
+        for i in range(1,count):
+            a=request.POST.get('optC'+str(i))
+            if a:
+                ans.append(a)
+            else:
+                return render(request,'./exams/addAnsKey.html',{'count':range(1,count),'error':"Please select all ans."})
+        for index,item in enumerate(ans):
+            database.child('exams').child('NLE').child(nle).child('mainly').child(mid).child('questions').child(index+1).update({'optC':item})
+        return redirect('/exams/viewNleQues?qid='+nle[4:]+'-'+nle[2:4]+'-'+nle[:2])
+    return render(request,'./exams/addAnsKey.html',{'count':range(1,count)})
     
 
 
