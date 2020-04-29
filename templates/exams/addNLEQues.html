@@ -7,11 +7,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
-        function select_topic($val) {
-            var arr = {{topic| safe}};
+        function select_mainly($val) {
+            var arr = {{mainly| safe}};
+            var date = {{value| safe}};
+            console.log('=======')
         var options = '';
-        for (var i = 0; i < arr[$val].length; i++)
-            options += '<option value=' + arr[$val][i].id + '>' + arr[$val][i].name + '(' + arr[$val][i].id + ')' + '</option>'
+        for (var i = 0; i < arr[date.indexOf($val)].length; i++)
+            options += '<option value=' + arr[date.indexOf($val)][i].value + '>' + arr[date.indexOf($val)][i].name + '(' + arr[date.indexOf($val)][i].value + ')' + '</option>'
         $('#topic').html(options);
             }
         (function ($) {
@@ -55,7 +57,7 @@
                     <center>{{data.success}}</center>
                 </div>
                 {% endif %}
-                <form class="form-horizontal" id="plain" method='POST' action="/question/addQuestion">
+                <form class="form-horizontal" id="plain" method='POST' action="/exams/addNLEQues">
                     {% csrf_token %}
                     <div id="div_id_ques" class="form-group required">
                         <legend for="id_ques" class="control-label col-md-4  requiredField"> Question
@@ -99,57 +101,26 @@
                     </div>
 
                     <div id="div_id_optC" class="form-group required">
-                        <legend for="id_optC" class="control-label col-md-4  requiredField"> Correct Option
+                        <legend for="id_optC" class="control-label col-md-4  requiredField"> Select NLE Exam Date
                         </legend>
                         <div class="controls col-md-8 ">
-                            <select class="input-md optCinput form-control" id="id_optC" name="optC"
-                                selected="<%= body.optC %>">
-                                <option value="" disabled selected>Select Correct Option</option>
-                                <option value="opt1">Option 1</option>
-                                <option value="opt2">Option 2</option>
-                                <option value="opt3">Option 3</option>
-                                <option value="opt4">Option 4</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div id="div_id_teacher" class="form-group required">
-                        <legend for="id_teacher" class="control-label col-md-4  requiredField"> Teacher
-                        </legend>
-                        <div class="controls col-md-8 ">
-                            <select class="input-md teacherinput form-control" id="id_teacher" name="teacher"
-                                selected="<%= body.teacher %>">
-                                <option value="" disabled selected>select teacher</option>
-                                <option value="qBank">Question Bank</option>
-                                {% for teacher in teach %}
-                                <option value="{{teacher.tId}}">{{teacher.name}}({{teacher.tId}})</option>
+                            <select class="input-md optCinput form-control" id="id_optC" name="NLE"
+                                 onchange="select_mainly(this.value)">
+                                <option value="" disabled selected>Select NLE Exam Date</option>
+                                {% for d in date  %}
+                                <option value="{{d.value}}">{{d.date}}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
-                    <div id="div_id_subject" class="form-group required">
-                        <legend for="id_subject" class="control-label col-md-4  requiredField"> Subject
-                        </legend>
-                        <div class="controls col-md-8 ">
-                            <select class="input-md subjectinput form-control" id="id_subject" name="subject"
-                                onchange="select_topic(this.value)" selected="<%= body.teacher %>">
-                                <option value="" disabled selected>Subject Type</option>
-
-                                {% for subj in subject  %}
-
-                                <option value="{{subj.index}}">{{subj.name}}({{subj.id}})</option>
-                                {% endfor %}
-
-                            </select>
-                        </div>
-                    </div>
-                    <input type="hidden" name="result" value="{{subject}}">
+                    
                     <div id="div_id_topic" class="form-group required">
-                        <legend for="id_topic" class="control-label col-md-4  requiredField"> Topic
+                        <legend for="id_topic" class="control-label col-md-4  requiredField"> Mainly
                         </legend>
                         <div class="controls col-md-8 ">
-                            <select class="input-md subjectinput form-control" id="topic" name="topic">
+                            <select class="input-md subjectinput form-control" id="topic" name="mainly">
 
-                                <option value="" disabled selected>Question Type</option>
+                                <option value="" disabled selected>Mainly Type</option>
 
                             </select>
                         </div>
@@ -157,7 +128,7 @@
                     <div class="form-group">
                         <div class="aab controls col-md-4 "></div>
                         <div class="controls col-md-8 ">
-                            <input type="submit" name="addTopic" value="Add Topic" class="btn btn-primary btn btn-info"
+                            <input type="submit" name="addTopic" value="Add Question" class="btn btn-primary btn btn-info"
                                 id="submit-id-addTopic" />
                         </div>
                     </div>

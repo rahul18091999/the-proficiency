@@ -42,13 +42,13 @@ def analysis(request):
                                     topicID.append(ans[q]['topicID'])
                                     topics.append(0);
                                 topics[topicID.index(ans[q]['topicID'])]+=1
-                                firebase
+                                # firebase
                                 database.child('users').child(user).child('exams').child('daily').child(date).child('answers').child(q).update({
                                     'isCorrect' : 'true'
                                 })
                             else:
                                 marks-=1
-                                firebase
+                                # firebase
                                 database.child('users').child(user).child('exams').child('daily').child(date).child('answers').child(q).update({
                                     'isCorrect' : 'false',
                                     'correct' : resp['questions'][ans[q]['qID']]['details']['optC']
@@ -71,15 +71,17 @@ def analysis(request):
                             'name':resp['users'][user]['details']['name'],
                             'uID':user,
                         })
-                
+                print(arrMarks)
                 from operator import itemgetter
                 for m in range(len(arrMarks)):
-                    arrMarks[m].sort(key=itemgetter('marks'),reverse=True)
-                    for u in range(len(arrMarks[m])):
-                        percentile= round((100*(u+1)/len(arrMarks[m])),6)
-                        rank = (((100 - percentile)/100)*len(arrMarks))+1
-                        database.child('users').child(arrMarks[m][u]['uID']).child('exams').child('daily').child(date).update({
-                            'marks':arrMarks[m][u]['marks'],
+                    s=sorted(arrMarks[m],key=itemgetter('name'))
+                    s=sorted(s, key=itemgetter('marks'),reverse=True)
+                    for u in range(len(s)):
+                        percentile= round((100*(u+1)/len(s)),6)
+                        rank = (((100 - percentile)/100)*len(s))+1
+                        
+                        database.child('users').child(s[u]['uID']).child('exams').child('daily').child(date).update({
+                            'marks':s[u]['marks'],
                             'percentile':percentile,
                             'rank':rank
                         })
@@ -87,7 +89,7 @@ def analysis(request):
                     database.child('teachers').child(item).child('income').child('exams').child('daily').child(date).update({
                         'totalSale':income[index]
                     })
-                'success':'Data has been analyzed Successfully.'
+                success='Data has been analyzed Successfully.'
                         
             return render(request,'./students/viewAnalysis.html',{'NLE':NLEdate,'daily':dailyTimedate,'success':success})
         else:
