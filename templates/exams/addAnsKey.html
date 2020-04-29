@@ -58,6 +58,7 @@
                 {% endif %}
                 <form class="form-horizontal" id="plain" method='POST' action="/question/addQuestion">
                     {% csrf_token %}
+                    {% count %}
                     <div id="div_id_optC" class="form-group required">
                         <legend for="id_optC" class="control-label col-md-4  requiredField"> Correct Option for qID 
                         </legend>
