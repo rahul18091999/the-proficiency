@@ -301,6 +301,38 @@ def viewCouponsTo(request):
             }
         )
     return render(request, './exams/viewTo.html', {'data': l})
+
+
+def viewNleQues(request):
+    d=request.GET.get('qid')
+    nle=d[8:]+d[5:7]+d[:4]
+    data=database.child('exams').child('NLE').child(nle).child('mainly').get()
+    mainlydata = database.child('prepration').get().val()
+    mainly = (data.val().keys())
+    if mainly:
+        l=[]
+        for j in mainly:
+            f=[]
+            for m in data.val()[j]['questions']:
+                if m!="free":
+                    if 'optC' in (data.val()[j]['questions'][m]):
+                        f.append({'id':m,'ans':data.val()[j]['questions'][m]['optC']})
+                    else:
+                        f.append({'id':m,'ans':'false'})
+
+
+            l.append({'name':mainlydata[j[:6]]['mainly'][j]['details']['name'],'id':j,'question':f})
+
+
+    return render(request,'./exams/viewNLEQuestions.html',{'mainly':l,'nle':nle})
+
+def addAnsKey(request):
+    nle=request.GET.get('nle')
+    mid=request.GET.get('mid')
+    count = database.child('exams').child('NLE').child(nle).child('mainly').child(mid).child('questions').child('free').shallow().get().val()
+    
+
+    return render(request,'./exams/addAnsKey.html',{'count':count-1})
     
 
 
