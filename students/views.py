@@ -15,10 +15,11 @@ def analysis(request):
     for i in range(len(dailyTimedate)):
         dailyTimedate[i]=dailyTimedate[i][4:]+'-'+dailyTimedate[i][2:4]+'-'+dailyTimedate[i][:2]
     dailyTimedate.sort()
-
+    print(database.child('questions').child('q1000000001').get().val())
     if request.method == "POST":
         exam=request.POST.get('exam')
         date = request.POST.get('date')
+
         if date:
             if exam == 'Daily Exam':
                 mainly=[]
@@ -74,12 +75,13 @@ def analysis(request):
                 print(arrMarks)
                 from operator import itemgetter
                 for m in range(len(arrMarks)):
-                    s=sorted(arrMarks[m],key=itemgetter('name'))
-                    s=sorted(s, key=itemgetter('marks'),reverse=True)
+                    s=sorted(arrMarks[m],key=itemgetter('name'),reverse=True)
+                    s=sorted(s, key=itemgetter('marks'))
+                    print(s)
                     for u in range(len(s)):
                         percentile= round((100*(u+1)/len(s)),6)
-                        rank = (((100 - percentile)/100)*len(s))+1
-                        
+                        rank = int(round((((100 - percentile)/100)*len(s))+1,0))
+                        print(percentile,rank,s[u]['uID'])
                         database.child('users').child(s[u]['uID']).child('exams').child('daily').child(date).update({
                             'marks':s[u]['marks'],
                             'percentile':percentile,
@@ -90,6 +92,7 @@ def analysis(request):
                         'totalSale':income[index]
                     })
                 success='Data has been analyzed Successfully.'
+                database.child('exams').child('dailyTime').child(date).update({'status':"Pre-Analysis Done"})
             else:
                 print(exam)
                 mainly=[]
@@ -149,9 +152,76 @@ def analysis(request):
                             'rank':rank
                         })
                 success='Data has been analyzed Successfully.'
+                database.child('exams').child('NLE').child(date).update({'status':"Pre-Analysis Done"})
 
             return render(request,'./students/viewAnalysis.html',{'NLE':NLEdate,'daily':dailyTimedate,'success':success})
         else:
             error="Please Select all the details."
             return render(request,'./students/viewAnalysis.html',{'NLE':NLEdate,'daily':dailyTimedate,'error':error})
     return render(request,'./students/viewAnalysis.html',{'NLE':NLEdate,'daily':dailyTimedate})
+
+
+
+def overall(request):
+    aPID=[]
+    ap=[]
+    resp = database.child("/").get().val()
+    for user in resp['users']:
+        print(user)
+        totalPercentile = 0
+        avgPercentile = 0
+        t = 0
+        if 'exams' in resp['users'][user]:
+            if 'daily' in resp['users'][user]['exams']:
+                for dats in resp['users'][user]['exams']['daily']:
+                    # if
+                    totalPercentile+=float(resp['users'][user]['exams']['daily'][dats]['percentile'])
+                    t+=1
+            if 'NLE' in resp['users'][user]['exams']:
+                for dats in resp['users'][user]['exams']['NLE']:
+                    totalPercentile+=float(resp['users'][user]['exams']['NLE'][dats]['percentile'])
+                    t+=1
+            avgPercentile = round((totalPercentile/t)*100,6)
+
+#     module.exports = (req, res, next) => {
+#     var aPID = [];
+#     var aP = [];
+#     fire.ref("/").once('value', (response) => {
+#         const resp = response.val()
+#         for (var user in resp.users) {
+#             var totalPercentile = 0;
+#             var avgPercentile = 0;
+#             var t = 0;
+#             if (typeof (resp.users[`${user}`].exams) != 'undefined' && typeof (resp.users[`${user}`].exams.daily) != 'undefined') {
+#                 for (var dats in resp.users[`${user}`].exams.daily) {
+#                     totalPercentile += resp.users[`${user}`].exams.daily[`${dats}`].percentile
+#                     t += 1;
+#                 }
+#                 avgPercentile = ((totalPercentile / t) * 100).toFixed(6);
+#                 if (aPID.indexOf(resp.users[`${user}`].prepFor.prepFor) == -1) {
+#                     aPID.push(resp.users[`${user}`].prepFor.prepFor)
+#                     aP.push([])
+#                 }
+#                 aP[aPID.indexOf(resp.users[`${user}`].prepFor.prepFor)].push({
+#                     uID: user,
+#                     mainly: resp.users[`${user}`].prepFor.prepFor,
+#                     avgPercentile: avgPercentile,
+#                 })
+#             }
+#         }
+#         for (var m = 0; m < aPID.length; m++) {
+#             aP[m].sort(function (a, b) { return a.avgPercentile - b.avgPercentile });
+#             for (var a = 0; a < aP[m].length; a++) {
+#                 var percentile = (100 * (a + 1) / aP[m].length).toFixed(6);
+#                 var rank = Math.round((((100 - percentile) / 100) * aP[m].length) + 1);
+#                 fire.ref('ranks/students/' + aP[m][a].mainly + '/' + aP[m][a].uID).update({
+#                     rank: rank,
+#                     percentile: percentile,
+#                     name: resp.users[`${aP[m][a].uID}`].details.name
+#                 });
+#             }
+#         }
+#         res.locals.success = 'Data has been analyzed Successfully.';
+#         next();
+#     })
+# }
