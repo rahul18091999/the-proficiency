@@ -8,7 +8,7 @@ urlpatterns = [
     path('admin',views.viewmyquestion),
     path('marketer',views.viewmarketer),
     path('editteacher',edit.editteacher),
-    path('editmarketer',edit.editmarketer),
+    path('editmarketer',edit.editMarketer),
     path('edittyper',edit.edittyper),
     
 ]

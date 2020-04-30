@@ -60,29 +60,51 @@ def editProfile(request):
         age = request.POST.get('age')
         experience = request.POST.get('experience')
         if (currentpassword=="" and newpassword=="" and confirmpassword==""):
-            if (number == i.val()["phone"]):
-                print(i.val()['phone'])
-                database.child('teachers').child(iduser).child('details').update(
-                    {
-                        'name': name,
-                        'age':age,
-                        'city':city,
-                        'email':mail,
-                        'experience': experience,
-                        'gen':i.val()["gen"],
-                        'phone':i.val()["phone"],
-                        'state':sate,
-                    }
-                )
-                return render(request, './teacher/editProfile.html', {'data':l,'success': "data updated successfully"})
+                if (number == i.val()["phone"]):
+                    print(i.val()['phone'])
+                    database.child('typers').child(iduser).child('details').update(
+                        {
+                            'name': name,
+                            'age':age,
+                            'city':city,
+                            'email':mail,
+                            'experience': experience,
+                            'gen':i.val()["gen"],
+                            'phone':i.val()["phone"],
+                            'state':sate,
+                        }
+                    )
+                    return redirect('/typer/editProfile')
 
-            else:
-                if (database.child('tIds').child(number).shallow().get().val()):
-                    error = "Phone Number Already exists"
-                    data['error'] = error
-                    return render(request, './teacher/editProfile.html', data)
                 else:
-                    from random import  randint
+                    if (database.child('tyIds').child(number).shallow().get().val()):
+                        error = "Phone Number Already exists"
+                        data['error'] = error
+                        return render(request, './teacher/editProfile.html', data)
+                    else:
+                        from random import  randint
+                        da=database.child('tyIds').child(i.val()["phone"]).child('createdBY').get().val()
+                        database.child('tyIds').child(number).update({
+                            'createdOn': data,
+                            'id': iduser,
+                            'verify': randint(100000, 999999),
+                            'pass': getpass(number+"@TP@"+age)[2:-1],
+                            'createdBy': da,
+                        })
+                        database.child('tyIds').child(i.val()['phone']).remove()
+                        database.child('typers').child(iduser).child('details').update(
+                            {
+                                'name': name,
+                                'age': age,
+                                'state': sate,
+                                'city': city,
+                                'experience': experience,
+                                'phone': number,
+                                'email': mail,
+                                'gen': i.val()["gen"]
+                            }
+                        )
+                        return redirect('/typer/editProfile')
         else:
             if(newpassword!=confirmpassword or len(newpassword)<6):
                 return render(request, './typer/editProfile.html', {'data': l,'error':"Check Your Password"})

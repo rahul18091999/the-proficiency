@@ -48,7 +48,7 @@
                     <div class="col">
                         <div class="row">
                             <div class="col mb-3">
-                                <form action='/typer/editProfile' method="POST">
+                                <form action="/user/editteacher?={{data.id}}" method="POST">
                                     {% csrf_token %}
                                     <div class="card">
                                         <div class="card-body">
@@ -83,7 +83,7 @@
                                                         </div>
                                                         <input type="hidden" name="pic" id="hidpic">
                                                         <div class="text-center text-sm-right">
-                                                            <span class="badge badge-secondary">typer</span>
+                                                            <span class="badge badge-secondary">teacher</span>
                                                             <div class="text-muted"><small>Joined
                                                                     {{data.createdOn}}</small>
                                                             </div>
@@ -133,7 +133,8 @@
                                                                                 <label>Email</label>
                                                                                 <input class="form-control" type="text"
                                                                                     placeholder="user@example.com"
-                                                                                    name = "email" value="{{data.email}}">
+                                                                                    name = "email" 
+                                                                                    value="{{data.email}}">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -163,7 +164,7 @@
                                                                                     value="{{data.age}}" id="age"
                                                                                     name="age"
                                                                                     class="custom-range custom-range-teal"
-                                                                                    id="customRange1">
+                                                                                    id="customRange1" >
                                                                                 <p>Value: <span id="ageV"></span> Years
                                                                                 </p>
                                                                                 <script>
@@ -184,7 +185,7 @@
                                                                                     value="{{data.experience}}"
                                                                                     id="experience" name="experience"
                                                                                     class="custom-range custom-range-teal"
-                                                                                    id="customRange1">
+                                                                                    id="customRange1" >
                                                                                 <p>Value: <span id="experienceV"></span>
                                                                                     Years</p>
                                                                                 <script>

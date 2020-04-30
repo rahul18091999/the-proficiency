@@ -422,7 +422,7 @@ def editProfile(request):
                 if (database.child('tIds').child(number).shallow().get().val()):
                     error = "Phone Number Already exists"
                     data['error'] = error
-                    return render(request, './teacher/editProfile.html', data)
+                    return redirect('/teacher/editProfile')
                 else:
                     from random import  randint
                     database.child('tIds').child(number).update({
@@ -445,7 +445,7 @@ def editProfile(request):
                             'gen': i.val()["gen"]
                         }
                     )
-                    return render(request, './teacher/editProfile.html', {'data':l,'success': "data updated successfully"})
+                    return redirect('/teacher/editProfile')
     else:
         
         return render(request, './teacher/editProfile.html', {'data': l})

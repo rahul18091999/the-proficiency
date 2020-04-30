@@ -122,106 +122,57 @@ def addNLEQues(request):
     #     return redirect('/')
     # elif(c==0):
     #     return redirect('/home')
-    subjectData = database.child('subjects').get()
-    teacherData = database.child('teachers').get()
-    data = []
-    subjectid = []
-    topicName = []
-    teacher = []
-    k = 0
-    for i in subjectData:
-        if(i.key() != 'free'):
-            subjectid.append({"id": i.key(), "name": i.val()[
-                             'details']['name'], "index": k})
-            k += 1
-            topic = i.val()['topics']
-            t = []
-            for j in topic:
-                if(j != 'free'):
-                    t.append({'id': j, 'name': topic[j]['details']['name']})
-            topicName.append(t)
-            
-    for i in teacherData:
-        if (i.key() != 'qBank'):
-            teacher.append(
-                {
+    nledata=database.child('exams').child('NLE').get()
+    mainlydata = database.child('prepration').get().val()
+    date = nledata.val().keys()
+    l=[]
+    if date:
+        for i in date:
+            l.append({'value':i,'date':i[4:]+'-'+i[2:4]+'-'+i[:2]})
+        l.sort(key=lambda x:x['date'])
+        value = []
+        for i in l:
+            value.append(i['value'])
+    if l:
+        m=[]
+        for i in l:
+            n=[]
+            if i['value']:
+                for j in nledata.val()[i['value']]['mainly']:
                     
-                    'tId': i.key(),
-                    'name': i.val()['details']['name']
-                }
-            )
-
+                    n.append( {'value':j,'name':mainlydata[j[:6]]['mainly'][j]['details']['name']})
+            m.append(n)
     if request.method == "POST":
         ques = request.POST.get('ques')
         opt1 = request.POST.get('opt1')
         opt2 = request.POST.get('opt2')
         opt3 = request.POST.get('opt3')
         opt4 = request.POST.get('opt4')
-        optc = request.POST.get('optC')
-        teach = request.POST.get('teacher')
-        subject = request.POST.get('subject')
-        topic = request.POST.get('topic')
-        subj = (request.POST.get('result'))
-        user=getuserdetail(request.session['us'])
-        userid=request.session['user']
-        
-        if(ques != "" and opt1 != "" and opt2 != "" and opt3 != "" and opt4 != "" and optc is not None and subject is not None and teach is not None and topic is not None):
-            import ast
-            subjId = ast.literal_eval(subj)[int(subject)]['id']
-            free = database.child('questions').child(
-                'free').shallow().get().val()
-            if free:
-                tempid = free
-            else:
-                tempid = 1000000001
-            if teach == "qBank":
-                check = "true"
-            else:
-                check = "false"
+        NLE = request.POST.get('NLE')
+        mainly = request.POST.get('mainly')
+        print(NLE,mainly)
+        if(ques != "" and opt1 != "" and opt2 != "" and opt3 != "" and opt4 != "" and NLE is not None and mainly is not None):
+            print('Hello')
+            free = database.child('exams').child('NLE').child(NLE).child('mainly').child(mainly).child('questions').child('free').get().val()
+            database.child('exams').child('NLE').child(NLE).child('mainly').child(mainly).child('questions').child(free).update({
+                'id': free,
+                'opt1': opt1,
+                'opt2':opt2 ,
+                'opt3':opt3 ,
+                'opt4':opt4 ,
+                'question':ques 
 
-            database.child('questions').child("q"+str(tempid)).child('details').update(
-                {   
-                    'approved': check,
-                    'by': teach,
-                    'question': ques,
-                    'opt1': opt1,
-                    'opt2': opt2,
-                    'opt3': opt3,
-                    'opt4': opt4,
-                    'optC': optc,   
-                }
-            )
-            database.child('teachers').child(teach).child('questions').child("q"+str(tempid)).update({'topic': topic})
-            database.child('questions').update({'free':tempid+1})
-            database.child('subjects').child(subjId).child('teachers').child(teach).child('topics').child(topic).child('questions').child("q"+str(tempid)).update(
-                {
-                    'by':teach
-                }
-            )
-            database.child('subjects').child(subjId).child('topics').child(topic).child('questions').child("q"+str(tempid)).update(
-                 {
-                    'by':teach
-                }
-            )
-            database.child(user[0]).child(userid).child('questionsAdded').child("q"+str(tempid)).update(
-                {
-                    'by':teach,
-                    'topic':topic,
-                }
-            )
-
+            })
+            database.child('exams').child('NLE').child(NLE).child('mainly').child(mainly).child('questions').update({'free':free+1})
             data={
                 'question': "",
                 'opt1': "",
                 'opt2': "",
                 'opt3': "",
                 'opt4': "",
-                'teacher': "",
-                'subject': "",
-                'topic': "",
                 'success': 'data submitted successfully',
             }
-            return render(request,"addQues.html",{'subject': subjectid, 'topic': topicName, 'teach': teacher, 'data': data})
+            return render(request,'./exams/addNLEQues.html', {'date': l, 'mainly': m,'value':value,'data':data})
         else:
             data = {
                 'question': ques,
@@ -229,12 +180,11 @@ def addNLEQues(request):
                 'opt2': opt2,
                 'opt3': opt3,
                 'opt4': opt4,
-                'teacher': teach,
-                'subject': subject,
-                'topic': topic,
                 'error': 'Please check all the Details again.',
             }
-    return render(request, 'addQues.html', {'subject': subjectid, 'topic': topicName, 'teach': teacher, 'data': data})
+            return render(request, './exams/addNLEQues.html', {'date': l, 'mainly': m,'value':value,'data':data})
+
+    return render(request, './exams/addNLEQues.html', {'date': l, 'mainly': m,'value':value})
 
 
 def viewCoupons(request):
@@ -351,6 +301,47 @@ def viewCouponsTo(request):
             }
         )
     return render(request, './exams/viewTo.html', {'data': l})
+
+
+def viewNleQues(request):
+    d=request.GET.get('qid')
+    nle=d[8:]+d[5:7]+d[:4]
+    data=database.child('exams').child('NLE').child(nle).child('mainly').get()
+    mainlydata = database.child('prepration').get().val()
+    mainly = (data.val().keys())
+    if mainly:
+        l=[]
+        for j in mainly:
+            f=[]
+            for m in data.val()[j]['questions']:
+                if m!="free":
+                    if 'optC' in (data.val()[j]['questions'][m]):
+                        f.append({'id':m,'ans':data.val()[j]['questions'][m]['optC']})
+                    else:
+                        f.append({'id':m,'ans':'false'})
+
+
+            l.append({'name':mainlydata[j[:6]]['mainly'][j]['details']['name'],'id':j,'question':f})
+
+
+    return render(request,'./exams/viewNLEQuestions.html',{'mainly':l,'nle':nle})
+
+def addAnsKey(request):
+    nle=request.GET.get('nle')
+    mid=request.GET.get('mid')
+    count = database.child('exams').child('NLE').child(nle).child('mainly').child(mid).child('questions').child('free').shallow().get().val()
+    if request.method == 'POST':
+        ans=[]
+        for i in range(1,count):
+            a=request.POST.get('optC'+str(i))
+            if a:
+                ans.append(a)
+            else:
+                return render(request,'./exams/addAnsKey.html',{'count':range(1,count),'error':"Please select all ans."})
+        for index,item in enumerate(ans):
+            database.child('exams').child('NLE').child(nle).child('mainly').child(mid).child('questions').child(index+1).update({'optC':item})
+        return redirect('/exams/viewNleQues?qid='+nle[4:]+'-'+nle[2:4]+'-'+nle[:2])
+    return render(request,'./exams/addAnsKey.html',{'count':range(1,count)})
     
 
 
