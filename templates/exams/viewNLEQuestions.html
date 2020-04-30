@@ -26,10 +26,13 @@
                             <div class="card-header">
                                 <h3 class="card-title">{{i.name}} ({{i.id}})</h3>
                                 <div class="card-tools">
-                                    <a href="/exams/addAnsKey?nle={{nle}}&mid={{i.id}}">
-                                    <div class="card-footer">
-                                        <button type="submit" class="btn btn-success">Add Answer Key</button>
-                                    </div>
+                                    <a onclick="window.open('/question/addQuestion', 
+                                    'newwindow', 
+                                    'width=screen.width,height=screen.height'); 
+                         return false;" href="/exams/addAnsKey?nle={{nle}}&mid={{i.id}}">
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-success">Add Answer Key</button>
+                                        </div>
                                     </a>
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
                                             class="fas fa-plus"></i>
@@ -54,12 +57,12 @@
                                             <td>{{data.id}}</td>
                                             <td>{{data.ans}}</td>
                                             <td>
-                                            <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
-                                                    class="btn btn-default btn-sm">
-                                                    <span class="glyphicon glyphicon-edit"></span> Edit
-                                                </button>
-                                            </a>
-                                        </td>
+                                                <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
+                                                        class="btn btn-default btn-sm">
+                                                        <span class="glyphicon glyphicon-edit"></span> Edit
+                                                    </button>
+                                                </a>
+                                            </td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
