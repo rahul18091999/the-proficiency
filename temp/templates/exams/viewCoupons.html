@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Coupons</title>
+
+
+    {% include "../includes/top.html" %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    {% include "../includes/mainSlider.html" %}
+    {% include "../includes/navBar.html" %}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">View Coupons</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>expDate</th>
+                                        <th>minAmt</th>
+                                        <th>sp</th>
+                                        <th>edit</th>
+                                        <th>to</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% if data %}
+                                    {% for i in data  %}
+                                    <tr>
+                                        <td>{{i.name}}</td>
+                                        <td>{{i.exp}}</td>
+                                        <td>{{i.min}}</td>
+                                        <td>{{i.sp}}</td>
+                                        <td>
+                                            <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href='/exams/viewCouponsTo?cid={{i.name}}'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> To
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>expDate</th>
+                                        <th>minAmt</th>
+                                        <th>sp</th>
+                                        <th>edit</th>
+                                        <th>to</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    {% include "../includes/bottom.html" %}
+</body>
+
+</html>

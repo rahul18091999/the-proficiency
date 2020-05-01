@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ThePROFICIENCY | Dashboard</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include "../includes/top.html" %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        {% include "../includes/navBar.html" %}
+        <!-- /.navbar -->
+        {% include "../includes/mainSlider.html" %}
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Edit Profile</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Edit Profile</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+            {% if error %}
+            
+            <!-- Main content -->
+            <div class="container">
+                <div class="alert alert-danger">
+                    <center>{{error}}</center>
+                  </div>
+                  {% endif %}
+                <div class="row flex-lg-nowrap">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col mb-3">
+                                <form action='/typer/editProfile' method="POST">
+                                    {% csrf_token %}
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="e-profile">
+                                                <div class="row">
+                                                    <div class="col-12 col-sm-auto mb-3">
+                                                        <div class="mx-auto" style="width: 140px;">
+                                                            <div class="d-flex justify-content-center align-items-center rounded"
+                                                                style="height: 140px; background-color: rgb(255, 255, 255);">
+                                                                <span
+                                                                    style="color: rgb(166, 168, 170); font: bold 8pt Arial;">
+                                                                    <img src="{{homeimage}}" width="140">
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                                        <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                                            <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{data.name}}</h4>
+                                                            <p class="mb-0">@{{data.id}}</p>
+                                                            <div class="text-muted"><small>Active User</small>
+                                                            </div>
+                                                            <!-- <!-- <div class="mt-2"> -->
+                                                                <!-- <button class="btn btn-primary" type="button"> -->
+                                                                    <!-- <i class="fa fa-fw fa-camera"></i> -->
+                                                                    <!-- <input type="file" name="images" #images onchange="onIconUrlChanges($event)"> -->
+                                                                    <!-- <input type='file' id="p"> -->
+                                                                    <!-- <span>Change Photo</span> -->
+                                                                <!-- </button> -->
+                                                            <!-- </div> --> 
+                                                        </div>
+                                                        <input type="hidden" name="pic" id="hidpic">
+                                                        <div class="text-center text-sm-right">
+                                                            <span class="badge badge-secondary">typer</span>
+                                                            <div class="text-muted"><small>Joined
+                                                                    {{data.createdOn}}</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul class="nav nav-tabs">
+                                                    <li class="nav-item"><a href="" class="active nav-link">Settings</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content pt-3">
+                                                    <div class="tab-pane active">
+                                                        <form class="form" novalidate="">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>Full Name</label>
+                                                                                <input class="form-control" type="text"
+                                                                                    name="name"
+                                                                                    placeholder="eg. Rishi Sharma"
+                                                                                    disabled value="{{data.name}}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>Gender</label>
+                                                                                <select class="form-control" disabled>
+                                                                                    <option>{{data.gen}}</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>Phone Number</label>
+                                                                                <input class="form-control" type="text"
+                                                                                    name="number"
+                                                                                    placeholder="eg. 77009XXXXX"
+                                                                                    disabled value="{{data.phone}}">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>Email</label>
+                                                                                <input class="form-control" type="text"
+                                                                                    placeholder="user@example.com"
+                                                                                    disabled value="{{data.email}}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>State</label>
+                                                                                <select class="form-control" disabled>
+                                                                                    <option>{{data.state}}</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>City</label>
+                                                                                <select class="form-control" disabled>
+                                                                                    <option>{{data.city}}</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label for="customRange1">Age</label>
+                                                                                <input type="range" min="16" max="50"
+                                                                                    value="{{data.age}}" id="age"
+                                                                                    name="age"
+                                                                                    class="custom-range custom-range-teal"
+                                                                                    id="customRange1" disabled>
+                                                                                <p>Value: <span id="ageV"></span> Years
+                                                                                </p>
+                                                                                <script>
+                                                                                    var sliderA = document.getElementById("age");
+                                                                                    var outputA = document.getElementById("ageV");
+                                                                                    outputA.innerHTML = sliderA.value;
+                                                                                    sliderA.oninput = function () {
+                                                                                        outputA.innerHTML = this.value;
+                                                                                    }
+                                                                                </script>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label
+                                                                                    for="customRange1">Experience</label>
+                                                                                <input type="range" min="0" max="50"
+                                                                                    value="{{data.experience}}"
+                                                                                    id="experience" name="experience"
+                                                                                    class="custom-range custom-range-teal"
+                                                                                    id="customRange1" disabled>
+                                                                                <p>Value: <span id="experienceV"></span>
+                                                                                    Years</p>
+                                                                                <script>
+                                                                                    var sliderA = document.getElementById("experience");
+                                                                                    var outputA = document.getElementById("experienceV");
+                                                                                    outputA.innerHTML = sliderA.value;
+                                                                                    sliderA.oninput = function () {
+                                                                                        outputA.innerHTML = this.value;
+                                                                                    }
+                                                                                </script>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-12 col-sm-6 mb-3">
+                                                                    <div class="mb-2"><b>Change Password</b></div>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>Current Password</label>
+                                                                                <input class="form-control"
+                                                                                    type="password"
+                                                                                    placeholder="••••••" name="currentpassword">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>New Password</label>
+                                                                                <input class="form-control"
+                                                                                    type="password"
+                                                                                    placeholder="••••••" name="newpassword">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>Confirm <span
+                                                                                      class="d-none d-xl-inline">Password</span></label>
+                                                                                <input class="form-control"
+                                                                                    type="password"
+                                                                                    placeholder="••••••" name="confirmpassword"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col d-flex justify-content-end">
+                                                                    <button type="submit" class="btn btn-primary" onclick="s()">Save Changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.0.4
+            </div>
+        </footer>
+
+        <!-- Control Sidebar -->
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    {% include '../includes/bottom.html' %}
+</body>
+<script>
+    onIconUrlChanges(event) {
+        console.log("rahul");
+         //console.log(event.target.files[0]);
+        
+        }
+</script>
+</html>

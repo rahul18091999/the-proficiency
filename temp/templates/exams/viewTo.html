@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Coupons</title>
+
+
+    {% include "../includes/top.html" %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    {% include "../includes/mainSlider.html" %}
+    {% include "../includes/navBar.html" %}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                        {% for i in data  %}
+                            <h3 class="card-title">{{i.name}}</h3>
+                        {% endfor %}
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>name</th>
+                                        <th>status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% if data %}
+                                    {% for i in data  %}
+                                    <tr>
+                                        <td>{{i.id}}</td>
+                                        <td>{{i.status}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>id</th>
+                                        <th>status</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    {% include "../includes/bottom.html" %}
+</body>
+
+</html>
