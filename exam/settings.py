@@ -134,3 +134,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+
+EMAIL_HOST='mail.the-proficiency.com'
+EMAIL_PORT=587
+EMAIL_HOST_USER='ask@the-profieciensy.com'
+EMAIL_HOST_PASSWORD='90531@PApa'
+EMAIL_USE_TLS=True
+EMAIL_USE_SSL=False

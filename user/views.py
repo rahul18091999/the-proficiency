@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from exam.views import database, checkpermission, getpass
+from django.core.mail import send_mail
 # Create your views here.
 def getcode(typ):
     import random
@@ -158,6 +159,10 @@ def users(request):
                     'email': '',
 
                 }
+                send_mail(subject="account",
+                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
+                from_email="ask@the-proficiency.com",
+                recipient_list=[email])
                 data['success'] = "Teacher has been added Successfully!"
                 data['info'] = number + "@TP@" + age + " and 12" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -200,6 +205,10 @@ def users(request):
                     'email': '',
 
                 }
+                send_mail(subject="account",
+                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
+                from_email="ask@the-proficiency.com",
+                recipient_list=[email])
                 data['success'] = "Admin has been added Successfully!"
                 data['info'] = number + "@AP@" + age + " and 13" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -244,6 +253,10 @@ def users(request):
                     'email': '',
 
                 }
+                send_mail(subject="account",
+                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
+                from_email="ask@the-proficiency.com",
+                recipient_list=[email])
                 data['success'] = "Typer has been added Successfully!"
                 data['info'] = number + "@TYP@" + age + " and 14" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -316,6 +329,10 @@ def users(request):
                     'email': '',
 
                 }
+                send_mail(subject="account",
+                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
+                from_email="ask@the-proficiency.com",
+                recipient_list=[email])
                 data['success'] = "Marketer has been added Successfully!"
                 data['info'] = number + "@MP@" + age + " and 11" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
