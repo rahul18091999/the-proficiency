@@ -48,7 +48,7 @@
                     <div class="col">
                         <div class="row">
                             <div class="col mb-3">
-                                <form action='/typer/editProfile' method="POST">
+                                <form action="/user/editmarketer?id={{data.id}}" method="POST">
                                     {% csrf_token %}
                                     <div class="card">
                                         <div class="card-body">
@@ -163,7 +163,7 @@
                                                                                     value="{{data.age}}" id="age"
                                                                                     name="age"
                                                                                     class="custom-range custom-range-teal"
-                                                                                    id="customRange1">
+                                                                                    id="customRange1" name = "age">
                                                                                 <p>Value: <span id="ageV"></span> Years
                                                                                 </p>
                                                                                 <script>
@@ -237,7 +237,7 @@
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col d-flex justify-content-end">
-                                                                    <button type="submit" class="btn btn-primary" onclick="s()">Save Changes</button>
+                                                                   <button class="btn btn-primary">Save Changes</button>
                                                                 </div>
                                                             </div>
                                                         </form>
