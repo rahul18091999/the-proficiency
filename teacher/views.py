@@ -350,12 +350,12 @@ def teacherearning(request):
                         'earning': exams['daily'][i]['totalSale']
                     }
                 )
-        # if '' in exams:
-        #     for i in exams['daily']:
-        #         print("hdbvsh")
-        #         dat = i
-        #         dat = dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
-        #         print(dat)
+        if 'NLE' in exams:
+            for i in exams['NLE']:
+                print("hdbvsh")
+                dat = i
+                dat = dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
+                print(dat)
         else:
             return HttpResponse('hello')
     else:
