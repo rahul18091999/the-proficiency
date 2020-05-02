@@ -10,5 +10,9 @@ urlpatterns = [
     path('editteacher',edit.editteacher),
     path('editmarketer',edit.editMarketer),
     path('edittyper',edit.edittyper),
+    path('viewTrns',views.viewTrans),
+    path('seeTrns',views.seeTrns),
+    path('viewTickets',views.viewTickets),
+    path('viewStu',views.viewStu),
     
 ]
