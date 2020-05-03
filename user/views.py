@@ -586,7 +586,7 @@ def viewTickets(request):
                 )
     return render(request, './users/viewTickets.html',{'data':l})
     
-def viewStu(request):
+def viewStudents(request):
     students = database.child('users').get()
     l=[]
     for i in students:

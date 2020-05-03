@@ -144,16 +144,6 @@ EMAIL_PORT=587
 EMAIL_HOST_USER='dhandainnovators@gmail.com'
 EMAIL_HOST_PASSWORD='80531@PApa'
 EMAIL_USE_TLS=True
-# EMAIL_USE_SSL=False
-# EMAIL_HOST='smtp.gmail.com'
-# EMAIL_PORT=587
-# EMAIL_HOST_USER='rahulmittalnrw@gmail.com'
-# EMAIL_HOST_PASSWORD='9996878851'
-# EMAIL_USE_TLS=True
-# 
-#  # send_mail(subject='Rahul',
-#                         # message="login successfully",
-#                         #  from_email="rahulmittalnrw@gmail.com",
-#                         #  recipient_list=[em])
+
 
 EMAIL_USE_SSL=False

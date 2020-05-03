@@ -9,8 +9,7 @@ urlpatterns = [
     path('marketer',views.viewmarketer),
     path('editteacher',edit.editteacher),
     path('editmarketer',edit.editMarketer),
-    path('edittyper',edit.edittyper),
-    
-    path('viewStu',views.viewStu),
+    path('edittyper',edit.edittyper),    
+    path('viewStu',views.viewStudents),
     
 ]
