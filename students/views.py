@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from exam.views import database
 # Create your views here.
 
@@ -15,10 +15,10 @@ def analysis(request):
     for i in range(len(dailyTimedate)):
         dailyTimedate[i]=dailyTimedate[i][4:]+'-'+dailyTimedate[i][2:4]+'-'+dailyTimedate[i][:2]
     dailyTimedate.sort()
-
     if request.method == "POST":
         exam=request.POST.get('exam')
         date = request.POST.get('date')
+
         if date:
             if exam == 'Daily Exam':
                 mainly=[]
@@ -74,12 +74,13 @@ def analysis(request):
                 print(arrMarks)
                 from operator import itemgetter
                 for m in range(len(arrMarks)):
-                    s=sorted(arrMarks[m],key=itemgetter('name'))
-                    s=sorted(s, key=itemgetter('marks'),reverse=True)
+                    s=sorted(arrMarks[m],key=itemgetter('name'),reverse=True)
+                    s=sorted(s, key=itemgetter('marks'))
+                    print(s)
                     for u in range(len(s)):
                         percentile= round((100*(u+1)/len(s)),6)
-                        rank = (((100 - percentile)/100)*len(s))+1
-                        
+                        rank = int(round((((100 - percentile)/100)*len(s))+1,0))
+                        print(percentile,rank,s[u]['uID'])
                         database.child('users').child(s[u]['uID']).child('exams').child('daily').child(date).update({
                             'marks':s[u]['marks'],
                             'percentile':percentile,
@@ -90,6 +91,7 @@ def analysis(request):
                         'totalSale':income[index]
                     })
                 success='Data has been analyzed Successfully.'
+                database.child('exams').child('dailyTime').child(date).update({'status':"Pre-Analysis Done"})
             else:
                 print(exam)
                 mainly=[]
@@ -149,9 +151,70 @@ def analysis(request):
                             'rank':rank
                         })
                 success='Data has been analyzed Successfully.'
+                database.child('exams').child('NLE').child(date).update({'status':"Pre-Analysis Done"})
 
             return render(request,'./students/viewAnalysis.html',{'NLE':NLEdate,'daily':dailyTimedate,'success':success})
         else:
             error="Please Select all the details."
             return render(request,'./students/viewAnalysis.html',{'NLE':NLEdate,'daily':dailyTimedate,'error':error})
     return render(request,'./students/viewAnalysis.html',{'NLE':NLEdate,'daily':dailyTimedate})
+
+
+
+def overall(request):
+    aPID=[]
+    aP=[]
+    resp = database.child("/").get().val()
+    for user in resp['users']:
+        totalPercentile = 0
+        avgPercentile = 0
+        t = 0
+        if 'exams' in resp['users'][user]:
+            if 'daily' in resp['users'][user]['exams']:
+                for dats in resp['users'][user]['exams']['daily']:
+                    if 'percentile' in resp['users'][user]['exams']['daily'][dats]:
+                        totalPercentile+=float(resp['users'][user]['exams']['daily'][dats]['percentile'])
+                        t+=1
+            if 'NLE' in resp['users'][user]['exams']:
+                for dats in resp['users'][user]['exams']['NLE']:
+                    if 'percentile' in resp['users'][user]['exams']['NLE'][dats]:
+                        totalPercentile+=float(resp['users'][user]['exams']['NLE'][dats]['percentile'])
+                        t+=1
+            avgPercentile = round((totalPercentile/t),6)
+            if (resp['users'][user]['prepFor']['mainly'] not in aPID):
+                aPID.append(resp['users'][user]['prepFor']['mainly'])
+                aP.append([])
+            aP[aPID.index(resp['users'][user]['prepFor']['mainly'])].append({
+                'uID': user,
+                'mainly': resp['users'][user]['prepFor']['mainly'],
+                'avgPercentile': avgPercentile,
+                'name':resp['users'][user]['details']['name']
+            })
+    
+    from operator import itemgetter
+    for m in range(len(aPID)):
+        s=sorted(aP[m],key=itemgetter('name'),reverse=True)
+        s=sorted(s,key=itemgetter('avgPercentile'))
+        print(s)
+        for a in range(len(s)):
+            percentile = round((100*(a+1)/len(s)),6)
+            rank = int(round((100-percentile)/100*len(s)+1,0))
+            print(percentile,rank)
+            database.child('ranks').child('students').child(s[a]['mainly']).child(s[a]['uID']).update({
+                'rank':rank,
+                'percentile':percentile,
+                'name':s[a]['name']
+            })
+    return redirect
+
+
+def panda(request):
+    d=database.child('/').get().val()
+    resp=d['users']
+    import pandas as pd
+    from pandas.io.json import json_normalize  
+    r=json_normalize(resp)
+    print(r)
+
+    print('hello')
+    return None

@@ -136,7 +136,7 @@ def editMarketer(request):
                             'state':sate,
                         }
                     )
-                    return redirect('/user/editmarketer')
+                    return redirect('/user/editmarketer?id='+idd)
 
                 else:
                     if (database.child('mIds').child(number).shallow().get().val()):

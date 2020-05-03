@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from exam.views import database, checkpermission, getpass
+from django.core.mail import send_mail
 # Create your views here.
 
 
@@ -160,6 +161,11 @@ def users(request):
                     'email': '',
 
                 }
+                print(email,type(email))
+                send_mail(subject="account",
+                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
+                from_email="dhandainnovators@gmail.com",
+                recipient_list=['rahulmittalnrw@gmail.com'])
                 data['success'] = "Teacher has been added Successfully!"
                 data['info'] = number + "@TP@" + age + " and 12" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -202,6 +208,10 @@ def users(request):
                     'email': '',
 
                 }
+                send_mail(subject="account",
+                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
+                from_email="ask@the-proficiency.com",
+                recipient_list=[email])
                 data['success'] = "Admin has been added Successfully!"
                 data['info'] = number + "@AP@" + age + " and 13" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -246,6 +256,12 @@ def users(request):
                     'email': '',
 
                 }
+                send_mail(subject="account",
+                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
+                from_email="dhandainnovators@gmail.com",
+                recipient_list=[email],
+                
+                fail_silently=False)
                 data['success'] = "Typer has been added Successfully!"
                 data['info'] = number + "@TYP@" + age + " and 14" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -317,6 +333,10 @@ def users(request):
                     'email': '',
 
                 }
+                send_mail(subject="account",
+                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
+                from_email="ask@the-proficiency.com",
+                recipient_list=[email])
                 data['success'] = "Marketer has been added Successfully!"
                 data['info'] = number + "@MP@" + age + " and 11" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -543,65 +563,7 @@ def editprofile(request):
         return render(request, './marketer/editProfile.html', {'data': l})
 
 
-def viewTrans(request):
-    trans = database.child('trnc').get()
-    l = []
-    for i in trans:
-        l.append(
-            {
-                'id': i.key(),
-                'name':i.val()['CUST_ID'].split("@")[1],
-                'TXN_AMOUNT': i.val()['TXN_AMOUNT'],
-            }
-        )
-        print(l)
-    return render(request, './users/viewTrns.html', {'data': l})
 
-
-def seeTrns(request):
-    idd = request.GET.get('id')
-    tran = database.child('trnc').get()
-    l = []
-    l.append(
-        {
-            'BANKNAME': tran.val()[idd]['BANKNAME'],
-
-            'TXNID': tran.val()[idd]['BANKTXNID'],
-
-
-            'CUST_ID': tran.val()[idd]['CUST_ID'],
-
-
-            'EMAIL': tran.val()[idd]['EMAIL'],
-
-
-            'GATEWAY': tran.val()[idd]['GATEWAYNAME'],
-
-
-            'MID': tran.val()[idd]['MID'],
-
-            'MOBILE__NO': tran.val()[idd]['MOBILE_NO'],
-
-            'ORDERID': tran.val()[idd]['ORDERID'],
-            'ORDER_ID': tran.val()[idd]['ORDER_ID'],
-            'PAYMENTMODE': tran.val()[idd]['PAYMENTMODE'],
-            'REFUNDAMT': tran.val()[idd]['REFUNDAMT'],
-            'RESPCODE': tran.val()[idd]['RESPCODE'],
-            'RESPMSG': tran.val()[idd]['RESPMSG'],
-            'STATUS': tran.val()[idd]['STATUS'],
-            'TXNAMOUNT': tran.val()[idd]['TXNAMOUNT'],
-            'TXNDATE': tran.val()[idd]['TXNDATE'],
-            'TXNID': tran.val()[idd]['TXNID'],
-            'TXNTYPE': tran.val()[idd]['TXNTYPE'],
-            'TXN_AMOUNT': tran.val()[idd]['TXN_AMOUNT'],
-            'cmnts': tran.val()[idd]['cmnts'],
-            'coupon': tran.val()[idd]['coupon'],
-            'sp': tran.val()[idd]['sp'],
-
-
-        }
-    )
-    return render(request, './users/viewTran.html', {'data': l})
 
 
 
