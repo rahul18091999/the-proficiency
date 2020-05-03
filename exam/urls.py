@@ -30,4 +30,6 @@ urlpatterns = [
     path('academics/',include('academics.urls')),
     path('exams/',include('exams.urls')),
     path('students/',include('students.urls')),
+    path('trnc/',include('trnc.urls')),
+    path('tickets/',include('tickets.urls')),
 ]

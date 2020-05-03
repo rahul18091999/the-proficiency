@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Subject</title>
+    
+        <%- include('../../components/partials/header.ejs') %>
+
+    <div class="container">
+        <div id="addProductBox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-1">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">Edit <%= body.name%>(<%= body.id%>)</div>
+                </div>
+                <div class="panel-body">
+                    <% if(error){ %>
+                    <div class="alert alert-danger">
+                        <center><%= error%></center>
+                    </div>
+                    <% }%>
+                    <% if(success){ %>
+                    <div class="alert alert-success">
+                        <center><%= success%></center>
+                    </div>
+                    <% }%>
+                    <form class="form-horizontal" method='POST'>
+                        <div id="div_id_name" class="form-group required">
+                            <legend for="id_name" class="control-label col-md-4  requiredField"> High Degree Name
+                            </legend>
+                            <div class="controls col-md-8 ">
+                                <input class="input-md  textinput textInput form-control" id="id_name" name="name"
+                                    value="<%= body.name %>" placeholder="eg. C.B.S.E." type="text" />
+                            </div>
+                        </div>
+                        <div id="div_id_dis" class="form-group required">
+                            <legend for="id_dis" class="control-label col-md-4  requiredField"> Discription
+                            </legend>
+                            <div class="controls col-md-8 ">
+                                <input class="input-md disinput form-control" id="id_dis" name="dis"
+                                    placeholder="eg. C.B.S.E. boards are good." value="<%= body.dis %>" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="aab controls col-md-4 "></div>
+                            <div class="controls col-md-8 ">
+                                <input type="submit" name="editSubject" value="Edit Subject" class="btn btn-primary btn btn-info"
+                                    id="submit-id-editSubject" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Teachers</title>
+
+
+    {% include "../includes/top.html" %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    {% include "../includes/mainSlider.html" %}
+    {% include "../includes/navBar.html" %}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">View Teachers</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>BankName</th>
+                                        <th>Email</th>
+                                        <th>TXNID, CUSTID</th>
+                                        <th>GATEWAY</th>
+                                        <th>MID</th>
+                                        <th>MOBILENO</th>
+                                        <th>orderid,order_id</th>
+                                        <th>paymentmode</th>
+                                        <th>refund</th>
+                                        <th>respcode</th>
+                                        <th>respmsg,status</th>
+                                        <th>TxnAmt</th>
+                                        <th>TxnDate</th>
+                                        <th>TxnId</th>
+                                        <th>TxnType</th>
+                                        <th>Txn_Amt</th>
+                                        <th>cmnt</th>
+                                        <th>coupon</th>
+                                        <th>SP</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% if data %}
+                                    {% for i in data  %}
+                                    <tr>
+                                        <td>{{i.BANKNAME}}</td>
+                                        <td>{{i.EMAIL}}</td>
+                                        <td>{{i.TXNID}}, {{i.CUST_ID}}</td>
+                                        <td>{{i.GATEWAY}}</td>
+                                        <td>{{i.MID}}</td>
+                                        <td>{{i.MOBILE_NO}}</td>
+                                        <td>{{i.ORDERID}}{{I.ORDER_ID}}</td>
+                                        <td>{{i.PAYMENTMODE}}</td>
+                                        <td>{{i.REFUNDAMT}}</td>
+                                        <td>{{i.RESPCODE}}</td>
+                                        <td>{{i.RESPMSG}},{{i.STATUS}}</td>
+                                        <td>{{i.TXNAMOUNT}}</td>
+                                        <td>{{i.TXNDATE}}</td>
+                                        <td>{{i.TXNID}}</td>
+                                        <td>{{i.TXNTYPE}}</td>
+                                        <td>{{i.TXN_AMOUNT}}</td>
+                                        <td>{{i.cmnts}}</td>
+                                        <td>{{i.coupon}}</td>
+                                        <td>{{i.sp}}</td>
+
+                                        <td>
+                                            <a href='/user/editteacher?id={{i.tId}}'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href='/home/{{i.tId}}'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> Dashboard
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Teacher ID</th>
+                                        <th>Name</th>
+                                        <th>City, State</th>
+                                        <th>Phone Number</th>
+                                        <th>Edit</th>
+                                        <th>Dashboard</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    {% include "../includes/bottom.html" %}
+</body>
+
+</html>

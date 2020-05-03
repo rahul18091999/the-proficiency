@@ -2,23 +2,26 @@ from django.shortcuts import render, redirect
 from exam.views import database, checkpermission, getpass
 from django.core.mail import send_mail
 # Create your views here.
+
+
 def getcode(typ):
     import random
     import string
     temp = ''.join(random.choices(string.ascii_uppercase +
-                             string.digits, k = 3))
-    if(typ=='a'):
+                                  string.digits, k=3))
+    if(typ == 'a'):
         return temp
     elif(typ == 'b'):
-        if(temp==typea):
+        if(temp == typea):
             getcode('b')
         else:
-            return temp 
-    elif(typ=='c'):
-        if(temp==typea or temp==typeb):
+            return temp
+    elif(typ == 'c'):
+        if(temp == typea or temp == typeb):
             getcode('c')
         else:
-            return temp 
+            return temp
+
 
 def dashboard(request):
     id = request.GET.get('id')
@@ -36,11 +39,11 @@ def dashboard(request):
 
 
 def users(request):
-    global typea,typeb,typec
-    c=checkpermission(request,request.path)
-    if(c==-1):
+    global typea, typeb, typec
+    c = checkpermission(request, request.path)
+    if(c == -1):
         return redirect('/')
-    elif(c==0):
+    elif(c == 0):
         return redirect('/home')
     c = checkpermission(request, request.path)
     if(c == -1):
@@ -130,8 +133,7 @@ def users(request):
                         'earned': '0'
                     }
                 )
-                
-                
+
                 typea = getcode('a')
                 typeb = getcode('b')
                 typec = getcode('c')
@@ -141,13 +143,13 @@ def users(request):
                         'code': "12"+str(tempid)+str(typea)
                     }
                 )
-                
+
                 database.child('share').child('teachers').child('12'+str(tempid)).child('typeB').update(
                     {
                         'code': "12"+str(tempid)+str(typeb)
                     }
                 )
-                
+
                 database.child('share').child('teachers').child('12'+str(tempid)).child('typeC').update(
                     {
                         'code': "12"+str(tempid)+str(typec)
@@ -302,8 +304,7 @@ def users(request):
                         'earned': '0'
                     }
                 )
-                
-                
+
                 typea = getcode('a')
                 typeb = getcode('b')
                 typec = getcode('c')
@@ -313,13 +314,13 @@ def users(request):
                         'code': "11"+str(tempid)+str(typea)
                     }
                 )
-                
+
                 database.child('share').child('marketers').child('11'+str(tempid)).child('typeB').update(
                     {
                         'code': "11"+str(tempid)+str(typeb)
                     }
                 )
-                
+
                 database.child('share').child('marketers').child('11'+str(tempid)).child('typeC').update(
                     {
                         'code': "11"+str(tempid)+str(typec)
@@ -340,7 +341,7 @@ def users(request):
                 data['info'] = number + "@MP@" + age + " and 11" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
-            
+
         else:
             # print(request.session['user'])
             name = ""
@@ -362,7 +363,7 @@ def viewteacher(request):
     if(c == -1):
         return redirect('/')
     elif(c == 0):
-        return redirect('/home')   
+        return redirect('/home')
     teacherData = database.child('teachers').get()
     # if teacherData:
     print(teacherData)
@@ -399,7 +400,7 @@ def viewtyper(request):
     if typerData.val():
         for i in typerData:
             print(i.key())
-            if(i.key()!='qBank'):
+            if(i.key() != 'qBank'):
                 l.append(
                     {
                         'tId': i.key(),
@@ -410,6 +411,8 @@ def viewtyper(request):
                     }
                 )
     return render(request, './users/typersList.html', {'data': l, 'type': 'typer'})
+
+
 def viewmarketer(request):
     c = checkpermission(request, request.path)
     if(c == -1):
@@ -417,7 +420,7 @@ def viewmarketer(request):
     elif(c == 0):
         return redirect('/home')
     marketerData = database.child('marketers').get()
-    l=[]
+    l = []
     if marketerData.val():
         for i in marketerData:
             print(i.key())
@@ -440,8 +443,9 @@ def viewmyquestion(request):
     id1 = request.session['us']
     if id1 == "15":
         id = request.session['user']
-        adminQues = database.child['superAdmin'].child[id].child['questionsAdded'].get()
-        l=[]
+        adminQues = database.child['superAdmin'].child[id].child['questionsAdded'].get(
+        )
+        l = []
         for i in adminQues:
             l.append(
                 {
@@ -452,8 +456,9 @@ def viewmyquestion(request):
         return render(request, 'viewQuestyper.html', {'question': l})
     elif id1 == "13":
         id = request.session['user']
-        adminQues = database.child['admin'].child[id].child['questionsAdded'].get()
-        l=[]
+        adminQues = database.child['admin'].child[id].child['questionsAdded'].get(
+        )
+        l = []
         for i in adminQues:
             l.append(
                 {
@@ -462,12 +467,16 @@ def viewmyquestion(request):
                 }
             )
     return render(request, 'viewQuestyper.html', {'question': l})
+
+
 def editprofile(request):
     idd = request.GET.get('id')
-    marketerdata = database.child('marketers').child(idd).child('details').get()
+    marketerdata = database.child('marketers').child(
+        idd).child('details').get()
     from datetime import date
-    data=database.child('mIds').child(marketerdata.val()["phone"]).child('createdOn').get().val()/100
-    date=date.fromtimestamp(data)
+    data = database.child('mIds').child(
+        marketerdata.val()["phone"]).child('createdOn').get().val()/100
+    date = date.fromtimestamp(data)
     l = {
         'id': idd,
         'name': marketerdata.val()["name"],
@@ -478,12 +487,12 @@ def editprofile(request):
         'gen': marketerdata.val()["gen"],
         'phone': marketerdata.val()["phone"],
         'state': marketerdata.val()["state"],
-        'createdOn':date
+        'createdOn': date
     }
-    if(request.method=="POST"):
-        currentpassword=request.POST.get("currentpassword")
-        newpassword=request.POST.get("newpassword")
-        confirmpassword=request.POST.get("confirmpassword")
+    if(request.method == "POST"):
+        currentpassword = request.POST.get("currentpassword")
+        newpassword = request.POST.get("newpassword")
+        confirmpassword = request.POST.get("confirmpassword")
         name = request.POST.get('name')
         number = request.POST.get('number')
         mail = request.POST.get('email')
@@ -491,61 +500,102 @@ def editprofile(request):
         city = request.POST.get('city')
         age = request.POST.get('age')
         experience = request.POST.get('experience')
-        if (currentpassword=="" and newpassword=="" and confirmpassword==""):
-                if (number == marketerdata.val()["phone"]):
+        if (currentpassword == "" and newpassword == "" and confirmpassword == ""):
+            if (number == marketerdata.val()["phone"]):
+                database.child('marketers').child(idd).child('details').update(
+                    {
+                        'name': name,
+                        'age': age,
+                        'city': city,
+                        'email': mail,
+                        'experience': experience,
+                        'gen': marketerdata.val()["gen"],
+                        'phone': marketerdata.val()["phone"],
+                        'state': sate,
+                    }
+                )
+                return redirect('/user/editMarketer')
+
+            else:
+                if (database.child('mIds').child(number).shallow().get().val()):
+                    error = "Phone Number Already exists"
+                    data['error'] = error
+                    return render(request, './marketer/editProfile.html', data)
+                else:
+                    from random import randint
+                    da = database.child('mIds').child(marketerdata.val()[
+                        "phone"]).child('createdBY').get().val()
+                    database.child('mIds').child(number).update({
+                        'createdOn': data,
+                        'id': idd,
+                        'verify': randint(100000, 999999),
+                        'pass': getpass(number+"@TP@"+age)[2:-1],
+                        'createdBy': da,
+                    })
+                    database.child('mIds').child(
+                        marketerdata.val()['phone']).remove()
                     database.child('marketers').child(idd).child('details').update(
                         {
                             'name': name,
-                            'age':age,
-                            'city':city,
-                            'email':mail,
+                            'age': age,
+                            'state': sate,
+                            'city': city,
                             'experience': experience,
-                            'gen':marketerdata.val()["gen"],
-                            'phone':marketerdata.val()["phone"],
-                            'state':sate,
+                            'phone': number,
+                            'email': mail,
+                            'gen': marketerdata.val()["gen"]
                         }
                     )
                     return redirect('/user/editMarketer')
-
-                else:
-                    if (database.child('mIds').child(number).shallow().get().val()):
-                        error = "Phone Number Already exists"
-                        data['error'] = error
-                        return render(request, './marketer/editProfile.html', data)
-                    else:
-                        from random import  randint
-                        da=database.child('mIds').child(marketerdata.val()["phone"]).child('createdBY').get().val()
-                        database.child('mIds').child(number).update({
-                            'createdOn': data,
-                            'id': iduser,
-                            'verify': randint(100000, 999999),
-                            'pass': getpass(number+"@TP@"+age)[2:-1],
-                            'createdBy': da,
-                        })
-                        database.child('mIds').child(marketerdata.val()['phone']).remove()
-                        database.child('marketers').child(iduser).child('details').update(
-                            {
-                                'name': name,
-                                'age': age,
-                                'state': sate,
-                                'city': city,
-                                'experience': experience,
-                                'phone': number,
-                                'email': mail,
-                                'gen': marketerdata.val()["gen"]
-                            }
-                        )
-                        return redirect('/user/editMarketer')
         else:
-            if(newpassword!=confirmpassword or len(newpassword)<6):
-                return render(request, './marketer/editProfile.html', {'data': l,'error':"Check Your Password"})
+            if(newpassword != confirmpassword or len(newpassword) < 6):
+                return render(request, './marketer/editProfile.html', {'data': l, 'error': "Check Your Password"})
             else:
-                current=database.child('mIds').child(marketerdata.val()["phone"]).child('pass').get().val()
-                if(getpass(currentpassword)[2:-1]!=current):
-                    return render(request, './marketer/editProfile.html', {'data': l,'error':"Check Your Current Password"})
+                current = database.child('mIds').child(
+                    marketerdata.val()["phone"]).child('pass').get().val()
+                if(getpass(currentpassword)[2:-1] != current):
+                    return render(request, './marketer/editProfile.html', {'data': l, 'error': "Check Your Current Password"})
                 else:
-                    database.child('mIds').child(marketerdata.val()["phone"]).update({'pass':getpass(newpassword)[2:-1]})
+                    database.child('mIds').child(marketerdata.val()["phone"]).update(
+                        {'pass': getpass(newpassword)[2:-1]})
                     return redirect('/home')
     else:
         return render(request, './marketer/editProfile.html', {'data': l})
 
+
+
+
+
+
+def viewTickets(request):
+    ticket = database.child('tickets').get()
+    print(ticket.val().keys())
+    l=[]
+    for i in ticket:
+        for j in i.val():
+            print(j)
+            if j != "free":
+                l.append(
+                    {
+                        'UID': i.key(),
+                        'TID': j,
+                        'dnt': i.val()[j]['dNt'],
+                        'status': i.val()[j]['status'],
+                        'title': i.val()[j]['title']
+                    }
+                )
+    return render(request, './users/viewTickets.html',{'data':l})
+    
+def viewStu(request):
+    students = database.child('users').get()
+    l=[]
+    for i in students:
+        l.append(
+            {
+                'id': i.key(),
+                'name': i.val()['details']['name'],
+                'parent': i.val()['details']['parent'],
+                'phone': i.val()['details']['phone']
+            }
+        )
+    return render(request,'./users/viewStu.html',{'data': l})

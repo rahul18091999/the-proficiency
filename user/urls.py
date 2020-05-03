@@ -11,4 +11,6 @@ urlpatterns = [
     path('editmarketer',edit.editMarketer),
     path('edittyper',edit.edittyper),
     
+    path('viewStu',views.viewStu),
+    
 ]
