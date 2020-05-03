@@ -159,10 +159,11 @@ def users(request):
                     'email': '',
 
                 }
+                print(email,type(email))
                 send_mail(subject="account",
                 message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
-                from_email="ask@the-proficiency.com",
-                recipient_list=[email])
+                from_email="dhandainnovators@gmail.com",
+                recipient_list=['rahulmittalnrw@gmail.com'])
                 data['success'] = "Teacher has been added Successfully!"
                 data['info'] = number + "@TP@" + age + " and 12" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -255,8 +256,10 @@ def users(request):
                 }
                 send_mail(subject="account",
                 message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
-                from_email="ask@the-proficiency.com",
-                recipient_list=[email])
+                from_email="dhandainnovators@gmail.com",
+                recipient_list=[email],
+                
+                fail_silently=False)
                 data['success'] = "Typer has been added Successfully!"
                 data['info'] = number + "@TYP@" + age + " and 14" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
