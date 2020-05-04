@@ -8,7 +8,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
         function select_topic($val) {
-            var arr = {{topic| safe}};
+            var arr = {{ topic| safe
+        }};
         var options = '';
         for (var i = 0; i < arr[$val].length; i++)
             options += '<option value=' + arr[$val][i].id + '>' + arr[$val][i].name + '(' + arr[$val][i].id + ')' + '</option>'
@@ -24,22 +25,15 @@
                 });
             });
         })(jQuery);
-
-
-    </script>
-
-
-
-    <script language="JavaScript">
-        function maximizeme() {
-            window.moveTo(0, 0);
-            window.resizeTo(screen.width, screen.height)
-        }
     </script>
 </head>
 
 <body onload="maximizeme()">
     <div id="addProductBox" class="mainbox col-md-5">
+
+        <div class="form-group">
+            <div class="aab controls col-md-4 "></div>
+        </div>
         <div class="panel panel-info">
             <div class="panel-heading">
                 <div class="panel-title">Add a new Question</div>
@@ -55,6 +49,15 @@
                     <center>{{data.success}}</center>
                 </div>
                 {% endif %}
+                <div class="controls col-md-12 ">
+                    <a onclick="window.open('http:\/\/visualmatheditor.equatheque.net/VisualMathEditor.html?runLocal&codeType=Latex&encloseAllFormula=false&style=aguas&localType=en_US', 'newwindow1', 'top=0, left='+(screen.width)/2+', width='+(screen.width)/2+', height='+screen.height); return false;">
+                        <center>
+                            <button class="btn btn-success navbar-btn ">
+                                <span class="fas fa-sign-out-alt"></span>
+                                Open Editor</button>
+                        </center>
+                    </a>
+                </div>
                 <form class="form-horizontal" id="plain" method='POST' action="/question/addQuestion">
                     {% csrf_token %}
                     <div id="div_id_ques" class="form-group required">
@@ -164,9 +167,6 @@
                 </form>
             </div>
         </div>
-    </div>
-    <div class="mainbox col-md-7  col-sm-6 ">
-        <iframe src="http://visualmatheditor.equatheque.net/VisualMathEditor.html" height="1000px" width=100%> </iframe>
     </div>
 
 

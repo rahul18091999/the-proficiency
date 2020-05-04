@@ -32,4 +32,5 @@ urlpatterns = [
     path('students/',include('students.urls')),
     path('trnc/',include('trnc.urls')),
     path('tickets/',include('tickets.urls')),
+    path('apiCall',views.apiCall)
 ]
