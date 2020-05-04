@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Marketers</title>
+
+
+    {% include "../includes/top.html" %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    {% include "../includes/mainSlider.html" %}
+    {% include "../includes/navBar.html" %}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">View Marketers</h3>
+                            <h3 class="card-title">Total : {{total}}</h3>
+
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>TP</th>
+                                        <th>Earning</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% if data %}
+                                    {% for i in data  %}
+                                    <tr>
+                                        <td>{{i.date}}</td>
+                                        <td>{{i.earning}}</td>
+                                        <td>{{i.money}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>TP</th>
+                                        <th>Earning</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    {% include "../includes/bottom.html" %}
+</body>
+
+</html>

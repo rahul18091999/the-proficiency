@@ -20,7 +20,7 @@ def checkpermission(r, url):
     try:
         idd = r.session['us']
         l11 = ['/logout','/home']
-        l12 = ['/logout','/home','/teacher/viewQuestion','/teacher/rating','/teacher/editProfile']
+        l12 = ['/logout','/home','/teacher/viewQuestion','/teacher/rating','/teacher/editProfile','/teacher/referal','/teacher/earning',]
         l13 = ['/logout', '/home','/teacher/addTeacher',
                 '/question/addQuestion', '/question/viewQuestion','/user/teacher','/user/typer','/user/addUser']
         l14 = ['/logout', '/home', '/question/addQuestion',
