@@ -429,6 +429,8 @@ def viewmarketer(request):
                     'tId': i.key(),
                     'name': i.val()['details']['name'],
                     'number': i.val()['details']['phone'],
+                    'state': i.val()['details']['state'],
+                    'city': i.val()['details']['city'],
                 }
             )
     return render(request, './users/marketerlist.html', {'data': l, 'type': 'typer'})
@@ -567,24 +569,6 @@ def editprofile(request):
 
 
 
-def viewTickets(request):
-    ticket = database.child('tickets').get()
-    print(ticket.val().keys())
-    l=[]
-    for i in ticket:
-        for j in i.val():
-            print(j)
-            if j != "free":
-                l.append(
-                    {
-                        'UID': i.key(),
-                        'TID': j,
-                        'dnt': i.val()[j]['dNt'],
-                        'status': i.val()[j]['status'],
-                        'title': i.val()[j]['title']
-                    }
-                )
-    return render(request, './users/viewTickets.html',{'data':l})
     
 def viewStudents(request):
     students = database.child('users').get()

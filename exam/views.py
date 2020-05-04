@@ -20,7 +20,7 @@ def checkpermission(r, url):
     try:
         idd = r.session['us']
         l11 = ['/logout','/home']
-        l12 = ['/logout','/home']
+        l12 = ['/logout','/home','/teacher/viewQuestion','/teacher/rating']
         l13 = ['/logout', '/home','/teacher/addTeacher',
                 '/question/addQuestion', '/question/viewQuestion','/user/teacher','/user/typer','/user/addUser']
         l14 = ['/logout', '/home', '/question/addQuestion',
@@ -205,3 +205,16 @@ def logout(request):
         del request.session['user']
         del request.session['us']
     return redirect('/')
+
+
+def apiCall(request):
+    token = request.GET.get('token')
+    next = request.GET.get('next')
+    idd=database.child('apiCalls').get().val()[token]
+    print(idd)
+    request.session['name']=database.child('teachers').child(idd).child('details').get().val()['name']
+    request.session['user'] = idd
+    request.session['us'] = str(idd)[:2]
+    request.session['image']=getimage(idd)
+    print(token,next)
+    return redirect(next)

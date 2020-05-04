@@ -300,6 +300,11 @@ def viewDashboard(request):
 
 
 def rating(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     idd = request.session['user']
     t = database.child('teachers').child(idd).child(
         'reviews').child('dailyExams').get()
@@ -321,6 +326,11 @@ def rating(request):
 
 
 def viewQuestion(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     idd = request.session['user']
     t = database.child('teachers').child(idd).child('questions').get()
     data = []
