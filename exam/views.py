@@ -211,6 +211,7 @@ def apiCall(request):
     token = request.GET.get('token')
     next = request.GET.get('next')
     idd=database.child('apiCalls').get().val()[token]
+    pre=str(idd)[:2]
     print(idd)
     request.session['name']=database.child('teachers').child(idd).child('details').get().val()['name']
     request.session['user'] = idd

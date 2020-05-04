@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views,edit
 
 urlpatterns = [
     path('addBU',views.addBU),
@@ -14,5 +14,7 @@ urlpatterns = [
     path('viewSubjects',views.viewSubjects),
     path('viewTopics',views.viewTopic),
     path('viewMainly',views.viewMainly),
+    path('editBU',edit.editBU),
+    path('editHD',edit.editHD),
 
 ]

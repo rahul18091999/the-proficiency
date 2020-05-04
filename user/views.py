@@ -22,22 +22,6 @@ def getcode(typ):
         else:
             return temp
 
-
-def dashboard(request):
-    id = request.GET.get('id')
-    typersquestion = database.child['typers'].child[id].child['questionsAdded'].get(
-    )
-    l = []
-    for i in typersquestion:
-        l.append(
-            {
-                'id': i.key(),
-                'by': id,
-            }
-        )
-    return render(request, 'viewQuestyper.html', {'question': l})
-
-
 def users(request):
     global typea, typeb, typec
     c = checkpermission(request, request.path)
