@@ -18,4 +18,4 @@ def viewTickets(request):
                         'title': i.val()[j]['title']
                     }
                 )
-    return render(request, './users/viewTickets.html',{'data':l})
+    return render(request, './tickets/viewTickets.html',{'data':l})

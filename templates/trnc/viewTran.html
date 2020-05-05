@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>See Transaction</title>
+
+
+    {% include "../includes/top.html" %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    {% include "../includes/mainSlider.html" %}
+    {% include "../includes/navBar.html" %}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="row">
+
+
+
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-copy"></i>
+                                See TranctionID: <b>
+                                    <font size=+2>{{data.TXNID}}</font>
+                                </b> OrderID: <b>
+                                    <font size=+2>{{data.ORDER_ID}}</font>
+                                </b>
+                            </h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <dl class="row">
+                                <dt class="col-sm-4">Custumer Name</dt>
+                                <dd class="col-sm-8">{{data.CUST_ID}}</dd>
+                                <dt class="col-sm-4">Custumer Email</dt>
+                                <dd class="col-sm-8">{{data.EMAIL}}</dd>
+                                <dt class="col-sm-4">Custumer Phone</dt>
+                                <dd class="col-sm-8">{{data.MOBILE_NO}}</dd>
+                                <dt class="col-sm-4">Txn Date</dt>
+                                <dd class="col-sm-8">{{data.TXNDATE}}</dd>
+                                <dt class="col-sm-4">Txn Amount</dt>
+                                <dd class="col-sm-8">Rs. {{data.TXNAMOUNT}}</dd>
+                                <dt class="col-sm-4">Coupon</dt>
+                                <dd class="col-sm-8">{{data.coupon}}</dd>
+                                <dt class="col-sm-4">SP</dt>
+                                <dd class="col-sm-8">{{data.sp}}</dd>
+                                <dt class="col-sm-4">Comments</dt>
+                                <dd class="col-sm-8">{{data.cmnts}}</dd>
+                                <dt class="col-sm-12">
+                                    <center>
+                                        <font size=+2>Other Details</font>
+                                    </center>
+                                </dt>
+                                <dt class="col-sm-4">Status</dt>
+                                <dd class="col-sm-8">{{data.STATUS}}</dd>
+                                <dt class="col-sm-4">Txn Type</dt>
+                                <dd class="col-sm-8">{{data.TXNTYPE}}</dd>
+                                <dt class="col-sm-4">Payment Mode</dt>
+                                <dd class="col-sm-8">{{data.PAYMENTMODE}}</dd>
+                                <dt class="col-sm-4">Gateway</dt>
+                                <dd class="col-sm-8">{{data.GATEWAY}}</dd>
+                                <dt class="col-sm-4">Bank Name</dt>
+                                <dd class="col-sm-8">{{data.BANKNAME}}</dd>
+                                <dt class="col-sm-4">MID</dt>
+                                <dd class="col-sm-8">{{data.MID}}</dd>
+                                <dt class="col-sm-4">Response</dt>
+                                <dd class="col-sm-8">{{data.RESPMSG}} (Resp Code: {{data.RESPCODE}})</dd>
+                            </dl>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            </div>
+        </section>
+    </div>
+    {% include "../includes/bottom.html" %}
+</body>
+
+</html>
