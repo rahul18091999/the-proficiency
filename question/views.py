@@ -137,3 +137,20 @@ def viewQuestion(request):
             questiondata.append({'id':i.key(),'approved':i.val()['details']['approved'],'by':i.val()['details']['by']})
     
     return render(request, './question/viewquestion.html',{'question':questiondata})
+
+
+def seeQues(request):
+    qid = request.GET.get('qid')
+    data = database.child('questions').child(qid).child('details').get().val()
+    print(data)
+    l={
+        'approved':data['approved'],
+        'by': data['by'],
+        'opt1': data['opt1'],
+        'opt2': data['opt2'],
+        'opt3': data['opt3'],
+        'opt4': data['opt4'],
+        'optC':  data['optC'],
+        'question': data['question']
+    }
+    return render(request,'./question/seeQues.html',{'data':l})
