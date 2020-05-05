@@ -6,12 +6,12 @@
     <title>View Questions</title>
 
 
-    {% include "./includes/top.html" %}
+    {% include "../includes/top.html" %}
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
-    {% include "./includes/mainSlider.html" %}
-    {% include "./includes/navBar.html" %}
+    {% include "../includes/mainSlider.html" %}
+    {% include "../includes/navBar.html" %}
     <div class="content-wrapper">
         <section class="content">
             <div class="row">
@@ -38,14 +38,14 @@
                                         <td>{{data.id}}</td>
                                         <td>{{data.by}}</td>
                                         <td>
-                                            <a href='/editQues/<%= sub%>-<%= data[i].id%>'> <button type="button"
+                                            <a href='/question/seeQues?qid={{data.id}}'> <button type="button"
                                                     class="btn btn-default btn-sm">
                                                     <span class="glyphicon glyphicon-edit"></span> See
                                                 </button>
                                             </a>
                                         </td>
                                         <td>
-                                            <a href='/editQues/<%= sub%>-<%= data[i].id%>'> <button type="button"
+                                            <a href='/question/editQues?qid={{data.id}}'> <button type="button"
                                                     class="btn btn-default btn-sm">
                                                     <span class="glyphicon glyphicon-edit"></span> Edit
                                                 </button>
@@ -71,7 +71,7 @@
             </div>
         </section>
     </div>
-    {% include "./includes/bottom.html" %}
+    {% include "../includes/bottom.html" %}
 </body>
 
 </html>

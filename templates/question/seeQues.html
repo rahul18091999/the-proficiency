@@ -28,7 +28,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <i class="fas fa-copy"></i>
-                                    See Question [[[[QUESION ID]]]]
+                                    See Question ({{qid}})
                                 </h3>
                             </div>
                             <!-- /.card-header -->
@@ -49,9 +49,13 @@
                                     <dt class="col-sm-4">Approved</dt>
                                     <dd class="col-sm-8">{{data.approved}}</dd>
                                     <dt class="col-sm-4">Teacher</dt>
-                                    <dd class="col-sm-8">[[[[TEACHER NAME]]] ({{data.by}})</dd>
+                                    <dd class="col-sm-8">{{tname}} ({{data.by}})</dd>
                                     <dt class="col-sm-4">Typer</dt>
-                                    <dd class="col-sm-8">[[[[TYPER NAME]]] ([[[[TYPER ID]]]])</dd>
+                                    <dd class="col-sm-8">{{tyname}} ({{data.typer}})</dd>
+                                    <dt class="col-sm-4">Subject</dt>
+                                    <dd class="col-sm-8">{{sname}} ({{sid}})</dd>
+                                    <dt class="col-sm-4">Topic</dt>
+                                    <dd class="col-sm-8">{{topic}} ({{data.topic}})</dd>
                                 </dl>
                             </div>
                             <!-- /.card-body -->
