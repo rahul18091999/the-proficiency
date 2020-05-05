@@ -19,8 +19,8 @@ storage = firebase.storage()
 def checkpermission(r, url):
     try:
         idd = r.session['us']
-        l11 = ['/logout','/home']
-        l12 = ['/logout','/home','/teacher/viewQuestion','/teacher/rating','/teacher/editProfile']
+        l11 = ['/logout','/home','/marketer/referal','/marketer/editProfile']
+        l12 = ['/logout','/home','/teacher/viewQuestion','/teacher/rating','/teacher/editProfile','/teacher/referal','/teacher/earning',]
         l13 = ['/logout', '/home','/teacher/addTeacher',
                 '/question/addQuestion', '/question/viewQuestion','/user/teacher','/user/typer','/user/addUser']
         l14 = ['/logout', '/home', '/question/addQuestion',
@@ -211,6 +211,7 @@ def apiCall(request):
     token = request.GET.get('token')
     next = request.GET.get('next')
     idd=database.child('apiCalls').get().val()[token]
+    pre=str(idd)[:2]
     print(idd)
     request.session['name']=database.child('teachers').child(idd).child('details').get().val()['name']
     request.session['user'] = idd

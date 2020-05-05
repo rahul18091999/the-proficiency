@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>View High Degree</title>
+    <title>View Marketers</title>
 
 
     {% include "../includes/top.html" %}
@@ -18,17 +18,18 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">View High Degree</h3>
+                            <h3 class="card-title">View Marketers</h3>
+                            <h3 class="card-title">Total : {{total}}</h3>
+
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
                             <table id="example1" class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Discription</th>
-                                        <th>Edit</th>
+                                        <th>Date</th>
+                                        <th>TP</th>
+                                        <th>Earning</th>
                                     </tr>
                                 </thead>
 
@@ -37,26 +38,18 @@
                                     {% if data %}
                                     {% for i in data  %}
                                     <tr>
-                                        <td>{{i.id}}</td>
-                                        <td>{{i.name}}</td>
-                                        <td>{{i.dis}}</td>
-                                        <td>
-                                            <a href='/academics/editHD?hid={{i.id}}''> <button type="button"
-                                                    class="btn btn-default btn-sm">
-                                                    <span class="glyphicon glyphicon-edit"></span> Edit
-                                                </button>
-                                            </a>
-                                        </td>
+                                        <td>{{i.date}}</td>
+                                        <td>{{i.earning}}</td>
+                                        <td>{{i.money}}</td>
                                     </tr>
                                     {% endfor %}
                                     {% endif %}
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Discription</th>
-                                        <th>Edit</th>
+                                        <th>Date</th>
+                                        <th>TP</th>
+                                        <th>Earning</th>
                                     </tr>
                                 </tfoot>
                             </table>

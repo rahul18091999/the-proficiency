@@ -83,7 +83,7 @@
                                                         </div>
                                                         <input type="hidden" name="pic" id="hidpic">
                                                         <div class="text-center text-sm-right">
-                                                            <span class="badge badge-secondary">typer</span>
+                                                            <span class="badge badge-secondary">marketer</span>
                                                             <div class="text-muted"><small>Joined
                                                                     {{data.createdOn}}</small>
                                                             </div>
@@ -104,7 +104,7 @@
                                                                             <div class="form-group">
                                                                                 <label>Full Name</label>
                                                                                 <input class="form-control" type="text"
-                                                                                    name="name"
+                                                                                    name="name" disabled
                                                                                     placeholder="eg. Rishi Sharma"
                                                                                     value="{{data.name}}">
                                                                             </div>
@@ -123,7 +123,7 @@
                                                                             <div class="form-group">
                                                                                 <label>Phone Number</label>
                                                                                 <input class="form-control" type="text"
-                                                                                    name="number"
+                                                                                    name="number" disabled
                                                                                     placeholder="eg. 77009XXXXX"
                                                                                     value="{{data.phone}}">
                                                                             </div>
@@ -132,7 +132,7 @@
                                                                             <div class="form-group">
                                                                                 <label>Email</label>
                                                                                 <input class="form-control" type="text"
-                                                                                    placeholder="user@example.com"
+                                                                                    placeholder="user@example.com" disabled
                                                                                     name = "email" value="{{data.email}}">
                                                                             </div>
                                                                         </div>
@@ -141,7 +141,7 @@
                                                                         <div class="col">
                                                                             <div class="form-group">
                                                                                 <label>State</label>
-                                                                                <select class="form-control" name = "state">
+                                                                                <select class="form-control" name = "state" disabled>
                                                                                     <option>{{data.state}}</option>
                                                                                 </select>
                                                                             </div>
@@ -149,7 +149,7 @@
                                                                         <div class="col">
                                                                             <div class="form-group">
                                                                                 <label>City</label>
-                                                                                <select class="form-control" name = "city">
+                                                                                <select class="form-control" name = "city" disabled>
                                                                                     <option>{{data.city}}</option>
                                                                                 </select>
                                                                             </div>
@@ -161,7 +161,7 @@
                                                                                 <label for="customRange1">Age</label>
                                                                                 <input type="range" min="16" max="50"
                                                                                     value="{{data.age}}" id="age"
-                                                                                    name="age"
+                                                                                    name="age" disabled
                                                                                     class="custom-range custom-range-teal"
                                                                                     id="customRange1" name = "age">
                                                                                 <p>Value: <span id="ageV"></span> Years
@@ -181,7 +181,7 @@
                                                                                 <label
                                                                                     for="customRange1">Experience</label>
                                                                                 <input type="range" min="0" max="50"
-                                                                                    value="{{data.experience}}"
+                                                                                    value="{{data.experience}}" disabled
                                                                                     id="experience" name="experience"
                                                                                     class="custom-range custom-range-teal"
                                                                                     id="customRange1">
