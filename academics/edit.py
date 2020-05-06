@@ -69,36 +69,79 @@ def editMainly(request):
     if request.method == "POST":
         name = request.POST.get('name')
         dis = request.POST.get('dis')
-        prep=request.POST.get('prepration')
-        if (name != "" and dis != "" and prep is not None):
-            print(prep)
-            if prep == idprep:
-                print("same")
-                database.child('prepration').child(idprep).child('mainly').child(idd).child('details').update(
-                    {
-                        'name': name,
-                        'dis': dis,
-                    }
-                )
-                return redirect('/academics/viewMainly')
-            else:
-                print("diff")
-                free = database.child('prepration').child(prep).child('mainly').child('free').shallow().get().val()
-                if free:
-                    tempid = free
-                else:
-                    tempid = 100
-                database.child('prepration').child(prep).child('mainly').child(prep+str(tempid)).child('details').update(
-                    {
-                        'name': name,
-                        'dis': dis,
-                    }
-                )
-                database.child('prepration').child(prep).child('mainly').update({'free': tempid+1})
-                data = {
-                        'name': '',
-                        'dis': '',
-                    }
-                database.child('prepration').child(idprep).child('mainly').child(idd).remove()
-                return redirect('/academics/viewMainly')
+        database.child('prepration').child(idprep).child('mainly').child(idd).child('details').update(
+            {
+                'name': name,
+                'dis': dis,
+            }
+        )
+        return redirect('/academics/viewMainly')
     return render(request, './academics/editMainly.html',{'data':preprationdata,'main':l})
+
+
+
+
+
+
+
+def editPrepFor(request):
+    idd = request.GET.get('id')
+    if request.method == "POST":
+        print(idd)
+        name = request.POST.get('name')
+        dis = request.POST.get('dis')
+        database.child('prepration').child(idd).child('details').update(
+            {
+                'name': name,
+                'dis': dis,
+            }
+        )
+        return redirect('/academics/viewPrepFor')
+    prepfor = database.child('prepration').child(idd).child('details').get()
+    l={
+        'name': prepfor.val()['name'],
+        'dis': prepfor.val()['dis'],
+        'id': idd,
+    }
+    return render(request,'./academics/editPrepFor.html',{'data':l})
+
+def editTopic(request):
+    idd = request.GET.get('id')
+    sid = idd[:5]
+    if request.method == "POST":
+        name = request.POST.get('name')
+        dis = request.POST.get('dis')
+        database.child('subjects').child(sid).child('topics').child(idd).child('details').update(
+            {
+                'name': name,
+                'dis': dis,
+            }
+        )
+        return redirect('/academics/viewTopics')
+    topics = database.child('subjects').child(sid).child('topics').child(idd).child('details').get()
+    l={
+        'name': topics.val()['name'],
+        'dis': topics.val()['dis'],
+        'id': idd,
+    }
+    return render(request,'./academics/editTopic.html',{'data':l})
+
+def editSub(request):
+    idd = request.GET.get('id')
+    if request.method == "POST":
+        name = request.POST.get('name')
+        dis = request.POST.get('dis')
+        database.child('subjects').child(idd).child('details').update(
+            {
+                'name': name,
+                'dis': dis,
+            }
+        )
+        return redirect('/academics/viewSubjects')
+    topics = database.child('subjects').child(idd).child('details').get()
+    l={
+        'name': topics.val()['name'],
+        'dis': topics.val()['dis'],
+        'id': idd,
+    }
+    return render(request,'./academics/editSub.html',{'data':l})
