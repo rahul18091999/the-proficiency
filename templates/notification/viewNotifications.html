@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>View Typers</title>
+    <title>View Notifications</title>
 
 
     {% include "../includes/top.html" %}
@@ -38,24 +38,18 @@
                                     {% if data %}
                                     {% for i in data  %}
                                     <tr>
-                                        <td>{{i.tId}}</td>
-                                        <td>{{i.name}}</td>
-                                        <td>{{i.city}}, {{i.state}}</td>
-                                        <td>{{i.number}}</td>
+                                        <td>{{i.nid}}</td>
+                                        <td>{{i.title}}</td>
+                                        <td>{{i.to}}</td>
+                                        <td>{{i.time}}</td>
                                         <td>
                                             <a href='/user/edittyper?id={{i.tId}}'> <button type="button"
                                                     class="btn btn-default btn-sm">
-                                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                                    <span class="glyphicon glyphicon-edit"></span> View
                                                 </button>
                                             </a>
                                         </td>
-                                        <td>
-                                            <a href='/home/{{i.tId}}'> <button type="button"
-                                                    class="btn btn-default btn-sm">
-                                                    <span class="glyphicon glyphicon-edit"></span> Dashboard
-                                                </button>
-                                            </a>
-                                        </td>
+                                        
                                     </tr>
                                     {% endfor %}
                                     {% endif %}

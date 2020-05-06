@@ -25,9 +25,9 @@
                         <!-- left column -->
                         <div class="col-md-12">
                             <!-- general form elements -->
-                            {% if error %}
+                            {% if data.error %}
                             <div class="alert alert-danger">
-                                <center>{{error}}</center>
+                                <center>{{data.error}}</center>
                             </div>
                             {% endif %}
                             {% if success %}
@@ -51,12 +51,12 @@
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Title</label>
-                                            <input type="text" class="form-control" name="title" value="{{name}}"
+                                            <input type="text" class="form-control" name="title" value="{{data.title}}"
                                                 placeholder="eg. Wecome to ThePROFICIENCY" maxlength="50">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Discription</label>
-                                            <input type="text" class="form-control" name="discription" value="{{number}}"
+                                            <input type="text" class="form-control" name="discription" value="{{data.desc}}"
                                                 placeholder="eg. We welcome you all here">
                                         </div>
                                         <div class="form-group">
