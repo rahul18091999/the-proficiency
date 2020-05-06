@@ -8,6 +8,7 @@ def question(request):
         return redirect('/')
     elif(c==0):
         return redirect('/home')
+    
     subjectData = database.child('subjects').get()
     teacherData = database.child('teachers').get()
     data = []
@@ -74,7 +75,9 @@ def question(request):
                     'opt2': opt2,
                     'opt3': opt3,
                     'opt4': opt4,
-                    'optC': optc,   
+                    'optC': optc, 
+                    'typer':request.session['user'] ,
+                    'topic':topic 
                 }
             )
             database.child('teachers').child(teach).child('questions').child("q"+str(tempid)).update({'topic': topic})
@@ -140,17 +143,69 @@ def viewQuestion(request):
 
 
 def seeQues(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
     qid = request.GET.get('qid')
     data = database.child('questions').child(qid).child('details').get().val()
+    pre = request.session['us']
+    idd = request.session['user']
     print(data)
-    l={
-        'approved':data['approved'],
-        'by': data['by'],
-        'opt1': data['opt1'],
-        'opt2': data['opt2'],
-        'opt3': data['opt3'],
-        'opt4': data['opt4'],
-        'optC':  data['optC'],
-        'question': data['question']
-    }
-    return render(request,'./question/seeQues.html',{'data':l})
+    if(data and( pre == '15' or pre == '13' or idd == data['by'] or ( 'typer' in data and idd == data['typer'] ) )):
+        tname = database.child('teachers').child(data['by']).child('details').child('name').get().val()
+        tyname=''
+        if 'typer' in data:
+            tyname = database.child('typers').child(data['typer']).child('details').child('name').get().val()
+        topic=''
+        sname=''
+        sid=''
+        if 'topic' in data:
+            d = database.child('subjects').child(data['topic'][:5]).get().val()
+            sid = data['topic'][:5]
+            sname = d['details']['name']
+            topic = d['topics'][data['topic']]['details']['name']
+        return render(request,'./question/seeQues.html',{'data':data,'tname':tname,'tyname':tyname,'qid':qid,'topic':topic,'sid':sid,'sname':sname})
+    return redirect('/')
+
+
+def editQues(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    qid = request.GET.get('qid')
+    data = database.child('questions').child(qid).child('details').get().val()
+    pre = request.session['us']
+    idd = request.session['user']
+    if(data and( pre == '15' or pre == '13' or ( 'typer' in data and idd == data['typer'] ))):
+        tname = database.child('teachers').child(data['by']).child('details').child('name').get().val()
+        sid = data['topic'][:5]
+        sdata = database.child('subjects').child(sid).get().val()
+        sname = sdata['details']['name']
+        topic = sdata['topics'][data['topic']]['details']['name']
+        if request.method == 'POST':
+            ques = request.POST.get('ques')
+            opt1 = request.POST.get('opt1')
+            opt2 = request.POST.get('opt2')
+            opt3 = request.POST.get('opt3')
+            opt4 = request.POST.get('opt4')
+            optc = request.POST.get('optC')
+            if(ques and opt1 and opt2 and opt3 and opt4):
+                database.child('questions').child(qid).child('details').update(
+                    {   
+                    
+                    'question': ques,
+                    'opt1': opt1,
+                    'opt2': opt2,
+                    'opt3': opt3,
+                    'opt4': opt4,
+                    'optC': optc, 
+                    }
+                )
+                data = database.child('questions').child(qid).child('details').get().val()
+                return render(request,'./question/editQues.html',{'data':data,'tname':tname,'sid':sid,'sname':sname,'topic':topic,'success':"Edit Successfully. "})
+            else:
+                return render(request,'./question/editQues.html',{'data':data,'tname':tname,'sid':sid,'sname':sname,'topic':topic,'error':"Please fill all the details."})
+        return render(request,'./question/editQues.html',{'data':data,'tname':tname,'sid':sid,'sname':sname,'topic':topic})
+    return redirect('/')
+
+   
