@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Typers</title>
+
+
+    {% include "../includes/top.html" %}
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    {% include "../includes/mainSlider.html" %}
+    {% include "../includes/navBar.html" %}
+    <div class="content-wrapper">
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">View Notifications</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table id="example1" class="table table-hover text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>Notification ID</th>
+                                        <th>Title</th>
+                                        <th>To</th>
+                                        <th>Date&Time</th>
+                                        <th>View</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% if data %}
+                                    {% for i in data  %}
+                                    <tr>
+                                        <td>{{i.tId}}</td>
+                                        <td>{{i.name}}</td>
+                                        <td>{{i.city}}, {{i.state}}</td>
+                                        <td>{{i.number}}</td>
+                                        <td>
+                                            <a href='/user/edittyper?id={{i.tId}}'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                                </button>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href='/home/{{i.tId}}'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> Dashboard
+                                                </button>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>Notification ID</th>
+                                        <th>Title</th>
+                                        <th>To</th>
+                                        <th>Date&Time</th>
+                                        <th>View</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div>
+    {% include "../includes/bottom.html" %}
+</body>
+
+</html>
