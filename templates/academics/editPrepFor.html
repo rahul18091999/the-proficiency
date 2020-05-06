@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TheProficiency | Add Mainly</title>
+    <title>TheProficiency | Add Preparing For</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include "../includes/top.html" %}
@@ -43,30 +43,30 @@
                             {% endif %}
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Add Mainly</h3>
+                                    <h3 class="card-title">Add Preparing For</h3>
                                 </div>
                                 <!-- /.card-header -->
 
 
 
                                 <!-- form start -->
-                                <form action="/academics/editMainly?id={{main.id}}" class="form-horizontal" method='POST'>
-                                {% csrf_token %}
+                                <form action="/academics/editPrepFor?id={{data.id}}" class="form-horizontal" method='POST'>
+                                    {% csrf_token %}
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">Mainly Name</label>
-                                            <input type="text" class="form-control" name="name" value="{{main.name}}"
+                                            <label for="exampleInputEmail1">Preparing For Name</label>
+                                            <input type="text" class="form-control" name="name" value="{{data.name}}"
                                                 placeholder="">
                                         </div>
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Discription</label>
-                                            <input type="text" class="form-control" name="dis" value="{{main.dis}}"
+                                            <input type="text" class="form-control" name="dis" value="{{data.dis}}"
                                                 placeholder="">
                                         </div>
-                                       
+                                        
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Add Mainly</button>
+                                            <button type="submit" class="btn btn-primary">Add Preparing For</button>
                                         </div>
                                 </form>
 

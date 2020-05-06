@@ -17,5 +17,8 @@ urlpatterns = [
     path('editBU',edit.editBU),
     path('editHD',edit.editHD),
     path('editMainly',edit.editMainly),
+    path('editPrepFor',edit.editPrepFor),
+    path('editTopic',edit.editTopic),
+    path('editSub',edit.editSub),
 
 ]
