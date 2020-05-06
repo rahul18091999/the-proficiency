@@ -28,10 +28,11 @@ def analysis(request):
                 income = []
                 tID = []
                 resp=d.val()
+                udata = resp['users']
+                tdata = resp['teachers']
                 for user in resp['users']:
                     topicID=[]
                     topics=[]
-                    
                     if 'exams' in resp['users'][user] and 'daily' in resp['users'][user]['exams'] and date in resp['users'][user]['exams']['daily']:
                         ans=resp['users'][user]['exams']['daily'][date]['answers']
                         marks = 0
@@ -42,26 +43,20 @@ def analysis(request):
                                     topicID.append(ans[q]['topicID'])
                                     topics.append(0);
                                 topics[topicID.index(ans[q]['topicID'])]+=1
-                                # firebase
-                                database.child('users').child(user).child('exams').child('daily').child(date).child('answers').child(q).update({
-                                    'isCorrect' : 'true'
-                                })
+                                udata[user]['exams']['daily'][date]['answers'][q]['isCorrect'] = 'true'
                             else:
                                 marks-=1
-                                # firebase
-                                database.child('users').child(user).child('exams').child('daily').child(date).child('answers').child(q).update({
-                                    'isCorrect' : 'false',
-                                    'correct' : resp['questions'][ans[q]['qID']]['details']['optC']
-                                })
-
+                                udata[user]['exams']['daily'][date]['answers'][q]['isCorrect'] = 'false'
+                                udata[user]['exams']['daily'][date]['answers'][q]['correct'] = resp['questions'][ans[q]['qID']]['details']['optC']                            
                             if ans[q]['by'] not in tID:
                                 tID.append(ans[q]['by'])
                                 income.append(0)
                             income[tID.index(ans[q]['by'])]+=1
+                        if 'analysis' not in udata[user]['exams']:
+                            udata[user]['exams']['analysis'] ={}
+                            udata[user]['exams']['analysis']['topics']={}
                         for index,item in enumerate(topicID):
-                            database.child('users').child(user).child('exams').child('analysis').child('topics').child(item).update({
-                                'correct':topics[index]
-                            })
+                            udata[user]['exams']['analysis']['topics'][item]={'correct' : topics[index]}
                         if resp['users'][user]['prepFor']['mainly'] not in mainly:
                             mainly.append(resp['users'][user]['prepFor']['mainly'])
                             arrMarks.append([])
@@ -71,27 +66,28 @@ def analysis(request):
                             'name':resp['users'][user]['details']['name'],
                             'uID':user,
                         })
-                print(arrMarks)
                 from operator import itemgetter
                 for m in range(len(arrMarks)):
                     s=sorted(arrMarks[m],key=itemgetter('name'),reverse=True)
                     s=sorted(s, key=itemgetter('marks'))
-                    print(s)
                     for u in range(len(s)):
                         percentile= round((100*(u+1)/len(s)),6)
                         rank = int(round((((100 - percentile)/100)*len(s))+1,0))
-                        print(percentile,rank,s[u]['uID'])
-                        database.child('users').child(s[u]['uID']).child('exams').child('daily').child(date).update({
-                            'marks':s[u]['marks'],
-                            'percentile':percentile,
-                            'rank':rank
-                        })
+                        udata[s[u]['uID']]['exams']['daily'][date]['marks']=s[u]['marks']
+                        udata[s[u]['uID']]['exams']['daily'][date]['percentile']=percentile
+                        udata[s[u]['uID']]['exams']['daily'][date]['rank']=rank
+
                 for index,item in enumerate(tID):
-                    database.child('teachers').child(item).child('income').child('exams').child('daily').child(date).update({
-                        'totalSale':income[index]
-                    })
-                success='Data has been analyzed Successfully.'
-                database.child('exams').child('dailyTime').child(date).update({'status':"Pre-Analysis Done"})
+                    if 'income' not in tdata[item]:
+                        tdata[item]['income']={}
+                        tdata[item]['income']['exams']={}
+                        tdata[item]['income']['exams']['daily']={}
+                    tdata[item]['income']['exams']['daily'][date]={'totalSale':income[index]}
+
+                success='Data has been analyzed Successfully.'                
+                
+                database.child('/').update({'users':udata,'teachers':tdata})
+            
             else:
                 print(exam)
                 mainly=[]

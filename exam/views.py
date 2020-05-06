@@ -199,7 +199,7 @@ def index(request):
 
 
 def logout(request):
-    if(checkpermission(request, '/logout')):
+    if(checkpermission(request, '/logout')!=-1):
         
         
         del request.session['user']

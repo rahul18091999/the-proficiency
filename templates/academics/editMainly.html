@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TheProficiency | Add Mainly</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include "../includes/top.html" %}
+
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+        {% include "../includes/navBar.html" %}
+        {% include "../includes/mainSlider.html" %}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            {% if error %}
+                            <div class="alert alert-danger">
+                                <center>{{error}}</center>
+                            </div>
+                            {% endif %}
+                            {% if success %}
+                            <div class="alert alert-success">
+                                <center>{{success}}</center>
+                            </div>
+                            {% endif %}
+                            {% if info %}
+                            <div class="alert alert-info">
+                                <center>{{info}}</center>
+                            </div>
+                            {% endif %}
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Add Mainly</h3>
+                                </div>
+                                <!-- /.card-header -->
+
+
+
+                                <!-- form start -->
+                                <form action="/academics/editMainly?id={{main.id}}" class="form-horizontal" method='POST'>
+                                {% csrf_token %}
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Mainly Name</label>
+                                            <input type="text" class="form-control" name="name" value="{{main.name}}"
+                                                placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Discription</label>
+                                            <input type="text" class="form-control" name="dis" value="{{main.dis}}"
+                                                placeholder="">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Preparing For</label>
+                                            <select class="form-control select2" id="listBox"
+                                                  name="prepration">
+                                                  {% for i in data %}
+                                                 <option selected value="{{main.prep}}">{{main.prepname}}({{main.prep}})</option>
+                                                 <option value="{{i.id}}">{{i.name}}({{i.id}})</option>
+                                                 {% endfor %}
+                                            </select>
+                                        </div>
+                                        <!-- /.card-body -->
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">Add Mainly</button>
+                                        </div>
+                                </form>
+
+
+
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!--/.col (left) -->
+                    </div>
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+
+    </div>
+    <!-- ./wrapper -->
+    {% include "../includes/bottom.html" %}
+</body>
+
+</html>

@@ -30,9 +30,9 @@ def viewQues(request):
                     'by': i.val()["by"],
                 }
             )
-        return render(request, 'viewQuestyper.html', {'question': l})
+        return render(request, './typer/viewQuestyper.html', {'question': l})
     except:
-        return render(request, 'viewQuestyper.html', {})
+        return render(request, './typer/viewQuestyper.html', {})
 
 
 def editProfile(request):

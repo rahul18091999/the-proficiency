@@ -7,13 +7,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
-        function select_topic($val) {
-            var arr = {{ topic| safe }};
-        var options = '';
-        for (var i = 0; i < arr[$val].length; i++)
-            options += '<option value=' + arr[$val][i].id + '>' + arr[$val][i].name + '(' + arr[$val][i].id + ')' + '</option>'
-        $('#topic').html(options);
-            }
         (function ($) {
             $(document).ready(function () {
                 $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
@@ -38,14 +31,14 @@
                 <div class="panel-title">Add a new Question</div>
             </div>
             <div class="panel-body">
-                {% if data.error %}
+                {% if error %}
                 <div class="alert alert-danger">
-                    <center>{{data.error}}</center>
+                    <center>{{error}}</center>
                 </div>
                 {% endif %}
-                {% if data.success %}
+                {% if success %}
                 <div class="alert alert-success">
-                    <center>{{data.success}}</center>
+                    <center>{{success}}</center>
                 </div>
                 {% endif %}
                 <div class="controls col-md-12 ">
@@ -57,7 +50,7 @@
                         </center>
                     </a>
                 </div>
-                <form class="form-horizontal" id="plain" method='POST' action="/question/addQuestion">
+                <form class="form-horizontal" id="plain" method='POST'>
                     {% csrf_token %}
                     <div id="div_id_ques" class="form-group required">
                         <legend for="id_ques" class="control-label col-md-4  requiredField"> Question
@@ -106,11 +99,27 @@
                         <div class="controls col-md-8 ">
                             <select class="input-md optCinput form-control" id="id_optC" name="optC"
                                 selected="<%= body.optC %>">
-                                <option value="" disabled selected>Select Correct Option</option>
+                                <option value="" disabled>Select Correct Option</option>
+                                {% if data.optC == 'opt1' %}
+                                <option value="opt1" selected>Option 1</option>
+                                {% else %}
                                 <option value="opt1">Option 1</option>
+                                {% endif %}
+                                {% if data.optC == 'opt2' %}
+                                <option value="opt2" selected>Option 2</option>
+                                {% else %}
                                 <option value="opt2">Option 2</option>
+                                {% endif %}
+                                {% if data.optC == 'opt3' %}
+                                <option value="opt3" selected>Option 3</option>
+                                {% else %}
                                 <option value="opt3">Option 3</option>
+                                {% endif %}
+                                {% if data.optC == 'opt4' %}
+                                <option value="opt4" selected>Option 4</option>
+                                {% else %}
                                 <option value="opt4">Option 4</option>
+                                {% endif %}
                             </select>
                         </div>
                     </div>
@@ -119,12 +128,10 @@
                         </legend>
                         <div class="controls col-md-8 ">
                             <select class="input-md teacherinput form-control" id="id_teacher" name="teacher"
-                                selected="<%= body.teacher %>">
-                                <option value="" disabled selected>select teacher</option>
-                                <option value="qBank">Question Bank</option>
-                                {% for teacher in teach %}
-                                <option value="{{teacher.tId}}">{{teacher.name}}({{teacher.tId}})</option>
-                                {% endfor %}
+                                selected="<%= body.teacher %>" disabled>
+                               
+                                <option value="{{data.by}}" >{{tname}}({{data.by}})</option>
+                                
                             </select>
                         </div>
                     </div>
@@ -132,14 +139,8 @@
                         <legend for="id_subject" class="control-label col-md-4  requiredField"> Subject
                         </legend>
                         <div class="controls col-md-8 ">
-                            <select class="input-md subjectinput form-control" id="id_subject" name="subject"
-                                onchange="select_topic(this.value)" selected="<%= body.teacher %>">
-                                <option value="" disabled selected>Subject Type</option>
-
-                                {% for subj in subject  %}
-
-                                <option value="{{subj.index}}">{{subj.name}}({{subj.id}})</option>
-                                {% endfor %}
+                            <select class="input-md subjectinput form-control" id="id_subject" name="subject" disabled>
+                                <option value="{{sid}}">{{sname}}({{sid}})</option>
 
                             </select>
                         </div>
@@ -149,9 +150,9 @@
                         <legend for="id_topic" class="control-label col-md-4  requiredField"> Topic
                         </legend>
                         <div class="controls col-md-8 ">
-                            <select class="input-md subjectinput form-control" id="topic" name="topic">
+                            <select class="input-md subjectinput form-control" id="topic" name="topic" disabled>
 
-                                <option value="" disabled selected>Question Type</option>
+                                <option value="" disabled selected>{{topic}}({{data.topic}})</option>
 
                             </select>
                         </div>

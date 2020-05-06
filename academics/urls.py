@@ -16,5 +16,6 @@ urlpatterns = [
     path('viewMainly',views.viewMainly),
     path('editBU',edit.editBU),
     path('editHD',edit.editHD),
+    path('editMainly',edit.editMainly),
 
 ]
