@@ -19,3 +19,5 @@ def viewTickets(request):
                     }
                 )
     return render(request, './tickets/viewTickets.html',{'data':l})
+def seeTicket(request):
+    return render(request,'./tickets/seeTicket.html')
