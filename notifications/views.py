@@ -104,7 +104,7 @@ def seeNotifications(request):
     data = database.child('notifications').child(nid).get().val()
     from datetime import datetime
     data['time']= datetime.fromtimestamp(data['time']/100)
-    return render(request,'./notification/seeNotifications.html',{'data':data})
+    return render(request,'./notification/seeNotifications.html',{'data':data, 'nID':nid})
 
 
     
