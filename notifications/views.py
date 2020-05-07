@@ -9,7 +9,6 @@ def viewNotifications(request):
         from datetime import datetime
         for i in d:
             if i !='free':
-                print(d[i])
                 l.append({
                     'nid':i,
                     'time':datetime.fromtimestamp(d[i]['time']/100),
@@ -33,45 +32,62 @@ def addNotifications(request):
             from datetime import datetime
             time_now = int(datetime.now().timestamp()*100)
             print(time_now)
-            # if data:
-            #     temp = database.child('notifications').child('free').shallow().get().val()
-            #     if temp:
-            #         idd = temp
-            #     else:
-            #         idd = 100000000000000
-            #     print(temp)
-            #     for j in data:
-                    
-            #         if 'notifications' in data[j]:
-            #             td[j]['notifications']['notes']={idd:time_now}
-            #             token.append(data[j]['notifications']['token'])
-            #         else:
-            #             td[j]['notifications']={}
-            #             td[j]['notifications']['notes']={idd:time_now}
-            # if token:
-            #     print(token)
-            #     token.append('EfadsfadsfasdfasdxponentPushfasdTofsadfskfadssdafsdfen[4iSHToD76BENf7-ujv4hcN')
-            #     import requests
-            #     r = requests.post('https://exp.host/--/api/v2/push/send',
-            #     headers={
-            #         "HTTP_ACCEPT":'application/json',
-            #         "HTTP_ACCEPT_ENCODING":'gzip, deflate',
-            #         "HTTP_HOST":'the-proficiency.com',
-            #         'Content-type': 'application/json'
-            #     },
-            #     json={
-            #         'to':token,                        
-            #           'title': title,                  
-            #           'body': desc,             
-            #           'priority': "high",            
-            #           'sound':"default",              
-            #           'channelId':"default",   
+            tid = {}
+            if data:
+                temp = database.child('notifications').child('free').shallow().get().val()
+                if temp:
+                    idd = temp
+                else:
+                    idd = 100000000000000
+                print(temp)
+                for j in data:
+                    tid[j] = 'done'
+                    if 'notifications' in data[j]:
+                        
+                        if 'token' in data[j]['notifications']:
+                        
+                            token.append(data[j]['notifications']['token'])
+                        
 
-            #     })
-            #     import ast
-            #     d = ast.literal_eval(r.text)['data']
-            #     for i in d:
-            #         print (i['status'])
+                    else:
+                        td[j]['notifications']={}
+                    if 'notes' not in data[j]['notifications']:
+                        td[j]['notifications']['notes']={}
+                    td[j]['notifications']['notes'][idd]=time_now
+
+            if token:
+                print(token)
+                token.append('EfadsfadsfasdfasdxponentPushfasdTofsadfskfadssdafsdfen[4iSHToD76BENf7-ujv4hcN')
+                import requests
+                r = requests.post('https://exp.host/--/api/v2/push/send',
+                headers={
+                    "HTTP_ACCEPT":'application/json',
+                    "HTTP_ACCEPT_ENCODING":'gzip, deflate',
+                    "HTTP_HOST":'the-proficiency.com',
+                    'Content-type': 'application/json'
+                },
+                json={
+                    'to':token,                        
+                      'title': title,                  
+                      'body': desc,             
+                      'priority': "high",            
+                      'sound':"default",              
+                      'channelId':"default",   
+
+                })
+                import ast
+                d = ast.literal_eval(r.text)['data']
+                if d[0]['status'] == 'ok':
+                    database.child('notifications').child(idd).update({
+                        'by':request.session['user'],
+                        'discription':desc,
+                        'time':time_now,
+                        'title':title,
+                        'to':to,
+                        'ids':tid
+                    })
+                    database.child('/').update({to:td})
+                    database.child('notifications').update({'free':idd+1})
         else:
             data={
                 'title':title,
@@ -81,6 +97,14 @@ def addNotifications(request):
             }
             return render(request,'./notification/addNotifications.html',{'data':data})
     return render(request,'./notification/addNotifications.html')
+
+
+def seeNotifications(request):
+    nid = request.GET.get('nid')
+    data = database.child('notifications').child(nid).get().val()
+    from datetime import datetime
+    data['time']= datetime.fromtimestamp(data['time']/100)
+    return render(request,'./notification/seeNotifications.html',{'data':data})
 
 
     
