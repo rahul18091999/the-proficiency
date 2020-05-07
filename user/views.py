@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from exam.views import database, checkpermission, getpass
 from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
 # Create your views here.
 
 
@@ -36,7 +38,6 @@ def users(request):
         return redirect('/home')
     else:
         if request.method == "POST":
-            # print('rahul')
             name = request.POST.get('name')
             number = request.POST.get('number')
             email = request.POST.get('email')
@@ -82,6 +83,7 @@ def users(request):
             create = request.session['user']
 
             if userType == "Teacher":
+                
                 if (database.child('tIds').child(number).shallow().get().val()):
                     error = "Phone Number Already exists"
                     data['error'] = error
@@ -145,11 +147,21 @@ def users(request):
                     'email': '',
 
                 }
-                print(email,type(email))
+                
+                d=database.child('email').child('registration').shallow().get().val()
+                d = d.replace('[Full Name]',name)
+                d = d.replace('[USER ID]',"12"+str(tempid))
+                print(d.find('[phone number'))
+                d = d.replace('[phone number]',number)
+                print(d.find('[phone number'))
+
+                d = d.replace('[password]',number+"@TP@"+age)
+
                 send_mail(subject="account",
-                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
-                from_email="dhandainnovators@gmail.com",
-                recipient_list=['rahulmittalnrw@gmail.com'])
+                message='None',
+                        html_message = d ,
+                            from_email=settings.EMAIL_HOST_USER,
+                            recipient_list=[email])
                 data['success'] = "Teacher has been added Successfully!"
                 data['info'] = number + "@TP@" + age + " and 12" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -192,10 +204,20 @@ def users(request):
                     'email': '',
 
                 }
+                d=database.child('email').child('registration').shallow().get().val()
+                d = d.replace('[Full Name]',name)
+                d = d.replace('[USER ID]',"12"+str(tempid))
+                print(d.find('[phone number'))
+                d = d.replace('[phone number]',number)
+                print(d.find('[phone number'))
+
+                d = d.replace('[password]',number+"@TP@"+age)
+
                 send_mail(subject="account",
-                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
-                from_email="ask@the-proficiency.com",
-                recipient_list=[email])
+                message='None',
+                        html_message = d ,
+                            from_email=settings.EMAIL_HOST_USER,
+                            recipient_list=[email])
                 data['success'] = "Admin has been added Successfully!"
                 data['info'] = number + "@AP@" + age + " and 13" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -240,12 +262,20 @@ def users(request):
                     'email': '',
 
                 }
+                d=database.child('email').child('registration').shallow().get().val()
+                d = d.replace('[Full Name]',name)
+                d = d.replace('[USER ID]',"12"+str(tempid))
+                print(d.find('[phone number'))
+                d = d.replace('[phone number]',number)
+                print(d.find('[phone number'))
+
+                d = d.replace('[password]',number+"@TP@"+age)
+
                 send_mail(subject="account",
-                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
-                from_email="dhandainnovators@gmail.com",
-                recipient_list=[email],
-                
-                fail_silently=False)
+                message='None',
+                        html_message = d ,
+                            from_email=settings.EMAIL_HOST_USER,
+                            recipient_list=[email])
                 data['success'] = "Typer has been added Successfully!"
                 data['info'] = number + "@TYP@" + age + " and 14" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
@@ -317,10 +347,20 @@ def users(request):
                     'email': '',
 
                 }
+                d=database.child('email').child('registration').shallow().get().val()
+                d = d.replace('[Full Name]',name)
+                d = d.replace('[USER ID]',"12"+str(tempid))
+                print(d.find('[phone number'))
+                d = d.replace('[phone number]',number)
+                print(d.find('[phone number'))
+
+                d = d.replace('[password]',number+"@TP@"+age)
+
                 send_mail(subject="account",
-                message=("your id and password for your proficiency account is "+"12"+str(tempid)+"  "+str(number)+"@TP"+str(age)),
-                from_email="ask@the-proficiency.com",
-                recipient_list=[email])
+                message='None',
+                        html_message = d ,
+                            from_email=settings.EMAIL_HOST_USER,
+                            recipient_list=[email])
                 data['success'] = "Marketer has been added Successfully!"
                 data['info'] = number + "@MP@" + age + " and 11" + str(
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
