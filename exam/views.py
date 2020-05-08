@@ -28,7 +28,8 @@ def checkpermission(r, url):
         l15 = ['/logout', '/home', '/question/addQuestion', '/question/viewQuestion','/user/addUser','/user/teacher','/user/typer','/user/marketer',
         '/academics/addBU','/academics/viewBU','/academics/viewHD','/academics/addHD','/academics/viewPrepFor'
         ,'/academics/addPrepFor','/academics/viewMainly','/academics/addMainly','/academics/viewSubjects','/academics/addSubject',
-        '/academics/viewTopics','/academics/addTopic','/exams/addDaily','/exams/addNLE','/exams/viewCoupons','/exams/addCoupon']
+        '/academics/viewTopics','/academics/addTopic','/exams/addDaily','/exams/addNLE','/exams/viewCoupons','/exams/addCoupon',
+        '/banners/addBanner']
         if(idd == '11'):
             if url in l11:
                 return 1
@@ -97,7 +98,7 @@ def getimage(idd):
 
 def getuserdetail(userid):
     if(userid == '11'):
-        return
+        return ['marketers','mIds',1000001]
     elif(userid == '12'):
         return ['teachers', 'tIds', 100001]
     elif(userid == '13'):

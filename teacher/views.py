@@ -165,6 +165,7 @@ def editProfile(request):
         currentpassword = request.POST.get("currentpassword")
         newpassword = request.POST.get("newpassword")
         confirmpassword = request.POST.get("confirmpassword")
+        
         if(request.FILES):
             
             storage.child('/teachers/'+iduser).put(request.FILES["images"])

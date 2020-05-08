@@ -48,7 +48,7 @@
                     <div class="col">
                         <div class="row">
                             <div class="col mb-3">
-                                <form action='/marketer/editProfile' method="POST">
+                                <form action='/marketer/editProfile' method="POST" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     <div class="card">
                                         <div class="card-body">
@@ -75,7 +75,7 @@
                                                             <div class="mt-2">
                                                                 <button class="btn btn-primary" type="button">
                                                                     <i class="fa fa-fw fa-camera"></i>
-                                                                    <input type="file" name="images" #images onchange="onIconUrlChanges($event)">
+                                                                    <input type="file" name="images" #images>
                                                                    
                                                                     <span>Change Photo</span>
                                                                 </button>
