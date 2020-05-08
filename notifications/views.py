@@ -86,8 +86,8 @@ def addNotifications(request):
                         'to':to,
                         'ids':tid
                     })
-                    database.child('/').update({to:td})
                     database.child('notifications').update({'free':idd+1})
+                    database.child('/').update({to:td})
         else:
             data={
                 'title':title,
