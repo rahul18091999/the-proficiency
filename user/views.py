@@ -198,7 +198,7 @@ def users(request):
                         'gen': gen
                     }
                 )
-                database.child('aids').update({'free': tempid+1})
+                database.child('aIds').update({'free': tempid+1})
                 data = {
                     'name': '',
                     'email': '',
@@ -281,7 +281,7 @@ def users(request):
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
             elif userType == "Marketer":
-                if (database.child('MIds').child(number).shallow().get().val()):
+                if (database.child('mIds').child(number).shallow().get().val()):
                     error = "Phone Number Already exists"
                     data['error'] = error
                     return render(request, './users/addUser.html', data)
