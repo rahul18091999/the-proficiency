@@ -30,6 +30,7 @@
                                         <th>Discription</th>
                                         <th>Preparing For</th>
                                         <th>Edit</th>
+                                        <th>Subjects</th>
                                     </tr>
                                 </thead>
 
@@ -49,6 +50,13 @@
                                                 </button>
                                             </a>
                                         </td>
+                                        <td>
+                                            <a href='/academics/linksub?id={{i.id}}'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> Subjects
+                                                </button>
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                     {% endif %}
@@ -60,6 +68,7 @@
                                         <th>Discription</th>
                                         <th>Preparing For</th>
                                         <th>Edit</th>
+                                        <th>Subjects</th>
                                     </tr>
                                 </tfoot>
                             </table>

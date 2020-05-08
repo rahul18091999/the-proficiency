@@ -79,7 +79,7 @@ def users(request):
                 return render(request, './users/addUser.html', data)
             from datetime import datetime
             from random import randint
-            time_now = int(datetime.now().timestamp()*100)
+            time_now = int(datetime.now().timestamp()*1000)
             create = request.session['user']
 
             if userType == "Teacher":
@@ -501,7 +501,7 @@ def editprofile(request):
         idd).child('details').get()
     from datetime import date
     data = database.child('mIds').child(
-        marketerdata.val()["phone"]).child('createdOn').get().val()/100
+        marketerdata.val()["phone"]).child('createdOn').get().val()/1000
     date = date.fromtimestamp(data)
     l = {
         'id': idd,
@@ -607,3 +607,4 @@ def viewStudents(request):
             }
         )
     return render(request,'./users/viewStu.html',{'data': l})
+

@@ -11,7 +11,7 @@ def viewNotifications(request):
             if i !='free':
                 l.append({
                     'nid':i,
-                    'time':datetime.fromtimestamp(d[i]['time']/100),
+                    'time':datetime.fromtimestamp(d[i]['time']/1000),
                     'title':d[i]['title'],
                     'to':d[i]['to']
                 })
@@ -30,7 +30,7 @@ def addNotifications(request):
             token=[]
             td = data
             from datetime import datetime
-            time_now = int(datetime.now().timestamp()*100)
+            time_now = int(datetime.now().timestamp()*1000)
             print(time_now)
             tid = {}
             if data:

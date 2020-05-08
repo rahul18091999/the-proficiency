@@ -20,5 +20,7 @@ urlpatterns = [
     path('editPrepFor',edit.editPrepFor),
     path('editTopic',edit.editTopic),
     path('editSub',edit.editSub),
+    path('linksub',views.linksub),
+
 
 ]

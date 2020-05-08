@@ -5,7 +5,7 @@ def editteacher(request):
     iduser = request.GET.get('id')
     i = database.child('teachers').child(iduser).child('details').get()
     from datetime import date
-    data=database.child('tIds').child(i.val()["phone"]).child('createdOn').get().val()/100 
+    data=database.child('tIds').child(i.val()["phone"]).child('createdOn').get().val()/1000
     date=date.fromtimestamp(data)
     l = {
         'id': iduser,
@@ -96,7 +96,7 @@ def editMarketer(request):
     marketerdata = database.child('marketers').child(idd).child('details').get()
     print("marketerdata")
     from datetime import date
-    data=database.child('mIds').child(marketerdata.val()["phone"]).child('createdOn').get().val()/100
+    data=database.child('mIds').child(marketerdata.val()["phone"]).child('createdOn').get().val()/1000
     date=date.fromtimestamp(data)
     l = {
         'id': idd,
@@ -185,7 +185,7 @@ def edittyper(request):
     print(iduser)
     i = database.child('typers').child(iduser).child('details').get()
     from datetime import date
-    data=database.child('tyIds').child(i.val()["phone"]).child('createdOn').get().val()/100
+    data=database.child('tyIds').child(i.val()["phone"]).child('createdOn').get().val()/1000
     date=date.fromtimestamp(data)
     l = {
         'id': iduser,
