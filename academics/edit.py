@@ -90,6 +90,14 @@ def editPrepFor(request):
         print(idd)
         name = request.POST.get('name')
         dis = request.POST.get('dis')
+        if name == "" or dis == "":
+            data={
+                'name': name,
+                'dis': dis,
+            }
+            print("abc")
+            data['error']= "please fill the given details"
+            return render(request,'./academics/editPrepFor.html',{'data':data})
         database.child('prepration').child(idd).child('details').update(
             {
                 'name': name,
