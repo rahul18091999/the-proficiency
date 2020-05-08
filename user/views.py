@@ -198,7 +198,7 @@ def users(request):
                         'gen': gen
                     }
                 )
-                database.child('aids').update({'free': tempid+1})
+                database.child('aIds').update({'free': tempid+1})
                 data = {
                     'name': '',
                     'email': '',
@@ -206,7 +206,7 @@ def users(request):
                 }
                 d=database.child('email').child('registration').shallow().get().val()
                 d = d.replace('[Full Name]',name)
-                d = d.replace('[USER ID]',"12"+str(tempid))
+                d = d.replace('[USER ID]',"13"+str(tempid))
                 print(d.find('[phone number'))
                 d = d.replace('[phone number]',number)
                 print(d.find('[phone number'))
@@ -264,7 +264,7 @@ def users(request):
                 }
                 d=database.child('email').child('registration').shallow().get().val()
                 d = d.replace('[Full Name]',name)
-                d = d.replace('[USER ID]',"12"+str(tempid))
+                d = d.replace('[USER ID]',"14"+str(tempid))
                 print(d.find('[phone number'))
                 d = d.replace('[phone number]',number)
                 print(d.find('[phone number'))
@@ -281,7 +281,7 @@ def users(request):
                     tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
             elif userType == "Marketer":
-                if (database.child('MIds').child(number).shallow().get().val()):
+                if (database.child('mIds').child(number).shallow().get().val()):
                     error = "Phone Number Already exists"
                     data['error'] = error
                     return render(request, './users/addUser.html', data)
@@ -349,7 +349,7 @@ def users(request):
                 }
                 d=database.child('email').child('registration').shallow().get().val()
                 d = d.replace('[Full Name]',name)
-                d = d.replace('[USER ID]',"12"+str(tempid))
+                d = d.replace('[USER ID]',"11"+str(tempid))
                 print(d.find('[phone number'))
                 d = d.replace('[phone number]',number)
                 print(d.find('[phone number'))

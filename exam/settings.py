@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'trnc',
     'tickets',
     'notifications',
+    'banners',
 ]
 
 MIDDLEWARE = [

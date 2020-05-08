@@ -26,9 +26,9 @@
                         <!-- left column -->
                         <div class="col-md-12">
                             <!-- general form elements -->
-                            {% if error %}
+                            {% if data.error %}
                             <div class="alert alert-danger">
-                                <center>{{error}}</center>
+                                <center>{{data.error}}</center>
                             </div>
                             {% endif %}
                             {% if success %}
@@ -45,6 +45,7 @@
                                 <div class="card-header">
                                     <h3 class="card-title">Add Subject</h3>
                                 </div>
+                                
                                 <!-- /.card-header -->
 
 

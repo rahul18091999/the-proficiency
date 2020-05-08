@@ -63,10 +63,10 @@ from exam.views import database, getpass, checkpermission, storage
 
 
 def rating(request):
-    c=checkpermission(request,request.path)
-    if(c==-1):
+    c = checkpermission(request, request.path)
+    if(c == -1):
         return redirect('/')
-    elif(c==0):
+    elif(c == 0):
         return redirect('/home')
     idd = request.session['user']
     t = database.child('teachers').child(idd).child(
@@ -89,10 +89,10 @@ def rating(request):
 
 
 def viewQuestion(request):
-    c=checkpermission(request,request.path)
-    if(c==-1):
+    c = checkpermission(request, request.path)
+    if(c == -1):
         return redirect('/')
-    elif(c==0):
+    elif(c == 0):
         return redirect('/home')
     idd = request.session['user']
     t = database.child('teachers').child(idd).child('questions').get()
@@ -103,23 +103,25 @@ def viewQuestion(request):
             data.append({'qid': i.key(), 'topicid': i.val()['topic']})
     return render(request, './teacher/questions.html', {'data': data})
 
+
 def teacherearning(request):
-    c=checkpermission(request,request.path)
-    if(c==-1):
+    c = checkpermission(request, request.path)
+    if(c == -1):
         return redirect('/')
-    elif(c==0):
+    elif(c == 0):
         return redirect('/home')
-    idd =  request.session['user']
+    idd = request.session['user']
     data = database.child('teachers').child(idd).get()
     l = []
-    tp = database.child('share').child('teachers').child('tp').shallow().get().val()
+    tp = database.child('share').child(
+        'teachers').child('tp').shallow().get().val()
     if tp is None:
-        tp=20
-        database.child('share').child('teachers').update({'tp':20})
+        tp = 20
+        database.child('share').child('teachers').update({'tp': 20})
     total = 0
     if 'income' in data.val():
         exams = data.val()['income']['exams']['daily']
-        
+
         for i in exams:
             dat = i
             dat = dat[0:2]+'/'+dat[2:4]+'/'+dat[4:]
@@ -130,60 +132,65 @@ def teacherearning(request):
                     'money': exams[i]['totalSale']/20
                 }
             )
-            total+=exams[i]['totalSale']
-        
-    return render(request,'./teacher/earning.html',{'data':l,'total':total})
+            total += exams[i]['totalSale']
+
+    return render(request, './teacher/earning.html', {'data': l, 'total': total})
+
 
 def editProfile(request):
-    c=checkpermission(request,request.path)
-    if(c==-1):
+    c = checkpermission(request, request.path)
+    if(c == -1):
         return redirect('/')
-    elif(c==0):
+    elif(c == 0):
         return redirect('/home')
     iduser = request.session['user']
     i = database.child('teachers').child(iduser).child('details').get()
     from datetime import date
-    data=database.child('tIds').child(i.val()["phone"]).child('createdOn').get().val()/100 
-    date=date.fromtimestamp(data)
+    data = database.child('tIds').child(
+        i.val()["phone"]).child('createdOn').get().val()/100
+    date = date.fromtimestamp(data)
     l = {
         'id': iduser,
         'name': i.val()["name"],
-        'age':i.val()["age"],
-        'city':i.val()["city"],
-        'email':i.val()["email"],
-        'experience':i.val()["experience"],
-        'gen':i.val()["gen"],
-        'phone':i.val()["phone"],
-        'state':i.val()["state"],
-        'createdOn':date
+        'age': i.val()["age"],
+        'city': i.val()["city"],
+        'email': i.val()["email"],
+        'experience': i.val()["experience"],
+        'gen': i.val()["gen"],
+        'phone': i.val()["phone"],
+        'state': i.val()["state"],
+        'createdOn': date
     }
-    if(request.method=="POST"):
-        currentpassword=request.POST.get("currentpassword")
-        newpassword=request.POST.get("newpassword")
-        confirmpassword=request.POST.get("confirmpassword")
-        if (currentpassword!="" or newpassword!="" or confirmpassword!=""):
-            if(newpassword!=confirmpassword or len(newpassword)<6):
-                return render(request, './teacher/editProfile.html', {'data': l,'error':"Check Your Password"})
+    if(request.method == "POST"):
+        currentpassword = request.POST.get("currentpassword")
+        newpassword = request.POST.get("newpassword")
+        confirmpassword = request.POST.get("confirmpassword")
+        if(request.FILES["images"].name != ""):
+            storage.child('/teachers/abc').put(request.FILES["images"])
+        if (currentpassword != "" or newpassword != "" or confirmpassword != ""):
+            if(newpassword != confirmpassword or len(newpassword) < 6):
+                return render(request, './teacher/editProfile.html', {'data': l, 'error': "Check Your Password"})
             else:
-                current=database.child('tIds').child(i.val()["phone"]).child('pass').get().val()
-                if(getpass(currentpassword)[2:-1]!=current):
-                    return render(request, './teacher/editProfile.html', {'data': l,'error':"Check Your Current Password"})
+                current = database.child('tIds').child(
+                    i.val()["phone"]).child('pass').get().val()
+                if(getpass(currentpassword)[2:-1] != current):
+                    return render(request, './teacher/editProfile.html', {'data': l, 'error': "Check Your Current Password"})
                 else:
-                    database.child('tIds').child(i.val()["phone"]).update({'pass':getpass(newpassword)[2:-1]})
+                    database.child('tIds').child(i.val()["phone"]).update(
+                        {'pass': getpass(newpassword)[2:-1]})
                     return redirect('/home')
         else:
             return redirect('/home')
     else:
-        
+
         return render(request, './teacher/editProfile.html', {'data': l})
 
 
-
 def referal(request):
-    c=checkpermission(request,request.path)
-    if(c==-1):
+    c = checkpermission(request, request.path)
+    if(c == -1):
         return redirect('/')
-    elif(c==0):
+    elif(c == 0):
         return redirect('/home')
     idd = request.session['user']
     data = database.child('share').child('teachers').child(idd).get()
@@ -208,4 +215,4 @@ def referal(request):
                 typectrnc.append({'trnc': i, 'earn': typec['trnc'][i]})
 
         return render(request, './teacher/referal.html', {'code': code, 'typeatrnc': typeatrnc, 'typebtrnc': typebtrnc, 'typectrnc': typectrnc})
-    return (request,'./teacher/referal.html')
+    return (request, './teacher/referal.html')
