@@ -75,11 +75,13 @@
                                                             <div class="mt-2">
                                                                 <div class="form-group">
                                                                     <div class="custom-file">
-                                                                        <input type="file" name="images" class="custom-file-input" id="customFile">
-                                                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                                                        <input type="file" name="images"
+                                                                            class="custom-file-input" id="customFile">
+                                                                        <label class="custom-file-label"
+                                                                            for="customFile">Choose file</label>
                                                                     </div>
                                                                 </div>
-                                                            </div> 
+                                                            </div>
                                                         </div>
                                                         <input type="hidden" name="pic" id="hidpic">
                                                         <div class="text-center text-sm-right">
@@ -202,6 +204,29 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>Test Line</label>
+                                                                                <input class="form-control" type="text"
+                                                                                    name="text"
+                                                                                    placeholder="eg. Hello Student, I've 30 Years experience"
+                                                                                    value="{{data.phone}}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>Review</label>
+                                                                                <input class="form-control" type="text"
+                                                                                    name="text"
+                                                                                    placeholder="eg. Hello Dear, give me Review"
+                                                                                    value="{{data.phone}}">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -278,12 +303,4 @@
 
     {% include '../includes/bottom.html' %}
 </body>
-<script>
-    onIconUrlChanges(event) {
-        console.log("rahul");
-        //console.log(event.target.files[0]);
-
-    }
-</script>
-
 </html>
