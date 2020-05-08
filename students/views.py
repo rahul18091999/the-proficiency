@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from exam.views import database
+from exam.views import database,getpass
 # Create your views here.
 
 # def cmpp(x,y):
@@ -219,11 +219,77 @@ from exam.views import database
 
 
 def verify(request):
+
     return render(request,'./students/verify.html')
 
     
 def forgotPassword(request):
+    try:
+
+        del request.session['step']
+        del request.session['number']
+    except:
+        pass
+    if request.method == 'POST':
+        number = request.POST.get('number')
+        print(number)
+        data = list(database.child('ids').shallow().get().val())
+        print(data)
+        if number in data :
+            import random
+            from datetime import datetime
+            ran = random.randint(100000,999999)
+            print (ran)
+            database.child('ids').child(number).child('forgetPass').update({
+                'code':ran,
+                'time':int(datetime.now().timestamp()*1000)
+            })
+            request.session['step']=2
+            request.session['number']=number
+            return redirect('/students/newPassword')
+        else:
+            return render(request,'./students/forgotPassword.html',{'error':"Please fill correct number"})      
     return render(request,'./students/forgotPassword.html')
 
 def newPassword(request):
-    return render(request,'./students/newPassword.html')
+        try:
+            step = request.session['step']
+            number = request.session['number']
+            print(step)
+            if step == 2:
+                if request.method == 'POST':
+                    code = request.POST.get('code')
+                    c = database.child('ids').child(number).child('forgetPass').get().val()['code']
+                    print(c,code)
+                    print(type(c),type(code),str(c))
+                    if str(c) == code:
+                        print('rah')
+                        request.session['step'] = 3
+                        print('ill')
+                        return render(request,'./students/newPassword.html')
+                    else:
+                        return render(request,'./students/verify.html',{'error':"Please fill correct code"})
+                else:
+                    return render(request,'./students/verify.html')
+            print('pgl')
+            if step == 3:
+                print('hello============')
+                if request.method == 'POST':
+                    password = request.POST.get('pass')
+                    conpassword = request.POST.get('conpass')
+                    print(password,conpassword)
+                    if (password ==conpassword and len(password)>=6):
+                        print('======================================')
+                        database.child('ids').child(number).update({'pass':getpass(password)[2:-1]})
+                        del request.session['step']
+                        del request.session['number']
+                        return render(request,'./students/forgotPassword.html',{'success':"Password change successfully."})
+                    else:
+                        return render(request,'./students/newPassword.html',{'error':'Password and confirm password must be equal nd minimun length must be greater than or equal to 6'}) 
+
+                else:
+                    return render(request,'./students/newPassword.html')
+        except:
+            print('namu')
+            return redirect('/students/forgetPassword')
+       

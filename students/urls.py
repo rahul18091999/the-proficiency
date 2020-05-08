@@ -7,6 +7,6 @@ urlpatterns = [
     # path('overall',views.overall),
     # path('panda',views.panda)
     path('verify',views.verify),
-    path('forgotPassword',views.forgotPassword),
+    path('forgetPassword',views.forgotPassword),
     path('newPassword',views.newPassword),
 ]

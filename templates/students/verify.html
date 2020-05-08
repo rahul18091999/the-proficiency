@@ -7,7 +7,7 @@
     <title>The PROFICIENCY| Enter Code</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% include "./includes/top.html" %}
+    {% include "../includes/top.html" %}
 </head>
 
 <body class="hold-transition login-page">
@@ -26,9 +26,10 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Get the Code?</p>
 
-                <form action="recover-password.html" method="post">
+                <form  method="post">
+                    {% csrf_token %}
                     <div class="input-group mb-3">
-                        <input type="number" maxlength="6" class="form-control" placeholder="6 digit code">
+                        <input type="number" maxlength="6" class="form-control" placeholder="6 digit code" name = "code">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-phone"></span>
@@ -47,7 +48,7 @@
         </div>
     </div>
     <!-- /.login-box -->
-    {% include "./includes/bottom.html" %}
+    {% include "../includes/bottom.html" %}
 
 </body>
 
