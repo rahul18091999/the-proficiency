@@ -181,8 +181,8 @@ def editProfile(request):
                     database.child('tIds').child(i.val()["phone"]).update(
                         {'pass': getpass(newpassword)[2:-1]})
                     return redirect('/home')
-        else:
-            return redirect('/home')
+        
+        return redirect('/home')
     else:
 
         return render(request, './teacher/editProfile.html', {'data': l})

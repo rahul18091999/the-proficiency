@@ -72,6 +72,14 @@
                                                             <p class="mb-0">@{{data.id}}</p>
                                                             <div class="text-muted"><small>Active User</small>
                                                             </div>
+                                                            <div class="mt-2">
+                                                                <button class="btn btn-primary" type="button">
+                                                                    <i class="fa fa-fw fa-camera"></i>
+                                                                    <input type="file" name="images" #images onchange="onIconUrlChanges($event)">
+                                                                   
+                                                                    <span>Change Photo</span>
+                                                                </button>
+                                                            </div> 
                                                             <!-- <!-- <div class="mt-2"> -->
                                                                 <!-- <button class="btn btn-primary" type="button"> -->
                                                                     <!-- <i class="fa fa-fw fa-camera"></i> -->

@@ -30,6 +30,10 @@ def editprofile(request):
         currentpassword=request.POST.get("currentpassword")
         newpassword=request.POST.get("newpassword")
         confirmpassword=request.POST.get("confirmpassword")
+        if(request.FILES):
+            
+            storage.child('/marketers/'+iduser).put(request.FILES["images"])
+            request.session['image']=getimage(iduser)
         if (currentpassword=="" and newpassword=="" and confirmpassword==""):
             return redirect('/home')
         else:
