@@ -79,7 +79,7 @@ def getimage(idd):
     user=getuserdetail(str(idd)[:2])
     try:
         url=storage.child(user[0]).child(idd).get_url(1)
-        
+        print('rahul')
         import requests
         import ast
         # import urllib.parse
@@ -88,11 +88,11 @@ def getimage(idd):
         x = requests.get(url)
         try:
             ast.literal_eval(x.text)['error']
-            url="https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/teachers%2F200X200.png?alt=media&token=1"
+            url="https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/users%2Fteacher.png?alt=media&token=81e94f95-bf4a-4ffb-a98f-eb709aefee14"
         except:
             pass
     except:
-         url="https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/teachers%2F200X200.png?alt=media&token=1"   
+         url="https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/users%2Fteacher.png?alt=media&token=81e94f95-bf4a-4ffb-a98f-eb709aefee14"   
     return url
 
 def getuserdetail(userid):

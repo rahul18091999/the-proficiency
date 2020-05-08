@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 import re
 from django.http import HttpResponse
 
-from exam.views import database, getpass, checkpermission, storage
+from exam.views import database, getpass, checkpermission, storage,getimage
 # Create your views here.
 
 
@@ -165,8 +165,10 @@ def editProfile(request):
         currentpassword = request.POST.get("currentpassword")
         newpassword = request.POST.get("newpassword")
         confirmpassword = request.POST.get("confirmpassword")
-        if(request.FILES["images"].name != ""):
-            storage.child('/teachers/abc').put(request.FILES["images"])
+        if(request.FILES):
+            
+            storage.child('/teachers/'+iduser).put(request.FILES["images"])
+            request.session['image']=getimage(iduser)
         if (currentpassword != "" or newpassword != "" or confirmpassword != ""):
             if(newpassword != confirmpassword or len(newpassword) < 6):
                 return render(request, './teacher/editProfile.html', {'data': l, 'error': "Check Your Password"})

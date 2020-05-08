@@ -378,3 +378,25 @@ def viewMainly(request):
                             l.append({'id':j,'name':t[j]['details']['name'],'dis':t[j]['details']['dis'],'sub':name})
                 print(name)
     return render(request, './academics/viewMainly.html',{'data': l})
+
+
+
+def linksub(request):
+    mid  = request.GET.get('id')
+    mname = database.child('prepration').child(mid[:6]).child('mainly').child(mid).child('details').get().val()
+    mname = mname['name']
+    msub = database.child('prepration').child(mid[:6]).child('mainly').child(mid).child('subjects').shallow().get().val()
+    sub = database.child('subjects').get().val()
+    subdata = []
+    if not msub:
+        msub=[]
+    if sub:
+        for i in sub:
+            if i !='free':
+                subdata.append({
+                    'id':i,
+                    'name':sub[i]['details']['name'],
+                    'dis':sub[i]['details']['dis'],
+                    'ul':'Unlink' if i in msub else 'Link'
+                })
+    return render(request,'./academics/linksub.html',{'data':subdata,'name':mname})
