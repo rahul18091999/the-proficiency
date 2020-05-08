@@ -21,6 +21,7 @@ urlpatterns = [
     path('editTopic',edit.editTopic),
     path('editSub',edit.editSub),
     path('linksub',views.linksub),
+    path('sublink',views.sublink),
 
 
 ]

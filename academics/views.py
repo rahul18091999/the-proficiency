@@ -399,4 +399,14 @@ def linksub(request):
                     'dis':sub[i]['details']['dis'],
                     'ul':'Unlink' if i in msub else 'Link'
                 })
-    return render(request,'./academics/linksub.html',{'data':subdata,'name':mname})
+    return render(request,'./academics/linksub.html',{'data':subdata,'name':mname,'mid':mid})
+
+def sublink(request):
+    mid = request.GET.get('mid')
+    sid = request.GET.get('sid')
+    l = request.GET.get('l')
+    if (l=='Link'):
+        database.child('prepration').child(mid[:6]).child('mainly').child(mid).child('subjects').child(sid).update({'active':'true'})
+    else:
+        database.child('prepration').child(mid[:6]).child('mainly').child(mid).child('subjects').child(sid).remove()
+    return redirect('/academics/linksub?id='+mid)
