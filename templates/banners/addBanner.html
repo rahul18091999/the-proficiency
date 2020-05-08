@@ -49,12 +49,12 @@
 
 
                                 <!-- form start -->
-                                <form action="/user/addUser" class="form-horizontal" method='POST'>
+                                <form class="form-horizontal" method='POST' enctype="multipart/form-data">
                                     {% csrf_token %}
                                     <div class="card-body">
                                         <div class="form-group">
                                             <label for="customFile">Banner 1</label>
-                                            <img src='{{img1}}' height="300" style="padding:20px">
+                                            <img src='{{img1}}'' height="300" style="padding:20px">
                                             <div class="custom-file">
                                                 <input type="file" name="img1" class="custom-file-input" id="customFile">
                                                 <label class="custom-file-label" for="customFile">Choose file</label>

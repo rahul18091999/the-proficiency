@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from exam.views import checkpermission, database,getpass
+from exam.views import checkpermission, database,getpass,storage,getimage
 # Create your views here.
 
 
@@ -30,10 +30,12 @@ def editprofile(request):
         currentpassword=request.POST.get("currentpassword")
         newpassword=request.POST.get("newpassword")
         confirmpassword=request.POST.get("confirmpassword")
+        print('rahul')
+        print(request.FILES)
         if(request.FILES):
-            
-            storage.child('/marketers/'+iduser).put(request.FILES["images"])
-            request.session['image']=getimage(iduser)
+            print('rahul')
+            storage.child('/marketers/'+idd).put(request.FILES["images"])
+            request.session['image']=getimage(idd)
         if (currentpassword=="" and newpassword=="" and confirmpassword==""):
             return redirect('/home')
         else:
