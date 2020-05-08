@@ -45,6 +45,11 @@
                                 <div class="card-header">
                                     <h3 class="card-title">Add Subject</h3>
                                 </div>
+                                {% if data.error %}
+                            <div class="alert alert-danger">
+                                <center>{{data.error}}</center>
+                            </div>
+                            {% endif %}
                                 <!-- /.card-header -->
 
 

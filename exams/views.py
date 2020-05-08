@@ -215,8 +215,9 @@ def addCoupon(request):
         return redirect('/home')
     rank = database.child('ranks').child('students').get()
     count = 0
-    for i in rank:
-        count = max(count,len(i.val()))
+    if rank.val():
+        for i in rank:
+            count = max(count,len(i.val()))
     if request.method == "POST":
         name = request.POST.get('name')
         sp = request.POST.get('sp')

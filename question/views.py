@@ -16,27 +16,28 @@ def question(request):
     topicName = []
     teacher = []
     k = 0
-    for i in subjectData:
-        if(i.key() != 'free'):
-            subjectid.append({"id": i.key(), "name": i.val()[
-                             'details']['name'], "index": k})
-            k += 1
-            topic = i.val()['topics']
-            t = []
-            for j in topic:
-                if(j != 'free'):
-                    t.append({'id': j, 'name': topic[j]['details']['name']})
-            topicName.append(t)
-            
-    for i in teacherData:
-        if (i.key() != 'qBank'):
-            teacher.append(
-                {
-                    
-                    'tId': i.key(),
-                    'name': i.val()['details']['name']
-                }
-            )
+    if subjectData.val():
+        for i in subjectData:
+            if(i.key() != 'free'):
+                subjectid.append({"id": i.key(), "name": i.val()[
+                                'details']['name'], "index": k})
+                k += 1
+                topic = i.val()['topics']
+                t = []
+                for j in topic:
+                    if(j != 'free'):
+                        t.append({'id': j, 'name': topic[j]['details']['name']})
+                topicName.append(t)
+    if teacherData.val():       
+        for i in teacherData:
+            if (i.key() != 'qBank'):
+                teacher.append(
+                    {
+                        
+                        'tId': i.key(),
+                        'name': i.val()['details']['name']
+                    }
+                )
 
     if request.method == "POST":
         ques = request.POST.get('ques')
@@ -135,11 +136,14 @@ def viewQuestion(request):
         return redirect('/home')
     question=database.child('questions').get()
     questiondata=[]
-    for i in question:
-        if(i.key()!='free'):
-            questiondata.append({'id':i.key(),'approved':i.val()['details']['approved'],'by':i.val()['details']['by']})
-    
-    return render(request, './question/viewquestion.html',{'question':questiondata})
+    if question.val():
+        for i in question:
+            if(i.key()!='free'):
+                questiondata.append({'id':i.key(),'approved':i.val()['details']['approved'],'by':i.val()['details']['by']})
+        
+        return render(request, './question/viewquestion.html',{'question':questiondata})
+    else:
+        return render(request, './question/viewquestion.html')
 
 
 def seeQues(request):
