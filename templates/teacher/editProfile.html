@@ -37,13 +37,13 @@
             </div>
             <!-- /.content-header -->
             {% if error %}
-            
+
             <!-- Main content -->
             <div class="container">
                 <div class="alert alert-danger">
                     <center>{{error}}</center>
-                  </div>
-                  {% endif %}
+                </div>
+                {% endif %}
                 <div class="row flex-lg-nowrap">
                     <div class="col">
                         <div class="row">
@@ -73,12 +73,12 @@
                                                             <div class="text-muted"><small>Active User</small>
                                                             </div>
                                                             <div class="mt-2">
-                                                                <button class="btn btn-primary" type="button">
-                                                                    <i class="fa fa-fw fa-camera"></i>
-                                                                    <input type="file" name="images" #images onchange="onIconUrlChanges($event)">
-                                                                    <input type='file' id="p">
-                                                                    <span>Change Photo</span>
-                                                                </button>
+                                                                <div class="form-group">
+                                                                    <div class="custom-file">
+                                                                        <input type="file" name="images" class="custom-file-input" id="customFile">
+                                                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                                                    </div>
+                                                                </div>
                                                             </div> 
                                                         </div>
                                                         <input type="hidden" name="pic" id="hidpic">
@@ -133,7 +133,7 @@
                                                                                 <label>Email</label>
                                                                                 <input class="form-control" type="text"
                                                                                     placeholder="user@example.com"
-                                                                                    name = "email"  disabled
+                                                                                    name="email" disabled
                                                                                     value="{{data.email}}">
                                                                             </div>
                                                                         </div>
@@ -142,7 +142,8 @@
                                                                         <div class="col">
                                                                             <div class="form-group">
                                                                                 <label>State</label>
-                                                                                <select class="form-control" name = "state" disabled>
+                                                                                <select class="form-control"
+                                                                                    name="state" disabled>
                                                                                     <option>{{data.state}}</option>
                                                                                 </select>
                                                                             </div>
@@ -150,7 +151,8 @@
                                                                         <div class="col">
                                                                             <div class="form-group">
                                                                                 <label>City</label>
-                                                                                <select class="form-control" name = "city" disabled>
+                                                                                <select class="form-control" name="city"
+                                                                                    disabled>
                                                                                     <option>{{data.city}}</option>
                                                                                 </select>
                                                                             </div>
@@ -164,7 +166,7 @@
                                                                                     value="{{data.age}}" id="age"
                                                                                     name="age" disabled
                                                                                     class="custom-range custom-range-teal"
-                                                                                    id="customRange1" >
+                                                                                    id="customRange1">
                                                                                 <p>Value: <span id="ageV"></span> Years
                                                                                 </p>
                                                                                 <script>
@@ -183,9 +185,10 @@
                                                                                     for="customRange1">Experience</label>
                                                                                 <input type="range" min="0" max="50"
                                                                                     value="{{data.experience}}"
-                                                                                    id="experience" name="experience" disabled
+                                                                                    id="experience" name="experience"
+                                                                                    disabled
                                                                                     class="custom-range custom-range-teal"
-                                                                                    id="customRange1" >
+                                                                                    id="customRange1">
                                                                                 <p>Value: <span id="experienceV"></span>
                                                                                     Years</p>
                                                                                 <script>
@@ -209,8 +212,8 @@
                                                                             <div class="form-group">
                                                                                 <label>Current Password</label>
                                                                                 <input class="form-control"
-                                                                                    type="password"
-                                                                                    placeholder="••••••" name="currentpassword">
+                                                                                    type="password" placeholder="••••••"
+                                                                                    name="currentpassword">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -219,8 +222,8 @@
                                                                             <div class="form-group">
                                                                                 <label>New Password</label>
                                                                                 <input class="form-control"
-                                                                                    type="password"
-                                                                                    placeholder="••••••" name="newpassword">
+                                                                                    type="password" placeholder="••••••"
+                                                                                    name="newpassword">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -228,17 +231,18 @@
                                                                         <div class="col">
                                                                             <div class="form-group">
                                                                                 <label>Confirm <span
-                                                                                      class="d-none d-xl-inline">Password</span></label>
+                                                                                        class="d-none d-xl-inline">Password</span></label>
                                                                                 <input class="form-control"
-                                                                                    type="password"
-                                                                                    placeholder="••••••" name="confirmpassword"></div>
+                                                                                    type="password" placeholder="••••••"
+                                                                                    name="confirmpassword"></div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col d-flex justify-content-end">
-                                                                    <button type="submit" class="btn btn-primary" onclick="s()">Save Changes</button>
+                                                                    <button type="submit" class="btn btn-primary"
+                                                                        onclick="s()">Save Changes</button>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -277,8 +281,9 @@
 <script>
     onIconUrlChanges(event) {
         console.log("rahul");
-         //console.log(event.target.files[0]);
-        
-        }
+        //console.log(event.target.files[0]);
+
+    }
 </script>
+
 </html>
