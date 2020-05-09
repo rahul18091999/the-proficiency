@@ -35,14 +35,16 @@ def seeTicket(request):
             for i in replies:
                 l.append(
                     {   'userid': str(i.val()['by']),
-                        'time': datetime.fromtimestamp(int(i.key())/1000),
+                        'time': datetime.fromtimestamp(int(i.key())/100),
                         'reply': i.val()['reply']
                     }
                 )
-                print(datetime.fromtimestamp(int(i.key())/1000))
+                # print(datetime.fromtimestamp(int(i.key())/1000))
+                print(int(datetime.now().timestamp()*100))
         else:
             pass
         if request.method == "POST":
+            print(datetime.now().timestamp()*1000)
             idd = request.session['user']
             msg = request.POST.get('message')
             time_now = int(datetime.now().timestamp()*1000)

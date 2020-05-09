@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from exam.views import checkpermission, database,storage,getpass
+from exam.views import checkpermission, database,storage,getpass,getimage
 from datetime import date
 
 
@@ -62,6 +62,10 @@ def editProfile(request):
         currentpassword=request.POST.get("currentpassword")
         newpassword=request.POST.get("newpassword")
         confirmpassword=request.POST.get("confirmpassword")
+        if(request.FILES):
+            
+            storage.child('/typers/'+iduser).put(request.FILES["images"])
+            request.session['image']=getimage(iduser)
         if (currentpassword=="" and newpassword=="" and confirmpassword==""):
                  return redirect('/home')
         else:

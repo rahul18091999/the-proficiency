@@ -149,6 +149,7 @@ def editProfile(request):
     data = database.child('tIds').child(
         i.val()["phone"]).child('createdOn').get().val()/100
     date = date.fromtimestamp(data)
+    
     l = {
         'id': iduser,
         'name': i.val()["name"],
@@ -161,14 +162,25 @@ def editProfile(request):
         'state': i.val()["state"],
         'createdOn': date
     }
+    if 'reviewLine' in i.val():
+        l['reviewL']=i.val()['reviewLine']
+    if 'testMsg' in i.val():
+        l['testL']=i.val()['testMsg']
     if(request.method == "POST"):
         currentpassword = request.POST.get("currentpassword")
         newpassword = request.POST.get("newpassword")
         confirmpassword = request.POST.get("confirmpassword")
+        reviewL = request.POST.get('reviewL')
+        testL = request.POST.get('testL')
         if(request.FILES):
             
             storage.child('/teachers/'+iduser).put(request.FILES["images"])
             request.session['image']=getimage(iduser)
+        if reviewL:
+            database.child('teachers').child(iduser).child('details').update({'reviewLine':reviewL})
+        if testL:
+            database.child('teachers').child(iduser).child('details').update({'testMsg':testL})
+
         if (currentpassword != "" or newpassword != "" or confirmpassword != ""):
             if(newpassword != confirmpassword or len(newpassword) < 6):
                 return render(request, './teacher/editProfile.html', {'data': l, 'error': "Check Your Password"})
