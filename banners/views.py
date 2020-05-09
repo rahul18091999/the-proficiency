@@ -13,7 +13,6 @@ def addBanner(request):
         url3=storage.child('banners').child("3").get_url(1)
         url4=storage.child('banners').child("4").get_url(1)
         url5=storage.child('banners').child("5").get_url(1)
-        
     except:
         url="https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/logo%2FProfile%20Pic.png?alt=media&token=f5efb3c0-394e-4c28-9442-d061e1204e9b"
         url1 = url
@@ -25,12 +24,9 @@ def addBanner(request):
         if(len(request.FILES)==5):
             storage.child('banners').child("1").put(request.FILES["img1"])
             storage.child('banners').child("2").put(request.FILES["img2"])
-
             storage.child('banners').child("3").put(request.FILES["img3"])
             storage.child('banners').child("4").put(request.FILES["img4"])
             storage.child('banners').child("5").put(request.FILES["img5"])
-
-
         else:
             error = "Please select all the files."
             return render(request,'./banners/addBanner.html',{'img1':url1,'img2':url2,'img3':url3,'img4':url4,'img5':url5,'error':error})
