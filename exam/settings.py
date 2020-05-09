@@ -139,10 +139,9 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT=os.path.join(BASE_DIR,'assets')
 
-
-EMAIL_HOST='smtp.gmail.com'
+EMAIL_HOST='mail.the-proficiency.com'
 EMAIL_PORT=587
-EMAIL_HOST_USER='dhandainnovators@gmail.com'
+EMAIL_HOST_USER='no-reply@the-proficiency.com'
 EMAIL_HOST_PASSWORD='80531@PApa'
 EMAIL_USE_TLS=True
 
