@@ -13,7 +13,9 @@ def addNLEs(request):
     if request.method == "POST":
         date = request.POST.get('date')
         time = request.POST.get('time')
-        if date and time !="":
+        title = request.POST.get('title')
+        desc = request.POST.get('desc')
+        if date and time and title and desc:
             dat = date[8:]+date[5:7]+date[:4]
             NLE = database.child('exams').child('NLE').child(dat)
             NLE.update(
@@ -30,23 +32,88 @@ def addNLEs(request):
                             t = i.val()['mainly']
                             for j in t:
                                 if j != 'free':
-                                     database.child('exams').child('NLE').child(dat).child('mainly').child(j).update(
+                                     database.child('exams').child('NLE').child(dat).child('mainly').child(j).child('questions').update(
                                         {
-                                            'name': t[j]['details']['name'],
-                                            'dis': t[j]['details']['dis']
+                                            'free':1
                                         }
                                     )
+            data = database.child('users').get().val()
+            token=[]
+            td = data
+            from datetime import datetime
+            time_now = int(datetime.now().timestamp()*1000)
+            
+            tid = {}
+            if data:
+                temp = database.child('notifications').child('free').shallow().get().val()
+                if temp:
+                    idd = temp
+                else:
+                    idd = 100000000000000
+                for j in data:
+                    tid[j] = 'done'
+                    if 'notifications' in data[j]:
+                        
+                        if 'token' in data[j]['notifications']:
+                        
+                            token.append(data[j]['notifications']['token'])
+                        
+
+                    else:
+                        td[j]['notifications']={}
+                    if 'notes' not in data[j]['notifications']:
+                        td[j]['notifications']['notes']={}
+                    td[j]['notifications']['notes'][idd]=time_now
+
+            if token:
+                print(token)
+                token.append('EfadsfadsfasdfasdxponentPushfasdTofsadfskfadssdafsdfen[4iSHToD76BENf7-ujv4hcN')
+                import requests
+                r = requests.post('https://exp.host/--/api/v2/push/send',
+                headers={
+                    "HTTP_ACCEPT":'application/json',
+                    "HTTP_ACCEPT_ENCODING":'gzip, deflate',
+                    "HTTP_HOST":'the-proficiency.com',
+                    'Content-type': 'application/json'
+                },
+                json={
+                    'to':token,                        
+                      'title': title,                  
+                      'body': desc,             
+                      'priority': "high",            
+                      'sound':"default",              
+                      'channelId':"default",   
+
+                })
+                import ast
+                d = ast.literal_eval(r.text)['data']
+                if d[0]['status'] == 'ok':
+                    database.child('notifications').child(idd).update({
+                        'by':request.session['user'],
+                        'discription':desc,
+                        'time':time_now,
+                        'title':title,
+                        'to':'users',
+                        'ids':tid
+                    })
+                    database.child('notifications').update({'free':idd+1})
+                    database.child('/').update({'users':td})
+       
             data = {
-                'name': "",
-                'dis': "",
+                'date': "",
+                'time': "",
+                'title':"",
+                'dis':""
             }
             success = "submitted successfully"
             data['success'] = success
             return render(request, './exams/addNLE.html', data)
         else:
             data = {
-                'name': date,
-                'dis': time,
+                'date': date,
+                'time': time,
+                'title':title,
+                'dis':desc
             }
             error = "please fill the details"
             data['error'] = error
