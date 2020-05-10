@@ -46,47 +46,23 @@
         <section class="content">
             <div class="row">
                 <div class="col-md-3">
-                    <a href="compose.html" class="btn btn-primary btn-block mb-3">Compose</a>
-
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Folders</h3>
-
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                        class="fas fa-minus"></i>
-                                </button>
-                            </div>
+                            <h3 class="card-title">About</h3>
                         </div>
                         <div class="card-body p-0">
                             <ul class="nav nav-pills flex-column">
-                                <li class="nav-item active">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-inbox"></i> Inbox
-                                        <span class="badge bg-primary float-right">12</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-envelope"></i> Sent
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-file-alt"></i> Drafts
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="fas fa-filter"></i> Junk
-                                        <span class="badge bg-warning float-right">65</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-trash-alt"></i> Trash
-                                    </a>
-                                </li>
+                                <div class="card-body">
+                                    <dl>
+                                        <dt class="col-sm-12">Title</dt>
+                                        <dd class="col-sm-12">{{ticketId.title}}</dd>
+                                        <dt class="col-sm-12">Discription</dt>
+                                        <dd class="col-sm-12">{{ticketId.dis}}</dd>
+                                        <dt class="col-sm-12">Date & Time</dt>
+                                        <dd class="col-sm-12">{{ticketId.dNt}}</dd>
+                                        <dt class="col-sm-12">Status</dt>
+                                        <dd class="col-sm-12">{{ticketId.status}}</dd>
+                                    </dl>
                             </ul>
                         </div>
                         <!-- /.card-body -->
@@ -94,33 +70,31 @@
                     <!-- /.card -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Labels</h3>
-
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i
-                                        class="fas fa-minus"></i>
-                                </button>
-                            </div>
+                            <h3 class="card-title">Status</h3>
                         </div>
                         <div class="card-body p-0">
                             <ul class="nav nav-pills flex-column">
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle text-danger"></i>
-                                        Important
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle text-warning"></i> Promotions
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle text-primary"></i>
-                                        Social
-                                    </a>
-                                </li>
+                                <div class="card-body">
+                                    <form action="/tickets/changestatus?UID={{ticketId.UID}}&TID={{ticketId.TID}}" method="post">
+                                    {% csrf_token %}
+                                        <div class="form-group">
+                                            <label>Change Status</label>
+                                            <select class="form-control select2" name="status" style="width: 100%;">
+                                                <option selected value="" disabled>Select Status</option>
+                                                <option value="resolved">Resolved</option>
+                                                <option value="closed">Closed</option>
+                                            </select>
+                                            <div class="form-group">
+                                                <label for="exampleInputPassword1">Feedback</label>
+                                                <input type="text" class="form-control" name="feed" value="{{feed}}"
+                                                    placeholder="eg. I've closed this because....">
+                                            </div>
+                                            <div class="card-footer">
+                                                <button type="submit" class="btn btn-primary">Update Status</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </ul>
                         </div>
                         <!-- /.card-body -->
@@ -131,69 +105,75 @@
                 <div class="col-md-9">
                     <!-- DIRECT CHAT -->
                     <div class="card direct-chat direct-chat-primary">
-                      <div class="card-header">
-                        <h3 class="card-title">TicketID:{{ticketId.TID}}</h3>
-                      </div>
-                      <!-- /.card-header -->
-                      {% for i in mine %}
-                      {% if ticketId.UID == i.userid %}
-                      <div class="card-body">
-                        <!-- Conversations are loaded here -->
-                        <div class="direct-chat-messages">
-                          <!-- Message. Default to the left -->
-                          <div class="direct-chat-msg">
-                            <div class="direct-chat-infos clearfix">
-                              {% comment %} <span class="direct-chat-name float-left">Alexander Pierce</span> {% endcomment %}
-                              <span class="direct-chat-timestamp float-right">{{i.time}}</span>
+                        <div class="card-header">
+                            <h3 class="card-title">TicketID:{{ticketId.TID}}</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <!-- Conversations are loaded here -->
+                            <div class="direct-chat-messages">
+                                {% for i in mine %}
+                                {% if jamura == i.userid %}
+                                <!-- Message. Default to the left -->
+                                <div class="direct-chat-msg">
+                                    <div class="direct-chat-infos clearfix">
+                                        {% comment %} <span class="direct-chat-name float-left">Alexander Pierce</span>
+                                        {% endcomment %}
+                                        <span class="direct-chat-timestamp float-right">{{i.time}}</span>
+                                    </div>
+                                    <!-- /.direct-chat-infos -->
+                                    {% comment %} <img class="direct-chat-img" src="dist/img/user1-128x128.jpg"
+                                        alt="message user image"> {% endcomment %}
+                                    <!-- /.direct-chat-img -->
+                                    <div class="direct-chat-text">
+                                        {{i.reply}}
+                                    </div>
+                                    <!-- /.direct-chat-text -->
+                                </div>
+                                <!-- /.direct-chat-msg -->
+                                {% else %}
+                                <!-- Message to the right -->
+                                <div class="direct-chat-msg right">
+                                    <div class="direct-chat-infos clearfix">
+                                        {% comment %} <span class="direct-chat-name float-right">Sarah Bullock</span>
+                                        {% endcomment %}
+                                        <span class="direct-chat-timestamp float-left">{{i.time}}</span>
+                                    </div>
+                                    <!-- /.direct-chat-infos -->
+                                    {% comment %} <img class="direct-chat-img" src="dist/img/user3-128x128.jpg"
+                                        alt="message user image"> {% endcomment %}
+                                    <!-- /.direct-chat-img -->
+                                    <div class="direct-chat-text">
+                                        {{i.reply}}
+                                    </div>
+                                    <!-- /.direct-chat-text -->
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                <!-- /.direct-chat-msg -->
                             </div>
-                            <!-- /.direct-chat-infos -->
-                            {% comment %} <img class="direct-chat-img" src="dist/img/user1-128x128.jpg" alt="message user image"> {% endcomment %}
-                            <!-- /.direct-chat-img -->
-                            <div class="direct-chat-text">
-                              {{i.reply}}
+                            <!-- Message. Default to the left -->
+                            <!-- /.card-body -->
+                            <div class="card-footer">
+                                <form action="/tickets/seeTicket?UID={{ticketId.UID}}&TID={{ticketId.TID}}"
+                                    method="post">
+                                    {% csrf_token %}
+                                    <div class="input-group">
+                                        <input type="text" name="message" placeholder="Type Message ..."
+                                            class="form-control">
+                                        <span class="input-group-append">
+                                            <button type="button" class="btn btn-primary">Send</button>
+                                        </span>
+                                    </div>
+                                </form>
                             </div>
-                            <!-- /.direct-chat-text -->
-                          </div>
-                          <!-- /.direct-chat-msg -->
-                          {% else %}
-                          <!-- Message to the right -->
-                          <div class="direct-chat-msg right">
-                            <div class="direct-chat-infos clearfix">
-                              {% comment %} <span class="direct-chat-name float-right">Sarah Bullock</span> {% endcomment %}
-                              <span class="direct-chat-timestamp float-left">{{i.time}}</span>
-                            </div>
-                            <!-- /.direct-chat-infos -->
-                            {% comment %} <img class="direct-chat-img" src="dist/img/user3-128x128.jpg" alt="message user image"> {% endcomment %}
-                            <!-- /.direct-chat-img -->
-                            <div class="direct-chat-text">
-                              {{i.reply}}
-                            </div>
-                            <!-- /.direct-chat-text -->
-                          </div>
-                          {% endif %}
-                          {% endfor %}
-                          <!-- /.direct-chat-msg -->
-        
-                           <!-- Message. Default to the left -->
-                      <!-- /.card-body -->
-                      <div class="card-footer">
-                        <form action="/tickets/seeTicket?UID={{ticketId.UID}}&TID={{ticketId.TID}}" method="post">
-                          {% csrf_token %}
-                          <div class="input-group">
-                            <input type="text" name="message" placeholder="Type Message ..." class="form-control">
-                            <span class="input-group-append">
-                              <button type="button" class="btn btn-primary">Send</button>
-                            </span>
-                          </div>
-                        </form>
-                      </div>
-                      <!-- /.card-footer-->
+                            <!-- /.card-footer-->
+                        </div>
+                        <!-- /.card -->
                     </div>
-                    <!-- /.card -->
+                    <!-- /.col -->
                 </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
+                <!-- /.row -->
         </section>
         <!-- /.content -->
     </div>

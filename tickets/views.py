@@ -29,6 +29,10 @@ def seeTicket(request):
         ticketid={
             'TID': TID,
             'UID': UID,
+            'dNt': ticket.val()['dNt'],
+            'title': ticket.val()['title'],
+            'dis': ticket.val()['dis'],
+            'status': ticket.val()['status']
         }
         if 'replies' in ticket.val():
             replies = database.child('tickets').child(UID).child(TID).child('replies').get()
@@ -67,3 +71,25 @@ def seeTicket(request):
                 )
             return redirect('/tickets/seeTicket?UID='+UID+"&TID="+TID)
         return render(request,'./tickets/seeTicket.html',{'mine':l,'ticketId':ticketid})
+
+def changeStatus(request):
+    UID = request.GET.get('UID')
+    TID = request.GET.get('TID')
+    status = request.POST.get('status')
+    feed = request.POST.get('feed')
+    if status and feed:
+        ticket =  database.child('tickets').child(UID).child(TID).get()
+        database.child('tickets').child(UID).child(TID).update(
+                        {
+                            'dNt': ticket.val()['dNt'],
+                            'dis': ticket.val()['dis'],
+                            'status': status,
+                            'title': ticket.val()['title'],
+                            'feedback': feed,
+
+                        }
+
+                    )
+        return redirect('/tickets/seeTicket?UID='+UID+"&TID="+TID)
+    else:
+        return redirect('/tickets/seeTicket?UID='+UID+"&TID="+TID)
