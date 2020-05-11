@@ -219,6 +219,7 @@ def addMainly(request):
     prepdata=database.child('prepration').get()
     preprationdata=[]
     if prepdata.val():
+        print(prepdata)
         for i in prepdata:
             if i.key()!='free':
                 preprationdata.append({'id':i.key(),'name':prepdata.val()[i.key()]['details']['name']})
@@ -243,7 +244,7 @@ def addMainly(request):
                     'name': '',
                     'dis': '',
                 }
-            success = "Topic added successfully."
+            success = "Mainly added successfully."
             data['success'] = success
             data['data']=preprationdata
             return render(request, './academics/addMainly.html', data)
