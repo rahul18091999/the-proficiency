@@ -79,5 +79,4 @@ def editProfile(request):
                     database.child('tyIds').child(i.val()["phone"]).update({'pass':getpass(newpassword)[2:-1]})
                     return redirect('/home')
     else:
-        
         return render(request, './typer/editProfile.html', {'data': l})

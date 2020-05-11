@@ -54,6 +54,7 @@ def addNotifications(request):
                     if 'notes' not in data[j]['notifications']:
                         td[j]['notifications']['notes']={}
                     td[j]['notifications']['notes'][idd]=time_now
+                    
 
             if token:
                 print(token)

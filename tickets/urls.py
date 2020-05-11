@@ -3,4 +3,5 @@ from . import views
 urlpatterns = [
     path('viewTickets',views.viewTickets),
     path('seeTicket',views.seeTicket),
+    path('changestatus',views.changeStatus)
 ]
