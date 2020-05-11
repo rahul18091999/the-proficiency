@@ -220,6 +220,7 @@ def addMainly(request):
     preprationdata=[]
     if prepdata.val():
         for i in prepdata:
+            
             if i.key()!='free':
                 preprationdata.append({'id':i.key(),'name':prepdata.val()[i.key()]['details']['name']})
     if request.method == "POST":

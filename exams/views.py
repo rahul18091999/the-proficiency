@@ -64,7 +64,7 @@ def addNLEs(request):
                     if 'notes' not in data[j]['notifications']:
                         td[j]['notifications']['notes']={}
                     td[j]['notifications']['notes'][idd]=time_now
-
+            print(token)
             if token:
                 print(token)
                 token.append('EfadsfadsfasdfasdxponentPushfasdTofsadfskfadssdafsdfen[4iSHToD76BENf7-ujv4hcN')
@@ -85,6 +85,7 @@ def addNLEs(request):
                       'channelId':"default",   
 
                 })
+                print(r)
                 import ast
                 d = ast.literal_eval(r.text)['data']
                 if d[0]['status'] == 'ok':

@@ -160,7 +160,8 @@ def users(request):
                 send_mail(subject="account",
                 message='None',
                         html_message = d ,
-                            from_email=settings.EMAIL_HOST_USER,
+                        
+                            from_email='Registration<no-reply@the-proficiency.com>',
                             recipient_list=[email])
                 data['success'] = "Teacher has been added Successfully!"
                 data['info'] = number + "@TP@" + age + " and 12" + str(
@@ -290,7 +291,7 @@ def users(request):
                 if free:
                     tempid = free
                 else:
-                    tempid = 1000000
+                    tempid = 100000
 
                 database.child('mIds').child(number).update(
                     {
