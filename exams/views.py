@@ -106,7 +106,7 @@ def addNLEs(request):
                 'title':"",
                 'dis':""
             }
-            success = "submitted successfully"
+            success = "NLE exam added successfully"
             data['success'] = success
             return render(request, './exams/addNLE.html', data)
         else:
@@ -147,7 +147,7 @@ def daily(request):
                 'name': "",
                 'dis': "",
             }
-            success = "submitted successfully"
+            success = "Daily Exam added successfully"
             data['success'] = success
             return render(request, './exams/addDaily.html', data)
         else:

@@ -35,4 +35,5 @@ urlpatterns = [
     path('apiCall',views.apiCall),
     path('notifications/',include('notifications.urls')),
     path('banners/',include('banners.urls')),
+    path('msg/',include('msg.urls')),
 ]

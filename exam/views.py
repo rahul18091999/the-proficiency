@@ -138,7 +138,7 @@ def index(request):
             # idp=userid[0:2]
             # request.session['user']=userid
             # request.session['us']=idp
-
+            from datetime import datetime
             if(number and password and user):
                 if(user == '11'):
 
@@ -148,6 +148,7 @@ def index(request):
                         request.session['user'] = marketerdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(marketerdata['id'])
+                        database.child('mIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000)})
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
@@ -158,6 +159,7 @@ def index(request):
                         request.session['user'] = teacherdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(teacherdata['id'])
+                        database.child('tIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000)})
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
@@ -168,6 +170,7 @@ def index(request):
                         request.session['user'] = admindata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(admindata['id'])
+                        database.child('aIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000)})
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
@@ -178,6 +181,7 @@ def index(request):
                         request.session['user'] = typerdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(typerdata['id'])
+                        database.child('tyIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000)})
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
@@ -188,6 +192,7 @@ def index(request):
                         request.session['user'] = superdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(superdata['id'])
+                        database.child('sIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000)})
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
