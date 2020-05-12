@@ -60,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'question.context_processors.checkIp',
+    
 ]
 
 ROOT_URLCONF = 'exam.urls'
@@ -148,3 +150,5 @@ EMAIL_USE_TLS=True
 
 
 EMAIL_USE_SSL=False
+
+DATABASE = 'testing'
