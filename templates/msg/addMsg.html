@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TheProficiency | Add Notifications</title>
+    <title>TheProficiency | Add Msg</title>
     <!-- Tell the browser to be responsive to screen width -->
     <script>
         function select_topic($val) {
@@ -15,14 +15,14 @@
             options += '<option value=' + arr[i].id + '>' + arr[i].name + '(' + arr[i].id + ')' + '</option>'
         $('#topic').html(options);
             }
-            if($val=='marketers'){
+            else if($val=='marketers'){
                 var arr = {{ marketerdata| safe }};
             var options = '<option value="all" >All</option>';
             for (var i = 0; i < arr.length; i++)
                 options += '<option value=' + arr[i].id + '>' + arr[i].name + '(' + arr[i].id + ')' + '</option>'
             $('#topic').html(options);
                 }
-                if($val=='typers'){
+                else if($val=='typers'){
                     var arr = {{ typerdata| safe }};
                 var options = '<option value="all" >All</option>';
                 for (var i = 0; i < arr.length; i++)
@@ -50,9 +50,9 @@
                         <!-- left column -->
                         <div class="col-md-12">
                             <!-- general form elements -->
-                            {% if data.error %}
+                            {% if error %}
                             <div class="alert alert-danger">
-                                <center>{{data.error}}</center>
+                                <center>{{error}}</center>
                             </div>
                             {% endif %}
                             {% if success %}
@@ -67,7 +67,7 @@
                             {% endif %}
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Add New Notification</h3>
+                                    <h3 class="card-title">Add New Msg</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
@@ -78,11 +78,11 @@
                                             <label for="exampleInputEmail1">To</label>
                                             <select class="form-control" name="to" style="width: 100%;"  onchange="select_topic(this.value)">
                                                 <option selected value="" disabled>Select Type</option>
-                                                <option value="admin">Admin</option>
+                                               
                                                 <option value="teachers">Teacher</option>
                                                 <option value="typers">Typer</option>
                                                 <option value="marketers">Marketer</option>
-                                                <option value="users">Students</option>
+                                                
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -101,7 +101,7 @@
                                         
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Add new Notification</button>
+                                            <button type="submit" class="btn btn-primary">Add new Msg</button>
                                         </div>
                                 </form>
                             </div>

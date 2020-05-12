@@ -143,6 +143,9 @@ def index(request):
     from ipware import get_client_ip
     ip, is_routable = get_client_ip(request)
     # return HttpResponse(ip)
+    # from django.contrib.gis.geoip import GeoIP
+    # g = GeoIP()
+    # print(g)
     if(checkpermission(request,request.path)==-1):
         if request.method == 'POST':
             number = request.POST.get('phone')
@@ -258,14 +261,17 @@ def apiCall(request):
 
 
 def viewDashboard(request):
-    subid = request.GET.get('id')
-    request.session['subid']=request.session['user']
-    request.session['user']=subid
-    request.session['us']=subid[:2]
+    if(checkpermission(request, '/logout')!=-1):
+        if request.session['us']=='13' or request.session['us'] == '15':
+            subid = request.GET.get('id')
+            request.session['subid']=request.session['user']
+            request.session['user']=subid
+            request.session['us']=subid[:2]
     return redirect('/')
 
 def back(request):
-    request.session['user'] = request.session['subid']
-    request.session['us'] = str(request.session['user'])[:2]
-    del request.session['subid']
+    if 'subid' in request.session:
+        request.session['user'] = request.session['subid']
+        request.session['us'] = str(request.session['user'])[:2]
+        del request.session['subid']
     return redirect('/')

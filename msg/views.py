@@ -11,11 +11,11 @@ def addMsg(request):
     marketerdata = []
     if 'marketers' in data:
         for i in data['marketers']:
-                teacherdata.append({'id':i,'name':data['marketers'][i]['details']['name']})
+                marketerdata.append({'id':i,'name':data['marketers'][i]['details']['name']})
     typerdata = []
     if 'typers' in data:
         for i in data['typers']:
-                teacherdata.append({'id':i,'name':data['typers'][i]['details']['name']})
+                typerdata.append({'id':i,'name':data['typers'][i]['details']['name']})
     if request.method=='POST':
         to = request.POST.get('to')
         select = request.POST.get('select')
@@ -60,7 +60,8 @@ def addMsg(request):
                         'ids':tid
                     })
                 database.child('msg').update({'free':idd+1})
-                    
+        else:
+            return render(request,'./msg/addMsg.html',{'teacherdata':teacherdata,'marketerdata':marketerdata,'typerdata':typerdata,'error':"Please Fill all the details."})                      
 
                     
                 
