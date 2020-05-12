@@ -1,16 +1,30 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from base64 import b64encode
+from django.conf import settings
+# from django.contrib.gis.utils import GeoIP
 import pyrebase
-config = {
-    'apiKey': "AIzaSyBvVgen1TvuoKinJYwvaNH8n7VIACGbqgI",
-    'authDomain': "the-proficiency.firebaseapp.com",
-    'databaseURL': "https://the-proficiency.firebaseio.com",
-    'projectId': "the-proficiency",
-    'storageBucket': "the-proficiency.appspot.com",
-    'messagingSenderId': "859931947137",
-    'appId': "1:859931947137:web:66edfbcbe4489fab789d80"
-}
+if settings.DATABASE =='live':
+    config = {
+        'apiKey': "AIzaSyBvVgen1TvuoKinJYwvaNH8n7VIACGbqgI",
+        'authDomain': "the-proficiency.firebaseapp.com",
+        'databaseURL': "https://the-proficiency.firebaseio.com",
+        'projectId': "the-proficiency",
+        'storageBucket': "the-proficiency.appspot.com",
+        'messagingSenderId': "859931947137",
+        'appId': "1:859931947137:web:66edfbcbe4489fab789d80"
+    }
+else:
+    config = {
+        'apiKey': "AIzaSyD5JOrncsPX2GLZZkKPHIG9tB2O3Zg2sDU",
+        'authDomain': "tp-testing-b2499.firebaseapp.com",
+        'databaseURL': "https://tp-testing-b2499.firebaseio.com",
+        'projectId': "tp-testing-b2499",
+        'storageBucket': "tp-testing-b2499.appspot.com",
+        'messagingSenderId': "148827854164",
+        'appId': "1:148827854164:web:001fd0af6d691bf6efa4c1",
+        'measurementId': "G-2BSWLCW5NY"
+    }
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 database = firebase.database()
@@ -128,6 +142,9 @@ def header(request):
 
 
 def index(request):
+    from ipware import get_client_ip
+    ip, is_routable = get_client_ip(request)
+    # return HttpResponse(ip)
     if(checkpermission(request,request.path)==-1):
         if request.method == 'POST':
             number = request.POST.get('phone')
@@ -138,16 +155,18 @@ def index(request):
             # idp=userid[0:2]
             # request.session['user']=userid
             # request.session['us']=idp
-
+            from datetime import datetime
             if(number and password and user):
                 if(user == '11'):
-
                     marketerdata = database.child('mIds').child(number).get().val()
                     if(marketerdata and getpass(password)[2:-1] == marketerdata['pass']):
                         request.session['name']=database.child('marketers').child(marketerdata['id']).child('details').get().val()['name']
                         request.session['user'] = marketerdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(marketerdata['id'])
+                        request.session['number']=number
+                        request.session['table']='mIds'
+                        database.child('mIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
@@ -158,6 +177,10 @@ def index(request):
                         request.session['user'] = teacherdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(teacherdata['id'])
+                        request.session['number']=number
+                        request.session['table']='tIds'
+
+                        database.child('tIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
@@ -168,6 +191,10 @@ def index(request):
                         request.session['user'] = admindata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(admindata['id'])
+                        request.session['number']=number
+                        request.session['table']='aIds'
+
+                        database.child('aIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
@@ -178,6 +205,10 @@ def index(request):
                         request.session['user'] = typerdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(typerdata['id'])
+                        request.session['number']=number
+                        request.session['table']='tyIds'
+
+                        database.child('tyIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
@@ -188,6 +219,10 @@ def index(request):
                         request.session['user'] = superdata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(superdata['id'])
+                        request.session['number']=number
+                        request.session['table']='sIds'
+
+                        database.child('sIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
                         return render(request, 'login.html', {'error': "Please use correct id and password"})
@@ -201,8 +236,10 @@ def index(request):
 
 def logout(request):
     if(checkpermission(request, '/logout')!=-1):
-        
-        
+        del request.session['name']
+        del request.session['image']
+        del request.session['table']
+        del request.session['number']
         del request.session['user']
         del request.session['us']
     return redirect('/')
@@ -220,3 +257,17 @@ def apiCall(request):
     request.session['image']=getimage(idd)
     print(token,next)
     return redirect(next)
+
+
+def viewDashboard(request):
+    subid = request.GET.get('id')
+    request.session['subid']=request.session['user']
+    request.session['user']=subid
+    request.session['us']=subid[:2]
+    return redirect('/')
+
+def back(request):
+    request.session['user'] = request.session['subid']
+    request.session['us'] = str(request.session['user'])[:2]
+    del request.session['subid']
+    return redirect('/')

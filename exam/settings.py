@@ -24,7 +24,7 @@ SECRET_KEY = 'g*ej$5wzhp20du5(-p)b$k2e5f)xbz5r=^fnmtzs8a%jfw%68@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['admin.the-proficiency.com','*']
 
 
 # Application definition
@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'tickets',
     'notifications',
     'banners',
-]
+    'msg',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -59,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'question.context_processors.checkIp',
+    
 ]
 
 ROOT_URLCONF = 'exam.urls'
@@ -147,3 +150,5 @@ EMAIL_USE_TLS=True
 
 
 EMAIL_USE_SSL=False
+
+DATABASE = 'testing'
