@@ -142,10 +142,12 @@ def header(request):
 def index(request):
     from ipware import get_client_ip
     ip, is_routable = get_client_ip(request)
-    # return HttpResponse(ip)
-    # from django.contrib.gis.geoip import GeoIP
-    # g = GeoIP()
-    # print(g)
+    from django.contrib.gis.geoip2 import GeoIP2
+    g = GeoIP2()
+    
+    response=g.city("157.36.168.57")
+    print(response)
+    print(format(response['city']))
     if(checkpermission(request,request.path)==-1):
         if request.method == 'POST':
             number = request.POST.get('phone')
