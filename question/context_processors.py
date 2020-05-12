@@ -22,13 +22,11 @@ def add_variable_to_context(request):
 def checkIp(get_response):
     def middleware(request):
         response = get_response(request)
-        print(request.path)
         if request.path =="/" or request.path =='/logout':
             pass
         else:
             lastIP = database.child(request.session['table']).child(request.session['number']).get().val()
             ip, is_routable = get_client_ip(request)
-            print(lastIP,ip)
             if(ip!=lastIP['lastIP']):
                 return redirect('/logout')
         return response

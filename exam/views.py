@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from base64 import b64encode
 from django.conf import settings
-# from django.contrib.gis.utils import GeoIP
 import pyrebase
 if settings.DATABASE =='live':
     config = {
@@ -94,7 +93,6 @@ def getimage(idd):
     user=getuserdetail(str(idd)[:2])
     try:
         url=storage.child(user[0]).child(idd).get_url(1)
-        print('rahul')
         import requests
         import ast
         # import urllib.parse
