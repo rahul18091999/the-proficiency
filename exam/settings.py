@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis.geoip2',
     'teacher',
     'subject',
     'question',
@@ -155,4 +154,4 @@ EMAIL_USE_SSL=False
 DATABASE = 'testing'
 
 
-GEOIP_PATH =os.path.join(BASE_DIR, 'geoip/')
+# GEOIP_PATH =os.path.join(BASE_DIR, 'geoip/')

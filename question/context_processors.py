@@ -25,9 +25,22 @@ def checkIp(get_response):
         if request.path =="/" or request.path =='/logout':
             pass
         else:
-            lastIP = database.child(request.session['table']).child(request.session['number']).get().val()
+            import requests
+            import ast
             ip, is_routable = get_client_ip(request)
-            if(ip!=lastIP['lastIP']):
-                return redirect('/logout')
+            # ipp = "157.36.168.57"
+            r = requests.get("http://ip-api.com/json/"+ip)
+            cityy = ast.literal_eval(r.text)['city']
+            lastIP = request.session['ipp']
+            
+            if(ip!=lastIP):
+                city = request.session['cityyy']
+                if (cityy != city):
+                    return redirect('/logout')
+                else:
+                    del request.session['ipp']
+                    del request.session['cityyy']
+                    request.session['ipp']
+                    request.session['cityyy']
         return response
     return middleware
