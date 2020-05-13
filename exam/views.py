@@ -142,10 +142,6 @@ def header(request):
 def index(request):
     from ipware import get_client_ip
     ip, is_routable = get_client_ip(request)
-    return HttpResponse(ip)
-    # from django.contrib.gis.geoip import GeoIP
-    # g = GeoIP()
-    # print(g)
     if(checkpermission(request,request.path)==-1):
         if request.method == 'POST':
             number = request.POST.get('phone')
@@ -167,6 +163,7 @@ def index(request):
                         request.session['image']=getimage(marketerdata['id'])
                         request.session['number']=number
                         request.session['table']='mIds'
+                        request.session['ip']=ip
                         database.child('mIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -176,6 +173,7 @@ def index(request):
                     if(teacherdata and getpass(password)[2:-1] == teacherdata['pass']):
                         request.session['name']=database.child('teachers').child(teacherdata['id']).child('details').get().val()['name']
                         request.session['user'] = teacherdata['id']
+                        request.session['ip']=ip
                         request.session['us'] = user
                         request.session['image']=getimage(teacherdata['id'])
                         request.session['number']=number
@@ -192,6 +190,7 @@ def index(request):
                         request.session['user'] = admindata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(admindata['id'])
+                        request.session['ip']=ip
                         request.session['number']=number
                         request.session['table']='aIds'
 
@@ -205,6 +204,7 @@ def index(request):
                         request.session['name']=database.child('typers').child(typerdata['id']).child('details').get().val()['name']
                         request.session['user'] = typerdata['id']
                         request.session['us'] = user
+                        request.session['ip']=ip
                         request.session['image']=getimage(typerdata['id'])
                         request.session['number']=number
                         request.session['table']='tyIds'
@@ -221,6 +221,7 @@ def index(request):
                         request.session['us'] = user
                         request.session['image']=getimage(superdata['id'])
                         request.session['number']=number
+                        request.session['ip']=ip
                         request.session['table']='sIds'
 
                         database.child('sIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
@@ -238,6 +239,7 @@ def index(request):
 def logout(request):
     if(checkpermission(request, '/logout')!=-1):
         del request.session['name']
+        del request.session['ip']
         del request.session['image']
         del request.session['table']
         del request.session['number']

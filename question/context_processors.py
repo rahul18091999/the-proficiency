@@ -25,9 +25,16 @@ def checkIp(get_response):
         if request.path =="/" or request.path =='/logout':
             pass
         else:
-            lastIP = database.child(request.session['table']).child(request.session['number']).get().val()
+            from django.contrib.gis.geoip2 import GeoIP2
+            g = GeoIP2()
+            response=g.city("")
+            print(response)
+            print(format(response['city']))
+            lastIP = request.session['ip']
             ip, is_routable = get_client_ip(request)
-            if(ip!=lastIP['lastIP']):
+            response=g.city(lastIP)
+            response1=g.city(ip)
+            if(format(response1['city'])!=format(response['city'])):
                 return redirect('/logout')
         return response
     return middleware
