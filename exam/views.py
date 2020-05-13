@@ -248,12 +248,16 @@ def apiCall(request):
     next = request.GET.get('next')
     idd=database.child('apiCalls').get().val()[token]
     pre=str(idd)[:2]
-    print(idd)
+    from ipware import get_client_ip
+    ip, is_routable = get_client_ip(request)
+    request.session['number']=database.child('teachers').child(idd).child('details').get().val()['phone']
+    request.session['table']='tIds'
+    request.session['ipp']=ip
+    request.session['isApp']=True
     request.session['name']=database.child('teachers').child(idd).child('details').get().val()['name']
     request.session['user'] = idd
     request.session['us'] = str(idd)[:2]
     request.session['image']=getimage(idd)
-    print(token,next)
     return redirect(next)
 
 

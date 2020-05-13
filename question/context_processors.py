@@ -7,14 +7,18 @@ def add_variable_to_context(request):
         image = request.session['image']
         name = request.session['name']
         userid = request.session['user']
+        if 'isApp' in request.session:
+            isApp=True
+        else:
+            isApp = False
         if 'subid' in request.session:
             path = request.session['subid']
             return {
-                'session': ses, 'homeimage': image, 'homename': name, 'subid': str(path)[:2],'jamura':userid
+                'session': ses, 'homeimage': image, 'homename': name, 'subid': str(path)[:2],'jamura':userid,'isApp':isApp
             }
         else:
             return {
-                'session': ses, 'homeimage': image, 'homename': name, 'jamura':userid
+                'session': ses, 'homeimage': image, 'homename': name, 'jamura':userid,'isApp':isApp
             }
     except:
         return {}
