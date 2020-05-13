@@ -31,6 +31,7 @@ storage = firebase.storage()
 
 def checkpermission(r, url):
     try:
+        print(url)
         idd = r.session['us']
         l11 = ['/logout','/home','/marketer/referal','/marketer/editProfile']
         l12 = ['/logout','/home','/teacher/viewQuestion','/teacher/rating','/teacher/editProfile','/teacher/referal','/teacher/earning',]
@@ -41,8 +42,10 @@ def checkpermission(r, url):
         l15 = ['/logout', '/home', '/question/addQuestion', '/question/viewQuestion','/user/addUser','/user/teacher','/user/typer','/user/marketer',
         '/academics/addBU','/academics/viewBU','/academics/viewHD','/academics/addHD','/academics/viewPrepFor'
         ,'/academics/addPrepFor','/academics/viewMainly','/academics/addMainly','/academics/viewSubjects','/academics/addSubject',
-        '/academics/viewTopics','/academics/addTopic','/exams/addDaily','/exams/addNLE','/exams/viewCoupons','/exams/addCoupon',
-        '/banners/addBanner']
+        '/academics/viewTopics','/academics/addTopic','/exams/addDaily','/exams/addNLE','/exams/viewCoupons','/exams/addCoupon','/exams/viewNLEs','/exams/viewDaily',
+        '/exams/addNLEQues','/exams/viewCouponsTo','/exams/viewNleQues','/exams/addAnsKey','/msg/addMsg','/notifications/addNotifications','/notifications/viewNotifications',
+        '/notifications/seeNotifications','/tickets/viewTickets','/tickets/seeTicket','/tickets/changestatus','/trnc/viewTrnc','/trnc/seeTrnc'
+        ,'/banners/addBanner','/academics/linksub','/academics/sublink']
         if(idd == '11'):
             if url in l11:
                 return 1
@@ -142,16 +145,12 @@ def header(request):
 def index(request):
     from ipware import get_client_ip
     ip, is_routable = get_client_ip(request)
+    import ast
     if(checkpermission(request,request.path)==-1):
         if request.method == 'POST':
             number = request.POST.get('phone')
             password = request.POST.get('pass')
             user = request.POST.get('type')
-            # usertype=getuserdetail(user)
-
-            # idp=userid[0:2]
-            # request.session['user']=userid
-            # request.session['us']=idp
             from datetime import datetime
             if(number and password and user):
                 if(user == '11'):
@@ -163,7 +162,7 @@ def index(request):
                         request.session['image']=getimage(marketerdata['id'])
                         request.session['number']=number
                         request.session['table']='mIds'
-                        request.session['ip']=ip
+                        request.session['ipp']=ip
                         database.child('mIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -173,12 +172,11 @@ def index(request):
                     if(teacherdata and getpass(password)[2:-1] == teacherdata['pass']):
                         request.session['name']=database.child('teachers').child(teacherdata['id']).child('details').get().val()['name']
                         request.session['user'] = teacherdata['id']
-                        request.session['ip']=ip
                         request.session['us'] = user
                         request.session['image']=getimage(teacherdata['id'])
                         request.session['number']=number
                         request.session['table']='tIds'
-
+                        request.session['ipp']=ip
                         database.child('tIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -190,10 +188,9 @@ def index(request):
                         request.session['user'] = admindata['id']
                         request.session['us'] = user
                         request.session['image']=getimage(admindata['id'])
-                        request.session['ip']=ip
                         request.session['number']=number
                         request.session['table']='aIds'
-
+                        request.session['ipp']=ip
                         database.child('aIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -204,11 +201,10 @@ def index(request):
                         request.session['name']=database.child('typers').child(typerdata['id']).child('details').get().val()['name']
                         request.session['user'] = typerdata['id']
                         request.session['us'] = user
-                        request.session['ip']=ip
                         request.session['image']=getimage(typerdata['id'])
                         request.session['number']=number
                         request.session['table']='tyIds'
-
+                        request.session['ipp']=ip
                         database.child('tyIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -221,9 +217,8 @@ def index(request):
                         request.session['us'] = user
                         request.session['image']=getimage(superdata['id'])
                         request.session['number']=number
-                        request.session['ip']=ip
                         request.session['table']='sIds'
-
+                        request.session['ipp']=ip
                         database.child('sIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -239,12 +234,12 @@ def index(request):
 def logout(request):
     if(checkpermission(request, '/logout')!=-1):
         del request.session['name']
-        del request.session['ip']
         del request.session['image']
         del request.session['table']
         del request.session['number']
         del request.session['user']
         del request.session['us']
+        del request.session['ipp']
     return redirect('/')
 
 

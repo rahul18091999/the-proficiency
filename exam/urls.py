@@ -22,7 +22,6 @@ urlpatterns = [
     path('',views.index),
     path('home',views.header),
     path('teacher/',include('teacher.urls')),
-    path('subjects/',include('subject.urls')),
     path('question/',include('question.urls')),
     path('logout',views.logout),
     path('typer/',include('typers.urls')),

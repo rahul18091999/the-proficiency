@@ -383,6 +383,11 @@ def viewMainly(request):
 
 
 def linksub(request):
+    c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home') 
     mid  = request.GET.get('id')
     mname = database.child('prepration').child(mid[:6]).child('mainly').child(mid).child('details').get().val()
     mname = mname['name']
@@ -403,6 +408,11 @@ def linksub(request):
     return render(request,'./academics/linksub.html',{'data':subdata,'name':mname,'mid':mid})
 
 def sublink(request):
+    c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home') 
     mid = request.GET.get('mid')
     sid = request.GET.get('sid')
     l = request.GET.get('l')

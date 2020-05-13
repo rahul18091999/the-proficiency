@@ -1,7 +1,12 @@
-from django.shortcuts import render
-from exam.views import database
+from django.shortcuts import render,redirect
+from exam.views import database,checkpermission
 # Create your views here.
 def addMsg(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     data = database.child('/').get().val()
     teacherdata = []
     if 'teachers' in data:
@@ -60,6 +65,8 @@ def addMsg(request):
                         'ids':tid
                     })
                 database.child('msg').update({'free':idd+1})
+            return render(request,'./msg/addMsg.html',{'teacherdata':teacherdata,'marketerdata':marketerdata,'typerdata':typerdata,'success':"Msg added successfully."})                      
+
         else:
             return render(request,'./msg/addMsg.html',{'teacherdata':teacherdata,'marketerdata':marketerdata,'typerdata':typerdata,'error':"Please Fill all the details."})                      
 

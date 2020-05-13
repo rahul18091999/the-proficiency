@@ -25,16 +25,44 @@ def checkIp(get_response):
         if request.path =="/" or request.path =='/logout':
             pass
         else:
-            from django.contrib.gis.geoip2 import GeoIP2
-            g = GeoIP2()
-            response=g.city("")
-            print(response)
-            print(format(response['city']))
-            lastIP = request.session['ip']
-            ip, is_routable = get_client_ip(request)
-            response=g.city(lastIP)
-            response1=g.city(ip)
-            if(format(response1['city'])!=format(response['city'])):
-                return redirect('/logout')
+            try:
+                import requests
+                import ast
+                ip, is_routable = get_client_ip(request)
+                from datetime import datetime
+                time_now = int(datetime.now().timestamp()*1000)
+                # ip = "157.36.168.57"
+                
+                # lastIP = '2409:4051:5:a1d5:5502:f099:9f8f:6996'
+                
+                lastIP = request.session['ipp']
+                cip = ip.replace(".","-")
+                clastip = lastIP.replace(".","-")
+                if(ip!=lastIP):
+                    ip1Data = database.child('ipChange').child(request.session['table']).child(request.session['number']).child(cip).get().val()
+                    if not ip1Data:
+                        r = requests.get("http://ip-api.com/json/"+ip)
+                        ip1Data = ast.literal_eval(r.text)
+                        city = ip1Data['city']
+                    else:
+                        city = ip1Data['city']
+                    ip1Data['time']=time_now
+                    ip2Data = database.child('ipChange').child(request.session['table']).child(request.session['number']).child(clastip).get().val()
+                    if not ip2Data:
+                        r = requests.get("http://ip-api.com/json/"+lastIP)
+                        ip2Data = ast.literal_eval(r.text)
+                        cityy = ip2Data['city']
+                    cityy = ip2Data['city']
+                    ip2Data['time']=time_now
+                    # city = request.session['cityyy']
+                    database.child('ipChange').child(request.session['table']).child(request.session['number']).update({clastip:ip2Data,cip:ip1Data})
+
+                    if (cityy != city):
+                        return redirect('/logout')
+                    else:
+                        del request.session['ipp']
+                        request.session['ipp']=ip
+            except:
+                pass        
         return response
     return middleware

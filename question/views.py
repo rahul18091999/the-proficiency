@@ -65,7 +65,7 @@ def question(request):
             if teach == "qBank":
                 check = "true"
             else:
-                check = "false"
+                check = "review"
 
             database.child('questions').child("q"+str(tempid)).child('details').update(
                 {   

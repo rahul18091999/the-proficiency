@@ -3,14 +3,7 @@ from exam.views import checkpermission, database,storage,getpass,getimage
 from datetime import date
 
 
-def dashboard(request):
-    id = request.session['user']
-    typersquestion = database.child('typers').child(
-        id).child('questionsAdded').get()
-    data = 0
-    for i in typersquestion:
-        data += 1
-    return render(request, 'dashboard.html', {'data': data})
+
 
 
 def viewQues(request):
