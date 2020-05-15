@@ -150,7 +150,7 @@ EMAIL_USE_TLS=True
 
 EMAIL_USE_SSL=False
 
-DATABASE = 'testing'
+DATABASE = 'pro'
 
 
 # GEOIP_PATH =os.path.join(BASE_DIR, 'geoip/')

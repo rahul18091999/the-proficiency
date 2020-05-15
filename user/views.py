@@ -164,8 +164,8 @@ def users(request):
                             from_email='Registration<no-reply@the-proficiency.com>',
                             recipient_list=[email])
                 data['success'] = "Teacher has been added Successfully!"
-                data['info'] = number + "@TP@" + age + " and 12" + str(
-                    tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
+                data['info'] = number + "@TP@" + age + "is the password and 12" + str(
+                    tempid) + " is the ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
             elif userType == "Admin":
                 if (database.child('aIds').child(number).shallow().get().val()):
@@ -217,11 +217,11 @@ def users(request):
                 send_mail(subject="account",
                 message='None',
                         html_message = d ,
-                            from_email=settings.EMAIL_HOST_USER,
+                            from_email='Registration<no-reply@the-proficiency.com>',
                             recipient_list=[email])
                 data['success'] = "Admin has been added Successfully!"
-                data['info'] = number + "@AP@" + age + " and 13" + str(
-                    tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
+                data['info'] = number + "@TP@" + age + "is the password and 13" + str(
+                    tempid) + " is the ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
 
             elif userType == 'Typer':
@@ -275,11 +275,11 @@ def users(request):
                 send_mail(subject="account",
                 message='None',
                         html_message = d ,
-                            from_email=settings.EMAIL_HOST_USER,
+                            from_email='Registration<no-reply@the-proficiency.com>',
                             recipient_list=[email])
                 data['success'] = "Typer has been added Successfully!"
-                data['info'] = number + "@TYP@" + age + " and 14" + str(
-                    tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
+                data['info'] = number + "@TP@" + age + "is the password and 14" + str(
+                    tempid) + " is the ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
             elif userType == "Marketer":
                 if (database.child('mIds').child(number).shallow().get().val()):
@@ -360,11 +360,11 @@ def users(request):
                 send_mail(subject="account",
                 message='None',
                         html_message = d ,
-                            from_email=settings.EMAIL_HOST_USER,
+                            from_email='Registration<no-reply@the-proficiency.com>',
                             recipient_list=[email])
                 data['success'] = "Marketer has been added Successfully!"
-                data['info'] = number + "@MP@" + age + " and 11" + str(
-                    tempid) + " is the Password and ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
+                data['info'] = number + "@MP@" +"is the password and 11" + str(
+                    tempid) + " is the ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
 
         else:
@@ -608,4 +608,3 @@ def viewStudents(request):
             }
         )
     return render(request,'./users/viewStu.html',{'data': l})
-

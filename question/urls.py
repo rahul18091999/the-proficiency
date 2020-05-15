@@ -5,6 +5,7 @@ urlpatterns = [
     path('viewQuestion',views.viewQuestion),
     path('seeQues',views.seeQues),
     path('editQues',views.editQues),
+    path('addImage',views.addImage),
 
 
 ]

@@ -37,7 +37,7 @@ def editProfile(request):
     iduser = request.session['user']
     i = database.child('typers').child(iduser).child('details').get()
     from datetime import date
-    data=database.child('tyIds').child(i.val()["phone"]).child('createdOn').get().val()/100
+    data=database.child('tyIds').child(i.val()["phone"]).child('createdOn').get().val()/1000
     date=date.fromtimestamp(data)
     l = {
         'id': iduser,

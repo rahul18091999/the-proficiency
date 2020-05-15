@@ -240,6 +240,8 @@ def logout(request):
         del request.session['user']
         del request.session['us']
         del request.session['ipp']
+        if 'isApp' in request.session:
+            del request.session['isApp']
     return redirect('/')
 
 
