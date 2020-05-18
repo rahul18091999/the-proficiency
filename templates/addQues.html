@@ -14,22 +14,26 @@
             options += '<option value=' + arr[$val][i].id + '>' + arr[$val][i].name + '(' + arr[$val][i].id + ')' + '</option>'
         $('#topic').html(options);
             }
-        function topic(){
-            {% if data.selectedSubjectId %}
-            var arr = {{ topic| safe }};
-            console.log(parseInt({{data.selectedSubjectId|safe}}));
-        var options = '';
-        for (var i = 0; i < arr[parseInt({{data.selectedSubjectId|safe}})].length; i++)
-            if( data.selectedTopic == arr[parseInt({{data.selectedSubjectId}})][i].id )
-            options += '<option value=' + arr[parseInt({{data.selectedSubjectId|safe}})][i].id + 'selected >' + arr[parseInt({{data.selectedSubjectId|safe}})][i].name + '(' + arr[parseInt({{data.selectedSubjectId|safe}})][i].id + ')' + '</option>'
+            function topiccc(){
+                
+                var x={{ data| safe }};
+                if(typeof(x)!=undefined ){
+
+                
+                m=x['selectedSubjectId'];
+                y=x['selectedTopic']
+                var arr = {{ topic| safe }};
+                console.log(arr);
+                var options = '';
+        for (var i = 0; i < arr[m].length; i++){
+                if(y==arr[m][i].id)
+            options += '<option value=' + arr[m][i].id + ' selected >' + arr[m][i].name + '(' + arr[m][i].id + ')' + '</option>'
             else
-            options += '<option value=' + arr[parseInt({{data.selectedSubjectId|safe}})][i].id + ' >' + arr[parseInt({{data.selectedSubjectId|safe}})][i].name + '(' + arr[parseInt({{data.selectedSubjectId|safe}})][i].id + ')' + '</option>'
-
-            
-        $('#topic').html(options);
-            {% endif %}
-
+            options += '<option value=' + arr[m][i].id + ' >' + arr[m][i].name + '(' + arr[m][i].id + ')' + '</option>'
         }
+        $('#topic').html(options);
+                }
+            }
         (function ($) {
             $(document).ready(function () {
                 $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
@@ -42,8 +46,7 @@
         })(jQuery);
     </script>
 </head>
-{% comment %} onload="topic()" {% endcomment %}
-<body onload="topic()">
+<body onload=topiccc()>
     <div id="addProductBox" class="mainbox col-md-5">
 
         <div class="form-group">
@@ -53,6 +56,7 @@
             <div class="panel-heading">
                 <div class="panel-title">Add a new Question</div>
             </div>
+           {{data.selectedSubjectId}}{{data.selectedTopic}}
             <div class="panel-body">
                 {% if data.error %}
                 <div class="alert alert-danger">
@@ -174,11 +178,15 @@
                         </legend>
                         <div class="controls col-md-8 ">
                             <select class="input-md subjectinput form-control" id="id_subject" name="subject"
-                                onchange="select_topic(this.value)" selected="<%= body.teacher %>">
+                                onchange="select_topic(this.value)">
+                                {% if data.selectedSubject %}
+                                <option value="" disabled >Subject Type</option>
+                                {% else %}
                                 <option value="" disabled selected>Subject Type</option>
+                                {% endif %}
 
                                 {% for subj in subject  %}
-                                {% if subj.id == data.selectedSubjct %}
+                                {% if  data.selectedSubject == subj.id %}
                                 <option value="{{subj.index}}" selected>{{subj.name}}({{subj.id}})</option>
                                 {% else %}
                                 <option value="{{subj.index}}">{{subj.name}}({{subj.id}})</option>

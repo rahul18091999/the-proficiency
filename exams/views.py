@@ -15,12 +15,14 @@ def addNLEs(request):
         time = request.POST.get('time')
         title = request.POST.get('title')
         desc = request.POST.get('desc')
-        if date and time and title and desc:
+        sp=request.Post.get('sp')
+        if date and time and title and sp and desc:
             dat = date[8:]+date[5:7]+date[:4]
             NLE = database.child('exams').child('NLE').child(dat)
             NLE.update(
                 {
                     'time': time,
+                    'sp':int(sp)
                 }
             )
             print("time")
@@ -64,7 +66,6 @@ def addNLEs(request):
                     if 'notes' not in data[j]['notifications']:
                         td[j]['notifications']['notes']={}
                     td[j]['notifications']['notes'][idd]=time_now
-            print(token)
             if token:
                 print(token)
                 token.append('EfadsfadsfasdfasdxponentPushfasdTofsadfskfadssdafsdfen[4iSHToD76BENf7-ujv4hcN')
@@ -104,7 +105,8 @@ def addNLEs(request):
                 'date': "",
                 'time': "",
                 'title':"",
-                'dis':""
+                'dis':"",
+                'sp':""
             }
             success = "NLE exam added successfully"
             data['success'] = success
@@ -114,7 +116,8 @@ def addNLEs(request):
                 'date': date,
                 'time': time,
                 'title':title,
-                'dis':desc
+                'dis':desc,
+                'sp':sp
             }
             error = "please fill the details"
             data['error'] = error
@@ -133,19 +136,22 @@ def daily(request):
     if request.method == "POST":
         date = request.POST.get('date')
         time = request.POST.get('time')
-        if date and time !="":
+        print(date)
+        sp=request.POST.get('sp')
+        if date and time and sp:
             dat = date[8:]+date[5:7]+date[:4]
             print(dat)
             NLE = database.child('exams').child('dailyTime').child(dat)
-            print("xyz")
             NLE.update(
                 {
                     'time': time,
+                    'sp':int(sp)
                 }
             )
             data = {
                 'name': "",
                 'dis': "",
+                'sp':"",
             }
             success = "Daily Exam added successfully"
             data['success'] = success
@@ -154,6 +160,7 @@ def daily(request):
             data = {
                 'name': date,
                 'dis': time,
+                'sp':sp
             }
             error = "please fill the details"
             data['error'] = error
@@ -163,7 +170,6 @@ def daily(request):
 
 def viewDaily(request):
     c=checkpermission(request,request.path)
-    print(c)
     if(c==-1):
         return redirect('/')
     elif(c==0):
@@ -175,7 +181,7 @@ def viewDaily(request):
             dat=i.key()
             date=dat[4:]+"-"+dat[2:4]+"-"+dat[:2]
             time=i.val()['time']
-            l.append({'date':date,'time':time})
+            l.append({'date':date,'time':time,'sp':i.val()['sp'],'id':i.key()})
     return render(request,'./exams/viewDaily.html',{'data':l})
 
 def viewNLEs(request):
@@ -191,7 +197,7 @@ def viewNLEs(request):
             dat=i.key()
             date=dat[4:]+"-"+dat[2:4]+"-"+dat[:2]
             time=i.val()['time']
-            l.append({'date':date,'time':time})
+            l.append({'date':date,'time':time,'sp':i.val()['sp']})
     return render(request,'./exams/viewNLEs.html',{'data':l})
             
 
@@ -229,7 +235,6 @@ def addNLEQues(request):
         opt4 = request.POST.get('opt4')
         NLE = request.POST.get('NLE')
         mainly = request.POST.get('mainly')
-        print(NLE,mainly)
         if(ques != "" and opt1 != "" and opt2 != "" and opt3 != "" and opt4 != "" and NLE is not None and mainly is not None):
             print('Hello')
             free = database.child('exams').child('NLE').child(NLE).child('mainly').child(mainly).child('questions').child('free').get().val()
@@ -331,7 +336,7 @@ def addCoupon(request):
                     for j in i.val():
                         r=i.val()[j]['rank']
                         if(r>=int(rmin) and r<=int(rmax)):
-                            l[j]='false'
+                            l[j]=False
             database.child('coupons').child(name).update({'to': l})
             data = {
                 'name': "",
@@ -440,5 +445,38 @@ def addAnsKey(request):
     
 
 
-
+def editDaily(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
+    date=request.GET.get('id')
+    data = database.child('exams').child('dailyTime').child(date).get().val()
+    data['date']=date[:2]+"-"+date[2:4]+"-"+date[4:]
+    if request.method=="POST":
+        time = request.POST.get('time')
+        sp=request.POST.get('sp')
+        if time and sp:
+            NLE = database.child('exams').child('dailyTime').child(date)
+            NLE.update(
+                {
+                    'time': time,
+                    'sp':int(sp)
+                }
+            )
+            
+            success = "Daily Exam Edited successfully"
+            data['success'] = success
+            return redirect('/exams/viewDaily')
+        else:
+            data = {
+                'date': date[:2]+"-"+date[2:4]+"-"+date[4:],
+                'time': time,
+                'sp':sp
+            }
+            error = "please fill the details"
+            data['error'] = error
+            return render(request, './exams/editDaily.html', data)
+    return render(request, './exams/editDaily.html', data)
     
