@@ -8,12 +8,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script>
         function select_topic($val) {
-            var arr = {{ topic| safe }};
+            var arr = {{ topic| safe
+        }};
+        console.log(arr);
         var options = '';
         for (var i = 0; i < arr[$val].length; i++)
             options += '<option value=' + arr[$val][i].id + '>' + arr[$val][i].name + '(' + arr[$val][i].id + ')' + '</option>'
         $('#topic').html(options);
             }
+        function topic() {
+            var arr = {{ topic| safe }};
+        console.log(parseInt({{ data.selectedSubjectId | safe }}));
+        var options = '';
+        for (var i = 0; i < arr[parseInt({{ data.selectedSubjectId | safe }})].length; i++)
+            if (data.selectedTopic == arr[parseInt({{ data.selectedSubjectId }})][i].id)
+                options += '<option value=' + arr[parseInt({{ data.selectedSubjectId | safe }})][i].id + 'selected >' + arr[parseInt({{ data.selectedSubjectId | safe }})][i].name + '(' + arr[parseInt({{ data.selectedSubjectId | safe }})][i].id + ')' + '</option>'
+            else
+                options += '<option value=' + arr[parseInt({{ data.selectedSubjectId | safe }})][i].id + ' >' + arr[parseInt({{ data.selectedSubjectId | safe }})][i].name + '(' + arr[parseInt({{ data.selectedSubjectId | safe }})][i].id + ')' + '</option>'
+
+
+        $('#topic').html(options);
+
+        }
         (function ($) {
             $(document).ready(function () {
                 $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
@@ -27,9 +43,9 @@
     </script>
 </head>
 
-<body onload="maximizeme()">
+<body>
     <div id="addProductBox" class="mainbox col-md-5">
-
+        {{data.selectedSubjectId}}
         <div class="form-group">
             <div class="aab controls col-md-4 "></div>
         </div>
@@ -49,7 +65,8 @@
                 </div>
                 {% endif %}
                 <div class="controls col-md-12 ">
-                    <a onclick="window.open('http:\/\/visualmatheditor.equatheque.net/VisualMathEditor.html?runLocal&codeType=Latex&encloseAllFormula=false&style=aguas&localType=en_US', 'newwindow1', 'top=0, left='+(screen.width)/2+', width='+(screen.width)/2+', height='+screen.height); return false;">
+                    <a
+                        onclick="window.open('http:\/\/visualmatheditor.equatheque.net/VisualMathEditor.html?runLocal&codeType=Latex&encloseAllFormula=false&style=aguas&localType=en_US', 'newwindow1', 'top=0, left='+(screen.width)/2+', width='+(screen.width)/2+', height='+screen.height); return false;">
                         <center>
                             <button class="btn btn-success navbar-btn ">
                                 <span class="fas fa-sign-out-alt"></span>
@@ -57,6 +74,22 @@
                         </center>
                     </a>
                 </div>
+                <form class="form-horizontal" id="plain" method='POST' action="/question/addImage"
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="div_id_ques" class="form-group required">
+                        <legend for="id_ques" class="control-label col-md-4  requiredField"> Image
+                        </legend>
+                        <div class="controls col-md-8 ">
+                            <input type="file" name="images" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                        <input type="submit" value="geturl">
+                        {% if url %}
+                        <p>{{url}}</p>
+                        {% endif %}
+                    </div>
+                </form>
                 <form class="form-horizontal" id="plain" method='POST' action="/question/addQuestion">
                     {% csrf_token %}
                     <div id="div_id_ques" class="form-group required">
@@ -120,10 +153,18 @@
                         <div class="controls col-md-8 ">
                             <select class="input-md teacherinput form-control" id="id_teacher" name="teacher"
                                 selected="<%= body.teacher %>">
+                                {% if data.selectedTeacher %}
+                                <option value="" disabled>select teacher</option>
+                                {% else %}
                                 <option value="" disabled selected>select teacher</option>
+                                {% endif %}
                                 <option value="qBank">Question Bank</option>
                                 {% for teacher in teach %}
+                                {% if data.selectedTeacher == teacher.tId %}
+                                <option value="{{teacher.tId}}" selected>{{teacher.name}}({{teacher.tId}})</option>
+                                {% else %}
                                 <option value="{{teacher.tId}}">{{teacher.name}}({{teacher.tId}})</option>
+                                {% endif %}
                                 {% endfor %}
                             </select>
                         </div>
@@ -133,12 +174,20 @@
                         </legend>
                         <div class="controls col-md-8 ">
                             <select class="input-md subjectinput form-control" id="id_subject" name="subject"
-                                onchange="select_topic(this.value)" selected="<%= body.teacher %>">
+                                onchange="select_topic(this.value)">
+                                {% if data.selectedSubject %}
+                                <option value="" disabled>Subject Type</option>
+                                {% else %}
                                 <option value="" disabled selected>Subject Type</option>
+                                {% endif %}
 
                                 {% for subj in subject  %}
-
+                                {% if subj.id == data.selectedSubjct %}
+                                <option value="{{subj.index}}" selected>{{subj.name}}({{subj.id}})</option>
+                                {% else %}
                                 <option value="{{subj.index}}">{{subj.name}}({{subj.id}})</option>
+
+                                {% endif %}
                                 {% endfor %}
 
                             </select>

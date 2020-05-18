@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'g*ej$5wzhp20du5(-p)b$k2e5f)xbz5r=^fnmtzs8a%jfw%68@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['admin.the-proficiency.com','*']
 
 
@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'teacher',
-    'subject',
     'question',
     'typers',
     'user',
@@ -151,7 +150,7 @@ EMAIL_USE_TLS=True
 
 EMAIL_USE_SSL=False
 
-DATABASE = 'testing'
+DATABASE = 'pro'
 
 
 # GEOIP_PATH =os.path.join(BASE_DIR, 'geoip/')

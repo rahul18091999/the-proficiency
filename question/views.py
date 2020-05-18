@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from exam.views import database,getuserdetail,checkpermission
+from exam.views import database,getuserdetail,checkpermission,storage
 # Create your views here.
 import json
 def question(request):
@@ -65,7 +65,7 @@ def question(request):
             if teach == "qBank":
                 check = "true"
             else:
-                check = "false"
+                check = "review"
 
             database.child('questions').child("q"+str(tempid)).child('details').update(
                 {   
@@ -110,6 +110,10 @@ def question(request):
                 'subject': "",
                 'topic': "",
                 'success': 'data submitted successfully',
+                'selectedTeacher':teach,
+                'selectedTopic':topic,
+                'selectedSubjectId':subj,
+                'selectedSubject':subjId,
             }
             return render(request,"addQues.html",{'subject': subjectid, 'topic': topicName, 'teach': teacher, 'data': data})
         else:
@@ -212,4 +216,17 @@ def editQues(request):
         return render(request,'./question/editQues.html',{'data':data,'tname':tname,'sid':sid,'sname':sname,'topic':topic})
     return redirect('/')
 
-   
+
+
+
+def addImage(request):
+    if request.method=='POST':
+        if(request.FILES):
+            free= database.child('imgFree').child('free').shallow().get().val()
+            if not free:
+                free=10000000000
+            storage.child('/questions/'+str(free)).put(request.FILES["images"])
+            url = storage.child('/questions/'+str(free)).get_url(1)
+            database.child('imgFree').update({'free':free+1})
+            return  render(request,'addQues.html',{'url':url})
+        return render(request,'addQues.html')

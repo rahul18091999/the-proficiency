@@ -1,8 +1,13 @@
-from django.shortcuts import render
-from exam.views import database
+from django.shortcuts import render,redirect
+from exam.views import database,checkpermission
 # Create your views here.
 
 def viewNotifications(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     d = database.child('notifications').get().val()
     l=[]
     if d:
@@ -19,6 +24,11 @@ def viewNotifications(request):
 
 
 def addNotifications(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     if request.method == 'POST':
         title = request.POST.get('title')
         desc = request.POST.get('discription')
@@ -57,8 +67,6 @@ def addNotifications(request):
                     
 
             if token:
-                print(token)
-                token.append('EfadsfadsfasdfasdxponentPushfasdTofsadfskfadssdafsdfen[4iSHToD76BENf7-ujv4hcN')
                 import requests
                 r = requests.post('https://exp.host/--/api/v2/push/send',
                 headers={
@@ -101,6 +109,11 @@ def addNotifications(request):
 
 
 def seeNotifications(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     nid = request.GET.get('nid')
     data = database.child('notifications').child(nid).get().val()
     from datetime import datetime

@@ -1,25 +1,36 @@
 from django.shortcuts import render,redirect
-from exam.views import database
+from exam.views import database,checkpermission
 # Create your views here.
 
 def viewTickets(request):
+    c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home')
     ticket = database.child('tickets').get()
     l=[]
-    for i in ticket:
-        for j in i.val():
-            print(j)
-            if j != "free":
-                l.append(
-                    {
-                        'UID': i.key(),
-                        'TID': j,
-                        'dnt': i.val()[j]['dNt'],
-                        'status': i.val()[j]['status'],
-                        'title': i.val()[j]['title']
-                    }
-                )
+    if ticket.val():
+        for i in ticket:
+            for j in i.val():
+                print(j)
+                if j != "free":
+                    l.append(
+                        {
+                            'UID': i.key(),
+                            'TID': j,
+                            'dnt': i.val()[j]['dNt'],
+                            'status': i.val()[j]['status'],
+                            'title': i.val()[j]['title']
+                        }
+                    )
     return render(request, './tickets/viewTickets.html',{'data':l})
 def seeTicket(request):
+    c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home')
     UID = request.GET.get('UID')
     TID = request.GET.get('TID')
     from datetime import datetime
@@ -73,6 +84,11 @@ def seeTicket(request):
         return render(request,'./tickets/seeTicket.html',{'mine':l,'ticketId':ticketid})
 
 def changeStatus(request):
+    c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home')
     UID = request.GET.get('UID')
     TID = request.GET.get('TID')
     status = request.POST.get('status')

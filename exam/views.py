@@ -31,6 +31,7 @@ storage = firebase.storage()
 
 def checkpermission(r, url):
     try:
+        print(url)
         idd = r.session['us']
         l11 = ['/logout','/home','/marketer/referal','/marketer/editProfile']
         l12 = ['/logout','/home','/teacher/viewQuestion','/teacher/rating','/teacher/editProfile','/teacher/referal','/teacher/earning',]
@@ -41,8 +42,10 @@ def checkpermission(r, url):
         l15 = ['/logout', '/home', '/question/addQuestion', '/question/viewQuestion','/user/addUser','/user/teacher','/user/typer','/user/marketer',
         '/academics/addBU','/academics/viewBU','/academics/viewHD','/academics/addHD','/academics/viewPrepFor'
         ,'/academics/addPrepFor','/academics/viewMainly','/academics/addMainly','/academics/viewSubjects','/academics/addSubject',
-        '/academics/viewTopics','/academics/addTopic','/exams/addDaily','/exams/addNLE','/exams/viewCoupons','/exams/addCoupon',
-        '/banners/addBanner']
+        '/academics/viewTopics','/academics/addTopic','/exams/addDaily','/exams/addNLE','/exams/viewCoupons','/exams/addCoupon','/exams/viewNLEs','/exams/viewDaily',
+        '/exams/addNLEQues','/exams/viewCouponsTo','/exams/viewNleQues','/exams/addAnsKey','/msg/addMsg','/notifications/addNotifications','/notifications/viewNotifications',
+        '/notifications/seeNotifications','/tickets/viewTickets','/tickets/seeTicket','/tickets/changestatus','/trnc/viewTrnc','/trnc/seeTrnc'
+        ,'/banners/addBanner','/academics/linksub','/academics/sublink']
         if(idd == '11'):
             if url in l11:
                 return 1
@@ -142,21 +145,12 @@ def header(request):
 def index(request):
     from ipware import get_client_ip
     ip, is_routable = get_client_ip(request)
-    import requests
     import ast
-    # ipp = "157.36.168.57"
-    r = requests.get("http://ip-api.com/json/"+ip)
-    cityy = ast.literal_eval(r.text)['city']
     if(checkpermission(request,request.path)==-1):
         if request.method == 'POST':
             number = request.POST.get('phone')
             password = request.POST.get('pass')
             user = request.POST.get('type')
-            # usertype=getuserdetail(user)
-
-            # idp=userid[0:2]
-            # request.session['user']=userid
-            # request.session['us']=idp
             from datetime import datetime
             if(number and password and user):
                 if(user == '11'):
@@ -169,7 +163,6 @@ def index(request):
                         request.session['number']=number
                         request.session['table']='mIds'
                         request.session['ipp']=ip
-                        request.session['cityyy']=cityy
                         database.child('mIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -184,8 +177,6 @@ def index(request):
                         request.session['number']=number
                         request.session['table']='tIds'
                         request.session['ipp']=ip
-                        request.session['cityyy']=cityy
-
                         database.child('tIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -200,8 +191,6 @@ def index(request):
                         request.session['number']=number
                         request.session['table']='aIds'
                         request.session['ipp']=ip
-                        request.session['cityyy']=cityy
-
                         database.child('aIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -216,8 +205,6 @@ def index(request):
                         request.session['number']=number
                         request.session['table']='tyIds'
                         request.session['ipp']=ip
-                        request.session['cityyy']=cityy
-
                         database.child('tyIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -232,8 +219,6 @@ def index(request):
                         request.session['number']=number
                         request.session['table']='sIds'
                         request.session['ipp']=ip
-                        request.session['cityyy']=cityy
-
                         database.child('sIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -255,7 +240,8 @@ def logout(request):
         del request.session['user']
         del request.session['us']
         del request.session['ipp']
-        del request.session['cityyy']
+        if 'isApp' in request.session:
+            del request.session['isApp']
     return redirect('/')
 
 
@@ -264,12 +250,16 @@ def apiCall(request):
     next = request.GET.get('next')
     idd=database.child('apiCalls').get().val()[token]
     pre=str(idd)[:2]
-    print(idd)
+    from ipware import get_client_ip
+    ip, is_routable = get_client_ip(request)
+    request.session['number']=database.child('teachers').child(idd).child('details').get().val()['phone']
+    request.session['table']='tIds'
+    request.session['ipp']=ip
+    request.session['isApp']=True
     request.session['name']=database.child('teachers').child(idd).child('details').get().val()['name']
     request.session['user'] = idd
     request.session['us'] = str(idd)[:2]
     request.session['image']=getimage(idd)
-    print(token,next)
     return redirect(next)
 
 

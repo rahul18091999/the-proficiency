@@ -162,6 +162,12 @@ def daily(request):
         return render(request, './exams/addDaily.html')
 
 def viewDaily(request):
+    c=checkpermission(request,request.path)
+    print(c)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     d = database.child('exams').child('dailyTime').get()
     l=[]
     if d.val():
@@ -173,6 +179,11 @@ def viewDaily(request):
     return render(request,'./exams/viewDaily.html',{'data':l})
 
 def viewNLEs(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     d = database.child('exams').child('NLE').get()
     l=[]
     if d.val():
@@ -185,11 +196,11 @@ def viewNLEs(request):
             
 
 def addNLEQues(request):
-    # c=checkpermission(request,request.path)
-    # if(c==-1):
-    #     return redirect('/')
-    # elif(c==0):
-    #     return redirect('/home')
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     nledata=database.child('exams').child('NLE').get()
     mainlydata = database.child('prepration').get().val()
     date = nledata.val().keys()
@@ -350,6 +361,11 @@ def addCoupon(request):
         return render(request,'./exams/addCoupon.html',{'count':count})
 
 def viewCouponsTo(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     idd = request.GET.get('cid')
     dat = database.child('coupons').child(idd).get()
     l=[]
@@ -373,6 +389,11 @@ def viewCouponsTo(request):
 
 
 def viewNleQues(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     d=request.GET.get('qid')
     nle=d[8:]+d[5:7]+d[:4]
     data=database.child('exams').child('NLE').child(nle).child('mainly').get()
@@ -396,6 +417,11 @@ def viewNleQues(request):
     return render(request,'./exams/viewNLEQuestions.html',{'mainly':l,'nle':nle})
 
 def addAnsKey(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     nle=request.GET.get('nle')
     mid=request.GET.get('mid')
     count = database.child('exams').child('NLE').child(nle).child('mainly').child(mid).child('questions').child('free').shallow().get().val()

@@ -147,7 +147,7 @@ def editProfile(request):
     i = database.child('teachers').child(iduser).child('details').get()
     from datetime import date
     data = database.child('tIds').child(
-        i.val()["phone"]).child('createdOn').get().val()/100
+        i.val()["phone"]).child('createdOn').get().val()/1000
     date = date.fromtimestamp(data)
     
     l = {
@@ -192,9 +192,9 @@ def editProfile(request):
                 else:
                     database.child('tIds').child(i.val()["phone"]).update(
                         {'pass': getpass(newpassword)[2:-1]})
-                    return redirect('/home')
+                    return render(request, './teacher/editProfile.html', {'data': l})
         
-        return redirect('/home')
+        return render(request, './teacher/editProfile.html', {'data': l})
     else:
 
         return render(request, './teacher/editProfile.html', {'data': l})

@@ -86,9 +86,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/question/addQuestion" class="nav-link">
-                                <i class="fas fa-plus nav-icon"></i>
-                                <p>Add Questions</p>
+                            <a href="/question/addQuestion" class="nav-link" onclick="window.open('/question/addQuestion', 
+                                                 'newwindow', 'top=0, left=0, width='+(screen.width)/2+', height='+screen.height);  
+                                      return false;">
+                                <i class="nav-icon fas fa-plus"></i>
+                                <p>
+                                    Add Questions
+                                </p>
                             </a>
                         </li>
                     </ul>
@@ -354,6 +358,12 @@
                     <a href="/banners/addBanner" class="nav-link">
                         <i class="fas fa-plus nav-icon"></i>
                         <p>Banners</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/msg/addMsg" class="nav-link">
+                        <i class="fas fa-plus nav-icon"></i>
+                        <p>Msg</p>
                     </a>
                 </li>
             </ul>
