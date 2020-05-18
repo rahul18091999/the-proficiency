@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'g*ej$5wzhp20du5(-p)b$k2e5f)xbz5r=^fnmtzs8a%jfw%68@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['admin.the-proficiency.com','*']
 
 

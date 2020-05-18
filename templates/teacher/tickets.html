@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Rating</title>
+
+
+    {% include "../includes/top.html" %}
+
+    <script>
+        window.onload = function () {
+            var ctxL = document.getElementById("lineChart").getContext('2d');
+            var myLineChart = new Chart(ctxL, {
+                type: 'line',
+                data: {
+                    labels: {{x|safe}},
+                    datasets: [{
+                        label: "View Ratings",
+                        data: {{y|safe}},
+                        borderColor: [
+                            '#6d78ad',
+                        ],
+                        borderWidth: 2,
+                        lineTension:0,
+                        fill: false,
+                    },
+                    ]
+                },
+                options: {
+                    responsive: true
+                },
+                pointRotation: 0
+            });
+        }
+    </script>
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    {% include "../includes/mainSlider.html" %}
+    {% include "../includes/navBar.html" %}
+    <div class="content-wrapper">
+        coming soon
+    </div>
+    {% include "../includes/bottom.html" %}
+</body>
+
+</html>

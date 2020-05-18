@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://dbusinessi.online/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <script>
         function select_topic($val) {
-            var arr = {{ topic| safe
-        }};
+            var arr = {{ topic| safe }};
         console.log(arr);
         var options = '';
         for (var i = 0; i < arr[$val].length; i++)
@@ -25,7 +25,6 @@
                 m=x['selectedSubjectId'];
                 y=x['selectedTopic']
                 var arr = {{ topic| safe }};
-                console.log(arr);
                 var options = '';
         for (var i = 0; i < arr[m].length; i++){
                 if(y==arr[m][i].id)
@@ -53,7 +52,6 @@
 
 <body>
     <div id="addProductBox" class="mainbox col-md-5">
-        {{data.selectedSubjectId}}
         <div class="form-group">
             <div class="aab controls col-md-4 "></div>
         </div>
@@ -61,7 +59,7 @@
             <div class="panel-heading">
                 <div class="panel-title">Add a new Question</div>
             </div>
-           {{data.selectedSubjectId}}{{data.selectedTopic}}
+           
             <div class="panel-body">
                 {% if data.error %}
                 <div class="alert alert-danger">
@@ -214,6 +212,12 @@
                             </select>
                         </div>
                     </div>
+                    <div class="icheck-primary d-inline">
+                        <input type="checkbox" id="checkboxPrimary1" name="notification">
+                        <label for="checkboxPrimary1">
+                          Send Notifications
+                        </label>
+                      </div>
                     <div class="form-group">
                         <div class="aab controls col-md-4 "></div>
                         <div class="controls col-md-8 ">
