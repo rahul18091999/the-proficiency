@@ -158,9 +158,9 @@
                             <select class="input-md teacherinput form-control" id="id_teacher" name="teacher"
                                 selected="<%= body.teacher %>">
                                 {% if data.selectedTeacher %}
-                                <option value="" disabled>select teacher</option>
+                                <option value="" disabled>Select Teacher</option>
                                 {% else %}
-                                <option value="" disabled selected>select teacher</option>
+                                <option value="" disabled selected>Select Teacher</option>
                                 {% endif %}
                                 <option value="qBank">Question Bank</option>
                                 {% for teacher in teach %}
@@ -180,9 +180,9 @@
                             <select class="input-md subjectinput form-control" id="id_subject" name="subject"
                                 onchange="select_topic(this.value)">
                                 {% if data.selectedSubject %}
-                                <option value="" disabled >Subject Type</option>
+                                <option value="" disabled >Select Subject</option>
                                 {% else %}
-                                <option value="" disabled selected>Subject Type</option>
+                                <option value="" disabled selected>Select Subject</option>
                                 {% endif %}
 
                                 {% for subj in subject  %}
@@ -204,7 +204,7 @@
                         <div class="controls col-md-8 ">
                             <select class="input-md subjectinput form-control" id="topic" name="topic">
 
-                                <option value="" disabled selected>Question Type</option>
+                                <option value="" disabled selected>Select Topic</option>
 
                             </select>
                         </div>
@@ -212,9 +212,10 @@
                     <div class="form-group">
                         <div class="aab controls col-md-4 "></div>
                         <div class="controls col-md-8 ">
-                            <input type="submit" name="addTopic" value="Add Topic" class="btn btn-primary btn btn-info"
+                            <input type="submit" name="addTopic" value="Add Question" class="btn btn-primary btn btn-info"
                                 id="submit-id-addTopic" />
                         </div>
+                        
                     </div>
                 </form>
             </div>
