@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>TheProficiency | Add NLE</title>
+    <title>TheProficiency | Edit Daily Exam</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include "../includes/top.html" %}
@@ -43,20 +43,15 @@
                             {% endif %}
                             <div class="card card-primary">
                                 <div class="card-header">
-                                    <h3 class="card-title">Add NLE</h3>
+                                     <h3 class="card-title">Edit Daily Exam ({{date}})</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <!-- form start -->
-                                <form action="/exams/addNLE" class="form-horizontal" method='POST'>
+                                <form class="form-horizontal" method='POST'>
                                     {% csrf_token %}
                                     <div class="card-body">
                                         <div class="form-group">
-                                            <label for="exampleInputEmail1">NLE Date</label>
-                                            <input type="date" class="form-control" name="date" value="{{date}}"
-                                                placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Time</label>
+                                            <label for="exampleInputEmail1">Daily Exam Time</label>
                                             <input type="time" class="form-control" name="time" value="{{time}}"
                                                 placeholder="">
                                         </div>
@@ -65,19 +60,9 @@
                                             <input type="number" class="form-control" name="sp" value="{{sp}}"
                                                 placeholder="">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Title</label>
-                                            <input type="text" class="form-control" name="title" value="{{title}}"
-                                                placeholder="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail1">Discription</label>
-                                            <input type="text" class="form-control" name="desc" value="{{dis}}"
-                                                placeholder="">
-                                        </div>
                                         <!-- /.card-body -->
                                         <div class="card-footer">
-                                            <button type="submit" class="btn btn-primary">Add NLE Date</button>
+                                            <button type="submit" class="btn btn-primary">Edit Daily Exam</button>
                                         </div>
                                 </form>
                             </div>

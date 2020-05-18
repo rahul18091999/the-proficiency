@@ -52,10 +52,10 @@ def question(request):
         subj = (request.POST.get('result'))
         user=getuserdetail(request.session['us'])
         userid=request.session['user']
-        
+        import ast
+        subjId = ast.literal_eval(subj)[int(subject)]['id']
         if(ques != "" and opt1 != "" and opt2 != "" and opt3 != "" and opt4 != "" and optc is not None and subject is not None and teach is not None and topic is not None):
-            import ast
-            subjId = ast.literal_eval(subj)[int(subject)]['id']
+            
             free = database.child('questions').child(
                 'free').shallow().get().val()
             if free:
@@ -112,7 +112,7 @@ def question(request):
                 'success': 'data submitted successfully',
                 'selectedTeacher':teach,
                 'selectedTopic':topic,
-                'selectedSubjectId':subj,
+                'selectedSubjectId':subject,
                 'selectedSubject':subjId,
             }
             return render(request,"addQues.html",{'subject': subjectid, 'topic': topicName, 'teach': teacher, 'data': data})
@@ -127,6 +127,10 @@ def question(request):
                 'subject': subject,
                 'topic': topic,
                 'error': 'Please check all the Details again.',
+                'selectedTeacher':teach,
+                'selectedTopic':topic,
+                'selectedSubjectId':subject,
+                'selectedSubject':subjId,
             }
     return render(request, 'addQues.html', {'subject': subjectid, 'topic': topicName, 'teach': teacher, 'data': data})
 

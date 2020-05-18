@@ -27,6 +27,7 @@
                                     <tr>
                                         <th>Date</th>
                                         <th>Time</th>
+                                        <th>SP</th>
                                         <th>Edit</th>
                                     </tr>
                                 </thead>
@@ -38,8 +39,10 @@
                                     <tr>
                                         <td>{{i.date}}</td>
                                         <td>{{i.time}}</td>
+                                        <td>{{i.sp}}</td>
+                                        
                                         <td>
-                                            <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
+                                            <a href='/exams/editDaily?id={{i.id}}'> <button type="button"
                                                     class="btn btn-default btn-sm">
                                                     <span class="glyphicon glyphicon-edit"></span> Edit
                                                 </button>
@@ -53,6 +56,7 @@
                                     <tr>
                                         <th>Date</th>
                                         <th>Time</th>
+                                        <th>SP</th>
                                         <th>Edit</th>
                                     </tr>
                                 </tfoot>
