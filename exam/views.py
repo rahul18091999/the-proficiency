@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from base64 import b64encode
 from django.conf import settings
-# from django.contrib.gis.utils import GeoIP
 import pyrebase
 if settings.DATABASE =='live':
     config = {
@@ -94,7 +93,6 @@ def getimage(idd):
     user=getuserdetail(str(idd)[:2])
     try:
         url=storage.child(user[0]).child(idd).get_url(1)
-        print('rahul')
         import requests
         import ast
         # import urllib.parse
@@ -144,7 +142,11 @@ def header(request):
 def index(request):
     from ipware import get_client_ip
     ip, is_routable = get_client_ip(request)
-    # return HttpResponse(ip)
+    import requests
+    import ast
+    # ipp = "157.36.168.57"
+    r = requests.get("http://ip-api.com/json/"+ip)
+    cityy = ast.literal_eval(r.text)['city']
     if(checkpermission(request,request.path)==-1):
         if request.method == 'POST':
             number = request.POST.get('phone')
@@ -166,6 +168,8 @@ def index(request):
                         request.session['image']=getimage(marketerdata['id'])
                         request.session['number']=number
                         request.session['table']='mIds'
+                        request.session['ipp']=ip
+                        request.session['cityyy']=cityy
                         database.child('mIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:
@@ -179,6 +183,8 @@ def index(request):
                         request.session['image']=getimage(teacherdata['id'])
                         request.session['number']=number
                         request.session['table']='tIds'
+                        request.session['ipp']=ip
+                        request.session['cityyy']=cityy
 
                         database.child('tIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
@@ -193,6 +199,8 @@ def index(request):
                         request.session['image']=getimage(admindata['id'])
                         request.session['number']=number
                         request.session['table']='aIds'
+                        request.session['ipp']=ip
+                        request.session['cityyy']=cityy
 
                         database.child('aIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
@@ -207,6 +215,8 @@ def index(request):
                         request.session['image']=getimage(typerdata['id'])
                         request.session['number']=number
                         request.session['table']='tyIds'
+                        request.session['ipp']=ip
+                        request.session['cityyy']=cityy
 
                         database.child('tyIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
@@ -221,6 +231,8 @@ def index(request):
                         request.session['image']=getimage(superdata['id'])
                         request.session['number']=number
                         request.session['table']='sIds'
+                        request.session['ipp']=ip
+                        request.session['cityyy']=cityy
 
                         database.child('sIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
@@ -242,6 +254,8 @@ def logout(request):
         del request.session['number']
         del request.session['user']
         del request.session['us']
+        del request.session['ipp']
+        del request.session['cityyy']
     return redirect('/')
 
 
@@ -260,14 +274,17 @@ def apiCall(request):
 
 
 def viewDashboard(request):
-    subid = request.GET.get('id')
-    request.session['subid']=request.session['user']
-    request.session['user']=subid
-    request.session['us']=subid[:2]
+    if(checkpermission(request, '/logout')!=-1):
+        if request.session['us']=='13' or request.session['us'] == '15':
+            subid = request.GET.get('id')
+            request.session['subid']=request.session['user']
+            request.session['user']=subid
+            request.session['us']=subid[:2]
     return redirect('/')
 
 def back(request):
-    request.session['user'] = request.session['subid']
-    request.session['us'] = str(request.session['user'])[:2]
-    del request.session['subid']
+    if 'subid' in request.session:
+        request.session['user'] = request.session['subid']
+        request.session['us'] = str(request.session['user'])[:2]
+        del request.session['subid']
     return redirect('/')
