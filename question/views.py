@@ -152,19 +152,6 @@ def question(request):
                         })
                         database.child('notifications').update({'free':idd+1})
                         database.child('teachers').child(teach).child('notifications').child('notes').update({idd:time_now})
-                        
-
-
-
-
-
-
-
-
-
-
-
-
             data={
                 'question': "",
                 'opt1': "",
@@ -241,6 +228,11 @@ def seeQues(request):
             sid = data['topic'][:5]
             sname = d['details']['name']
             topic = d['topics'][data['topic']]['details']['name']
+        if (data['approved']) == False:
+            msg = data['message']
+            msg = msg.split('{{-+-}}')
+            return render(request,'./question/seeQues.html',{'question':msg[0],'opt1':msg[1],'opt2':msg[2],'opt3':msg[3],'opt4':msg[4],'optC':msg[5],'data':data,'tname':tname,'tyname':tyname,'qid':qid,'topic':topic,'sid':sid,'sname':sname})
+        
         return render(request,'./question/seeQues.html',{'data':data,'tname':tname,'tyname':tyname,'qid':qid,'topic':topic,'sid':sid,'sname':sname})
     return redirect('/')
 
@@ -253,12 +245,14 @@ def editQues(request):
     data = database.child('questions').child(qid).child('details').get().val()
     pre = request.session['us']
     idd = request.session['user']
-    if(data and( pre == '15' or pre == '13' or ( 'typer' in data and idd == data['typer'] ))):
+    if(data['approved']==False and( pre == '15' or pre == '13' or ( 'typer' in data and idd == data['typer'] ))):
         tname = database.child('teachers').child(data['by']).child('details').child('name').get().val()
         sid = data['topic'][:5]
         sdata = database.child('subjects').child(sid).get().val()
         sname = sdata['details']['name']
         topic = sdata['topics'][data['topic']]['details']['name']
+        msg = data['message']
+        msg = msg.split('{{-+-}}')
         if request.method == 'POST':
             ques = request.POST.get('ques')
             opt1 = request.POST.get('opt1')
@@ -276,13 +270,14 @@ def editQues(request):
                     'opt3': opt3,
                     'opt4': opt4,
                     'optC': optc, 
+                    'approved':'review'
                     }
                 )
                 data = database.child('questions').child(qid).child('details').get().val()
                 return render(request,'./question/editQues.html',{'data':data,'tname':tname,'sid':sid,'sname':sname,'topic':topic,'success':"Edit Successfully. "})
             else:
-                return render(request,'./question/editQues.html',{'data':data,'tname':tname,'sid':sid,'sname':sname,'topic':topic,'error':"Please fill all the details."})
-        return render(request,'./question/editQues.html',{'data':data,'tname':tname,'sid':sid,'sname':sname,'topic':topic})
+                return render(request,'./question/editQues.html',{'question':msg[0],'opt1':msg[1],'opt2':msg[2],'opt3':msg[3],'opt4':msg[4],'optC':msg[5],'data':data,'tname':tname,'sid':sid,'sname':sname,'topic':topic,'error':"Please fill all the details."})
+        return render(request,'./question/editQues.html',{'question':msg[0],'opt1':msg[1],'opt2':msg[2],'opt3':msg[3],'opt4':msg[4],'optC':msg[5],'data':data,'tname':tname,'sid':sid,'sname':sname,'topic':topic})
     return redirect('/')
 
 

@@ -3,4 +3,5 @@ from . import views
 urlpatterns = [
     path('viewquestion', views.viewQues),
     path('editProfile', views.editProfile),
+    path('mistakeQues',views.mistakeQues),
 ]

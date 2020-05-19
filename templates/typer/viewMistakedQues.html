@@ -28,14 +28,16 @@
                                         <th>Question ID</th>
                                         <th>Teacher ID</th>
                                         <th>See Question</th>
+                                        <th>Edit Question</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% if question %}
-                                    {% for data in question  %}
+                                    
+                                    {% for data in dataa  %}
                                     <tr>
                                         <td>{{data.id}}</td>
-                                        <td>{{data.by}}</td>
+                                        <td>{{data.tid}}</td>
+                                        
                                         <td>
                                             <a href='/question/seeQues?qid={{data.id}}'> <button type="button"
                                                     class="btn btn-default btn-sm">
@@ -43,15 +45,22 @@
                                                 </button>
                                             </a>
                                         </td>
+                                        <td>
+                                            <a href='/question/editQues?qid={{data.id}}'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> Edit
+                                                </button>
+                                            </a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
-                                    {% endif %}
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th>Question ID</th>
                                         <th>Teacher ID</th>
                                         <th>See Question</th>
+                                        <th>Edit Question</th>
                                     </tr>
                                 </tfoot>
                             </table>

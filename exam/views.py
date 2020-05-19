@@ -37,7 +37,7 @@ def checkpermission(r, url):
         l12 = ['/logout','/home','/teacher/viewQuestion','/teacher/rating','/teacher/editProfile','/teacher/referal','/teacher/earning','/teacher/tickets']
         l13 = ['/logout', '/home','/teacher/addTeacher',
                 '/question/addQuestion', '/question/viewQuestion','/user/teacher','/user/typer','/user/addUser']
-        l14 = ['/logout', '/home', '/question/addQuestion',
+        l14 = ['/logout', '/home', '/question/addQuestion','/typer/mistakeQues',
                '/typer/viewquestion','/typer/editProfile']
         l15 = ['/logout', '/home', '/question/addQuestion', '/question/viewQuestion','/user/addUser','/user/teacher','/user/typer','/user/marketer',
         '/academics/addBU','/academics/viewBU','/academics/viewHD','/academics/addHD','/academics/viewPrepFor'
