@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'typers',
     'user',
     'marketer',
+    'excel',
     'academics',
     'exams',
     'students',
@@ -150,7 +151,7 @@ EMAIL_USE_TLS=True
 
 EMAIL_USE_SSL=False
 
-DATABASE = 'pro'
+DATABASE = 'live'
 
 
 # GEOIP_PATH =os.path.join(BASE_DIR, 'geoip/')

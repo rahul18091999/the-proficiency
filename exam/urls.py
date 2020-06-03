@@ -38,4 +38,5 @@ urlpatterns = [
     path('msg/',include('msg.urls')),
     path('viewDashboard',views.viewDashboard),
     path('back',views.back),
+    path('excel/',include('excel.urls')),
 ]

@@ -1,0 +1,8 @@
+from django.urls import path
+from . import views
+
+
+urlpatterns = [
+    # path('createAccount',views.createAccount),
+    # path('send',views.send),
+]

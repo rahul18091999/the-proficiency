@@ -29,7 +29,7 @@
                                         <th>Name</th>
                                         <th>parent</th>
                                         <th>phone</th>
-                                        <th>click</th>
+                                        <th>Resend OTP</th>
                                     </tr>
                                 </thead>
 
@@ -42,13 +42,17 @@
                                         <td>{{i.name}}</td>
                                         <td>{{i.parent}}</td>
                                         <td>{{i.phone}}</td>
+                                        {% if i.verify is not True %}
                                         <td>
-                                            <a href='/user/seeTrns?id={{i.id}}'> <button type="button"
+                                            <a href='/user/resendOTP?id={{i.phone}}'> <button type="button"
                                                     class="btn btn-default btn-sm">
-                                                    <span class="glyphicon glyphicon-edit"></span> click
+                                                    <span class="glyphicon glyphicon-edit"></span> Resend OTP
                                                 </button>
                                             </a>
                                         </td>
+                                        {% else %}
+<td></td>
+                                        {% endif %}
                                     </tr>
                                     {% endfor %}
                                     {% endif %}

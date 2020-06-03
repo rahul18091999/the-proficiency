@@ -379,7 +379,6 @@ def users(request):
                 'success': '',
                 'info': ''
             }
-            print('1')
             return render(request, './users/addUser.html', data)
 
 
@@ -597,6 +596,7 @@ def editprofile(request):
     
 def viewStudents(request):
     students = database.child('users').get()
+    ids = database.child('ids').get().val()
     l=[]
     for i in students:
         l.append(
@@ -604,7 +604,23 @@ def viewStudents(request):
                 'id': i.key(),
                 'name': i.val()['details']['name'],
                 'parent': i.val()['details']['parent'],
-                'phone': i.val()['details']['phone']
+                'phone': i.val()['details']['phone'],
+                'verify':ids[i.val()['details']['phone']]['verify']
             }
         )
     return render(request,'./users/viewStu.html',{'data': l})
+
+
+def resendOTP(request):
+    idd=request.GET.get('id')
+    data = database.child('ids').child(idd).get().val()
+    if data['verify']:
+        import requests
+        import urllib.parse
+        msgdata = database.child('sms').get().val()
+
+        verify = urllib.parse.quote(msgdata['msg']['verification'])
+
+        link = "http://sms.whybulksms.com/api/sendhttp.php?authkey="+msgdata['key']+"&mobiles="+idd+"&message="+verify+str(data['verify'])+"&sender="+msgdata['sndrID']+"&route=4"
+        requests.get(link)
+    return redirect('/user/viewStu')

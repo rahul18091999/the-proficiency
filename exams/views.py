@@ -305,11 +305,28 @@ def addCoupon(request):
     if request.method == "POST":
         name = request.POST.get('name')
         sp = request.POST.get('sp')
-        rmin = request.POST.get('rmin')
-        rmax = request.POST.get('rmax')
+        alll = request.POST.get('all')
+        if  not alll:
+            rmax = request.POST.get('rmax')
+            rmin = request.POST.get('rmin')
+
         date = request.POST.get('date')
         mini = request.POST.get('min')
-        if name and sp and rmin and rmax and date and mini != "":
+        if alll:
+            if name and sp and date and mini:
+                pass
+            else:
+                data = {
+                'name': name,
+                'sp': sp,
+                'min': mini,
+                'date': date,
+                 }
+                error = "Please fill all details."
+                data['error'] = error
+                return render(request,'./exams/addCoupon.html', {'data': data,'count':count})
+
+        elif name and sp and rmin and rmax and date and mini != "":
             if(rmin>rmax):
                 data = {
                 'name': name,

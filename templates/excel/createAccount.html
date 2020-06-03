@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add a new Question</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://dbusinessi.online/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+   <script>
+        (function ($) {
+            $(document).ready(function () {
+                $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    $(this).parent().siblings().removeClass('open');
+                    $(this).parent().toggleClass('open');
+                });
+            });
+        })(jQuery);
+    </script>
+</head>
+<body >
+    <div id="addProductBox" class="mainbox col-md-5">
+
+<body>
+    <div id="addProductBox" class="mainbox col-md-5">
+        <div class="form-group">
+            <div class="aab controls col-md-4 "></div>
+        </div>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Add a new Question</div>
+            </div>
+           
+            <div class="panel-body">
+                {% if data.error %}
+                <div class="alert alert-danger">
+                    <center>{{data.error}}</center>
+                </div>
+                {% endif %}
+                {% if data.success %}
+                <div class="alert alert-success">
+                    <center>{{data.success}}</center>
+                </div>
+                {% endif %}
+               
+                <form class="form-horizontal" id="plain" method='POST' 
+                    enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div id="div_id_ques" class="form-group required">
+                        <legend for="id_ques" class="control-label col-md-4  requiredField"> Image
+                        </legend>
+                        <div class="controls col-md-8 ">
+                            <input type="file" name="file" class="custom-file-input" id="customFile">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                        </div>
+                        <input type="submit" value="geturl">
+                        {% if url %}
+                        <p>{{url}}</p>
+                        {% endif %}
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</body>
+
+</html>
