@@ -15,7 +15,7 @@ def addNLEs(request):
         time = request.POST.get('time')
         title = request.POST.get('title')
         desc = request.POST.get('desc')
-        sp=request.Post.get('sp')
+        sp=request.POST.get('sp')
         if date and time and title and sp and desc:
             dat = date[8:]+date[5:7]+date[:4]
             NLE = database.child('exams').child('NLE').child(dat)
