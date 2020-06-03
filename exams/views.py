@@ -15,7 +15,7 @@ def addNLEs(request):
         time = request.POST.get('time')
         title = request.POST.get('title')
         desc = request.POST.get('desc')
-        sp=request.Post.get('sp')
+        sp=request.POST.get('sp')
         if date and time and title and sp and desc:
             dat = date[8:]+date[5:7]+date[:4]
             NLE = database.child('exams').child('NLE').child(dat)
@@ -431,7 +431,7 @@ def viewNleQues(request):
                         f.append({'id':m,'ans':data.val()[j]['questions'][m]['optC']})
                     else:
                         f.append({'id':m,'ans':'false'})
-
+            print(j)
 
             l.append({'name':mainlydata[j[:6]]['mainly'][j]['details']['name'],'id':j,'question':f})
 
@@ -496,4 +496,43 @@ def editDaily(request):
             data['error'] = error
             return render(request, './exams/editDaily.html', data)
     return render(request, './exams/editDaily.html', data)
-    
+
+
+def viewExamStudent(request):
+    d=database.child('/').get()
+    NLEdate=list(d.val()['exams']['NLE'].keys())
+    for i in range(len(NLEdate)):
+        NLEdate[i]=NLEdate[i][4:]+'-'+NLEdate[i][2:4]+'-'+NLEdate[i][:2]
+    NLEdate.sort()
+    dailyTimedate=list(d.val()['exams']['dailyTime'].keys())
+    for i in range(len(dailyTimedate)):
+        dailyTimedate[i]=dailyTimedate[i][4:]+'-'+dailyTimedate[i][2:4]+'-'+dailyTimedate[i][:2]
+    dailyTimedate.sort()
+
+    if request.method=="POST":
+        exam=request.POST.get('exam')
+        date = request.POST.get('date')
+        return redirect('/exams/viewExamStu?exam='+exam+'&date='+date)
+        print(exam,date)
+        
+    return render(request,'./exams/viewExamStudent.html',{'NLE':NLEdate,'daily':dailyTimedate})
+
+
+def viewExamStu(request):
+    exam=request.GET.get('exam')
+    date = request.GET.get('date')
+    d=database.child('/').get()
+    d=d.val()
+    l=[]
+    for i in d['users']:
+        if 'exams' in d['users'][i]:
+            if 'NLE' in d['users'][i]['exams']:
+                if date in d['users'][i]['exams']['NLE']:
+                    l.append({'id':i,'status':True})
+                else:
+                    l.append({'id':i,'status':False})
+            else:
+                l.append({'id':i,'status':False})
+        else:
+            l.append({'id':i,'status':False})
+    return render(request,'./exams/viewExamStu.html',{'data':l})

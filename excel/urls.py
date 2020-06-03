@@ -3,6 +3,6 @@ from . import views
 
 
 urlpatterns = [
-    # path('createAccount',views.createAccount),
+    path('createAccount',views.createAccount),
     # path('send',views.send),
 ]

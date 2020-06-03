@@ -41,8 +41,32 @@
                     <center>{{success}}</center>
                 </div>
                 {% endif %}
+
+                {% if question %}
+
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="row">
+                            <dt class="col-sm-4">Question</dt>
+                            <dd class="col-sm-8">{{question}}</dd>
+                            <dt class="col-sm-4">opt1</dt>
+                            <dd class="col-sm-8">{{opt1}} </dd>
+                            <dt class="col-sm-4">opt2</dt>
+                            <dd class="col-sm-8">{{opt2}}</dd>
+                            <dt class="col-sm-4">opt3</dt>
+                            <dd class="col-sm-8">{{opt3}}</dd>
+                            <dt class="col-sm-4">opt4</dt>
+                            <dd class="col-sm-8">{{opt4}} </dd>
+                            <dt class="col-sm-4">optc</dt>
+                            <dd class="col-sm-8">{{optC}} </dd>
+                        </dl>
+                    </div>
+                </div>
+                {% endif %}
+
                 <div class="controls col-md-12 ">
-                    <a onclick="window.open('http:\/\/visualmatheditor.equatheque.net/VisualMathEditor.html?runLocal&codeType=Latex&encloseAllFormula=false&style=aguas&localType=en_US', 'newwindow1', 'top=0, left='+(screen.width)/2+', width='+(screen.width)/2+', height='+screen.height); return false;">
+                    <a
+                        onclick="window.open('http:\/\/visualmatheditor.equatheque.net/VisualMathEditor.html?runLocal&codeType=Latex&encloseAllFormula=false&style=aguas&localType=en_US', 'newwindow1', 'top=0, left='+(screen.width)/2+', width='+(screen.width)/2+', height='+screen.height); return false;">
                         <center>
                             <button class="btn btn-success navbar-btn ">
                                 <span class="fas fa-sign-out-alt"></span>
@@ -129,9 +153,9 @@
                         <div class="controls col-md-8 ">
                             <select class="input-md teacherinput form-control" id="id_teacher" name="teacher"
                                 selected="<%= body.teacher %>" disabled>
-                               
-                                <option value="{{data.by}}" >{{tname}}({{data.by}})</option>
-                                
+
+                                <option value="{{data.by}}">{{tname}}({{data.by}})</option>
+
                             </select>
                         </div>
                     </div>
@@ -168,26 +192,7 @@
             </div>
         </div>
     </div>
-    {% if question %}
-                                  
-    <div class="card-body">
-        <dl class="row">
-            <dt class="col-sm-4">Question</dt>
-            <dd class="col-sm-8">{{question}}</dd>
-            <dt class="col-sm-4">opt1</dt>
-            <dd class="col-sm-8">{{opt1}} </dd>
-            <dt class="col-sm-4">opt2</dt>
-            <dd class="col-sm-8">{{opt2}}</dd>
-            <dt class="col-sm-4">opt3</dt>
-            <dd class="col-sm-8">{{opt3}}</dd>
-            <dt class="col-sm-4">opt4</dt>
-            <dd class="col-sm-8">{{opt4}} </dd>
-            <dt class="col-sm-4">optc</dt>
-            <dd class="col-sm-8">{{optC}} </dd>
-            {% endif %}
-
-
-
+    <!-- /.card-header -->
 
 </body>
 

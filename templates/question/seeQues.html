@@ -32,6 +32,26 @@
                                 </h3>
                             </div>
                             <!-- /.card-header -->
+
+                            {% if question %}
+
+                            <div class="card-body">
+                                <dl class="row">
+                                    <dt class="col-sm-4">Question</dt>
+                                    <dd class="col-sm-8">{{question}}</dd>
+                                    <dt class="col-sm-4">opt1</dt>
+                                    <dd class="col-sm-8">{{opt1}} </dd>
+                                    <dt class="col-sm-4">opt2</dt>
+                                    <dd class="col-sm-8">{{opt2}}</dd>
+                                    <dt class="col-sm-4">opt3</dt>
+                                    <dd class="col-sm-8">{{opt3}}</dd>
+                                    <dt class="col-sm-4">opt4</dt>
+                                    <dd class="col-sm-8">{{opt4}} </dd>
+                                    <dt class="col-sm-4">optc</dt>
+                                    <dd class="col-sm-8">{{optC}} </dd>
+                                    {% endif %}
+                                </dl>
+                            </div>
                             <div class="card-body">
                                 <dl class="row">
                                     <dt class="col-sm-4">Question</dt>
@@ -59,25 +79,6 @@
                                 </dl>
                             </div>
 
-                                    {% if question %}
-                                  
-                            <div class="card-body">
-                                <dl class="row">
-                                    <dt class="col-sm-4">Question</dt>
-                                    <dd class="col-sm-8">{{question}}</dd>
-                                    <dt class="col-sm-4">opt1</dt>
-                                    <dd class="col-sm-8">{{opt1}} </dd>
-                                    <dt class="col-sm-4">opt2</dt>
-                                    <dd class="col-sm-8">{{opt2}}</dd>
-                                    <dt class="col-sm-4">opt3</dt>
-                                    <dd class="col-sm-8">{{opt3}}</dd>
-                                    <dt class="col-sm-4">opt4</dt>
-                                    <dd class="col-sm-8">{{opt4}} </dd>
-                                    <dt class="col-sm-4">optc</dt>
-                                    <dd class="col-sm-8">{{optC}} </dd>
-                                    {% endif %}
-                                </dl>
-                            </div>
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
