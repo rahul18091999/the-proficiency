@@ -230,3 +230,12 @@ def referal(request):
 
         return render(request, './teacher/referal.html', {'code': code, 'typeatrnc': typeatrnc, 'typebtrnc': typebtrnc, 'typectrnc': typectrnc})
     return (request, './teacher/referal.html')
+
+
+def tickets(request):
+    c = checkpermission(request, request.path)
+    if(c == -1):
+        return redirect('/')
+    elif(c == 0):
+        return redirect('/home')
+    return render(request,'./teacher/tickets.html')

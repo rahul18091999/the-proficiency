@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://dbusinessi.online/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <script>
         function select_topic($val) {
-            var arr = {{ topic| safe
-        }};
+            var arr = {{ topic| safe }};
         console.log(arr);
         var options = '';
         for (var i = 0; i < arr[$val].length; i++)
@@ -25,7 +25,6 @@
                 m=x['selectedSubjectId'];
                 y=x['selectedTopic']
                 var arr = {{ topic| safe }};
-                console.log(arr);
                 var options = '';
         for (var i = 0; i < arr[m].length; i++){
                 if(y==arr[m][i].id)
@@ -53,7 +52,6 @@
 
 <body>
     <div id="addProductBox" class="mainbox col-md-5">
-        {{data.selectedSubjectId}}
         <div class="form-group">
             <div class="aab controls col-md-4 "></div>
         </div>
@@ -61,7 +59,7 @@
             <div class="panel-heading">
                 <div class="panel-title">Add a new Question</div>
             </div>
-           {{data.selectedSubjectId}}{{data.selectedTopic}}
+           
             <div class="panel-body">
                 {% if data.error %}
                 <div class="alert alert-danger">
@@ -163,9 +161,9 @@
                             <select class="input-md teacherinput form-control" id="id_teacher" name="teacher"
                                 selected="<%= body.teacher %>">
                                 {% if data.selectedTeacher %}
-                                <option value="" disabled>select teacher</option>
+                                <option value="" disabled>Select Teacher</option>
                                 {% else %}
-                                <option value="" disabled selected>select teacher</option>
+                                <option value="" disabled selected>Select Teacher</option>
                                 {% endif %}
                                 <option value="qBank">Question Bank</option>
                                 {% for teacher in teach %}
@@ -185,9 +183,9 @@
                             <select class="input-md subjectinput form-control" id="id_subject" name="subject"
                                 onchange="select_topic(this.value)">
                                 {% if data.selectedSubject %}
-                                <option value="" disabled >Subject Type</option>
+                                <option value="" disabled >Select Subject</option>
                                 {% else %}
-                                <option value="" disabled selected>Subject Type</option>
+                                <option value="" disabled selected>Select Subject</option>
                                 {% endif %}
 
                                 {% for subj in subject  %}
@@ -209,17 +207,24 @@
                         <div class="controls col-md-8 ">
                             <select class="input-md subjectinput form-control" id="topic" name="topic">
 
-                                <option value="" disabled selected>Question Type</option>
+                                <option value="" disabled selected>Select Topic</option>
 
                             </select>
                         </div>
                     </div>
+                    <div class="icheck-primary d-inline">
+                        <input type="checkbox" id="checkboxPrimary1" name="notification">
+                        <label for="checkboxPrimary1">
+                          Send Notifications
+                        </label>
+                      </div>
                     <div class="form-group">
                         <div class="aab controls col-md-4 "></div>
                         <div class="controls col-md-8 ">
-                            <input type="submit" name="addTopic" value="Add Topic" class="btn btn-primary btn btn-info"
+                            <input type="submit" name="addTopic" value="Add Question" class="btn btn-primary btn btn-info"
                                 id="submit-id-addTopic" />
                         </div>
+                        
                     </div>
                 </form>
             </div>

@@ -73,3 +73,21 @@ def editProfile(request):
                     return redirect('/home')
     else:
         return render(request, './typer/editProfile.html', {'data': l})
+
+def mistakeQues(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
+    idd = request.session['user']
+    data = database.child('typers').child(idd).child('questionsAdded').shallow().get().val()
+    question = database.child('questions').get().val()
+    l=[]
+    if data:
+        for i in data:
+            if question[i]['details']['approved']==False:
+                
+                l.append({'id':i,'tid':question[i]['details']['by']})
+    print(l)
+    return render(request,'./typer/viewMistakedQues.html',{'dataa':l})
