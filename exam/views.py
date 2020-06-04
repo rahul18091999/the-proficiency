@@ -45,7 +45,8 @@ def checkpermission(r, url):
         '/academics/viewTopics','/academics/addTopic','/exams/addDaily','/exams/addNLE','/exams/viewCoupons','/exams/addCoupon','/exams/viewNLEs','/exams/viewDaily',
         '/exams/addNLEQues','/exams/viewCouponsTo','/exams/viewNleQues','/exams/addAnsKey','/msg/addMsg','/notifications/addNotifications','/notifications/viewNotifications',
         '/notifications/seeNotifications','/tickets/viewTickets','/tickets/seeTicket','/tickets/changestatus','/trnc/viewTrnc','/trnc/seeTrnc'
-        ,'/banners/addBanner','/academics/linksub','/academics/sublink','/exams/editDaily']
+        ,'/banners/addBanner','/academics/linksub','/academics/sublink','/exams/editDaily','/excel/sendSms',
+        '/exams/viewExamStudent','/exams/viewExamStu','/exams/viewStudentRank']
         if(idd == '11'):
             if url in l11:
                 return 1

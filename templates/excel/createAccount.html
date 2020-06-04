@@ -1,75 +1,96 @@
+
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Add a new Question</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://dbusinessi.online/static/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-   <script>
-        (function ($) {
-            $(document).ready(function () {
-                $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    $(this).parent().siblings().removeClass('open');
-                    $(this).parent().toggleClass('open');
-                });
-            });
-        })(jQuery);
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>TheProficiency | Add Coupon</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        function range(){
+            console.log("Hello");
+        }
     </script>
-</head>
-<body >
-    <div id="addProductBox" class="mainbox col-md-5">
+    {% include "../includes/top.html" %}
 
-<body>
-    <div id="addProductBox" class="mainbox col-md-5">
-        <div class="form-group">
-            <div class="aab controls col-md-4 "></div>
-        </div>
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="panel-title">Add a new Question</div>
-            </div>
-           
-            <div class="panel-body">
-                {% if data.error %}
-                <div class="alert alert-danger">
-                    <center>{{data.error}}</center>
-                </div>
-                {% endif %}
-                {% if data.success %}
-                <div class="alert alert-success">
-                    <center>{{data.success}}</center>
-                </div>
-                {% endif %}
-               
-                <form class="form-horizontal" id="plain" method='POST' 
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+
+        {% include "../includes/navBar.html" %}
+        {% include "../includes/mainSlider.html" %}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            {% if error %}
+                            <div class="alert alert-danger">
+                                <center>{{error}}</center>
+                            </div>
+                            {% endif %}
+                            {% if data.success %}
+                            <div class="alert alert-success">
+                                <center>{{data.success}}</center>
+                            </div>
+                            {% endif %}
+                            {% if data.info %}
+                            <div class="alert alert-info">
+                                <center>{{data.info}}</center>
+                            </div>
+                            {% endif %}
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Add Coupon</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <!-- form start -->
+                                <form class="form-horizontal" id="plain" method='POST' 
                     enctype="multipart/form-data">
                     {% csrf_token %}
                     <div id="div_id_ques" class="form-group required">
-                        <legend for="id_ques" class="control-label col-md-4  requiredField"> Image
+                        <legend for="id_ques" class="control-label col-md-4  requiredField"> File
                         </legend>
                         <div class="controls col-md-8 ">
                             <input type="file" name="file" class="custom-file-input" id="customFile">
                             <label class="custom-file-label" for="customFile">Choose file</label>
                         </div>
-                        <input type="submit" value="geturl">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Msg</label>
+                            <input type="text" class="form-control" name="msg" value="{{data.msg}}" maxlength="160"
+                                placeholder="">
+                        </div>
+                         <!-- /.card-body -->
+                         <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Add Coupon</button>
+                        </div>
                         {% if url %}
                         <p>{{url}}</p>
                         {% endif %}
                     </div>
                 </form>
-                
-            </div>
+                                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <!--/.col (left) -->
+                    </div>
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
         </div>
+
     </div>
-
-
-
-
-
+    <!-- ./wrapper -->
+    {% include "../includes/bottom.html" %}
 </body>
 
 </html>

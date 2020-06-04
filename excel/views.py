@@ -1,14 +1,29 @@
 from django.shortcuts import render
 import openpyxl
-from exam.views import database,getpass
+from exam.views import database,getpass,checkpermission
+import urllib
 # Create your views here.
 def createAccount(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     if request.method=="POST":
-        file = request.FILES['file']
+        msg = request.POST.get("msg")
+        if request.FILES and msg:
+            file = request.FILES['file']        
+            wb = openpyxl.load_workbook(file)
+            msg = urllib.parse.quote(msg)
+            import requests
+            for cell in wb['Sheet1']:
+                if str(cell[1].value):
+                    requests.get("http://sms.whybulksms.com/api/sendhttp.php?authkey=13616AjiaVJD225eb53cc5P15&mobiles="+str(cell[1].value)+"&message="+msg+"&sender=PROCNC&route=4")
+        else:
+            return render(request,'./excel/createAccount.html',{'error':"Please check the details."})
 
-        # file = open(file,'rb')
-        
-        wb = openpyxl.load_workbook(file)
+
+
         # data = database.child('/').get().val()
         
         # #free
@@ -20,9 +35,7 @@ def createAccount(request):
         # free = data['ids']['free']
         # from datetime import datetime
         # import urllib
-        import requests
-        for cell in wb['Sheet1']:
-            requests.get("http://sms.whybulksms.com/api/sendhttp.php?authkey=13616AjiaVJD225eb53cc5P15&mobiles="+str(cell[0].value)+"&message=Quiz%20has%20been%20started.%20All%20the%20Best%5CnTeam%20ThePROFICIENCY&sender=PROCNC&route=4")
+        
         # time_now = int(datetime.now().timestamp()*1000)
         # for cell in wb["Sheet1"]:
         #     data['users']['20'+str(free)]={}

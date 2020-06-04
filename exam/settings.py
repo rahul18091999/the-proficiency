@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'g*ej$5wzhp20du5(-p)b$k2e5f)xbz5r=^fnmtzs8a%jfw%68@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG =True
 ALLOWED_HOSTS = ['admin.the-proficiency.com','*']
 
 
@@ -151,7 +151,7 @@ EMAIL_USE_TLS=True
 
 EMAIL_USE_SSL=False
 
-DATABASE = 'live'
+DATABASE = 'pro'
 
 
 # GEOIP_PATH =os.path.join(BASE_DIR, 'geoip/')

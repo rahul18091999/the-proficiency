@@ -15,5 +15,7 @@ urlpatterns = [
     path('addAnsKey',views.addAnsKey),
     path('editDaily',views.editDaily),
     path('viewExamStudent',views.viewExamStudent),
-    path('viewExamStu',views.viewExamStu)
+    path('viewExamStu',views.viewExamStu),
+    path('viewStudentRank',views.viewStudentRank),
+    path('viewStudentRankk',views.viewStudentRankk),
 ]

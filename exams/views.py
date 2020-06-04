@@ -499,6 +499,12 @@ def editDaily(request):
 
 
 def viewExamStudent(request):
+    c=checkpermission(request,request.path)
+    print(c)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     d=database.child('/').get()
     NLEdate=list(d.val()['exams']['NLE'].keys())
     for i in range(len(NLEdate)):
@@ -519,6 +525,11 @@ def viewExamStudent(request):
 
 
 def viewExamStu(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
     exam=request.GET.get('exam')
     date = request.GET.get('date')
     d=database.child('/').get()
@@ -526,8 +537,8 @@ def viewExamStu(request):
     l=[]
     for i in d['users']:
         if 'exams' in d['users'][i]:
-            if 'NLE' in d['users'][i]['exams']:
-                if date in d['users'][i]['exams']['NLE']:
+            if exam in d['users'][i]['exams']:
+                if date in d['users'][i]['exams'][exam]:
                     l.append({'id':i,'status':True})
                 else:
                     l.append({'id':i,'status':False})
@@ -536,3 +547,58 @@ def viewExamStu(request):
         else:
             l.append({'id':i,'status':False})
     return render(request,'./exams/viewExamStu.html',{'data':l})
+
+
+def viewStudentRank(request):
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
+    c=checkpermission(request,request.path)
+    if(c==-1):
+        return redirect('/')
+    elif(c==0):
+        return redirect('/home')
+    d=database.child('/').get()
+    NLEdate=list(d.val()['exams']['NLE'].keys())
+    for i in range(len(NLEdate)):
+        NLEdate[i]=NLEdate[i][4:]+'-'+NLEdate[i][2:4]+'-'+NLEdate[i][:2]
+    NLEdate.sort()
+    dailyTimedate=list(d.val()['exams']['dailyTime'].keys())
+    for i in range(len(dailyTimedate)):
+        dailyTimedate[i]=dailyTimedate[i][4:]+'-'+dailyTimedate[i][2:4]+'-'+dailyTimedate[i][:2]
+    dailyTimedate.sort()
+    mainlyData = d.val()['prepration']
+    mainlyList=[]
+    for i in mainlyData:
+        if i!="free":
+            for j in mainlyData[i]['mainly']:
+                if j!="free":
+                    mainlyList.append(j)
+    if request.method=="POST":
+        exam=request.POST.get('exam')
+        date = request.POST.get('date')
+        mainly = request.POST.get('mainly')
+        print(exam,date,mainly)
+        return redirect('/exams/viewStudentRankk?exam='+exam+'&date='+date+'&mainly='+mainly)
+        
+    return render(request,'./exams/viewStudentRankk.html',{'NLE':NLEdate,'daily':dailyTimedate,'mainly':mainlyList})
+    
+
+def viewStudentRankk(request):
+    exam=request.GET.get('exam')
+    date = request.GET.get('date')
+    mainly = request.GET.get('mainly')
+    data = database.child('ranks').child('students').child(mainly).get().val()
+    l=[]
+    for i in data:
+        l.append({
+            'id':i,
+            'name':data[i]['name'],
+            'percentile':data[i]['percentile'],
+            'phone':data[i]['phone'],
+            'rank':data[i]['rank'],
+
+        })
+    return render(request,'./exams/viewStudentRank.html',{'data':l})
