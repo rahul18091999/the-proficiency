@@ -519,8 +519,6 @@ def viewExamStudent(request):
         exam=request.POST.get('exam')
         date = request.POST.get('date')
         return redirect('/exams/viewExamStu?exam='+exam+'&date='+date)
-        print(exam,date)
-        
     return render(request,'./exams/viewExamStudent.html',{'NLE':NLEdate,'daily':dailyTimedate})
 
 
@@ -602,3 +600,32 @@ def viewStudentRankk(request):
 
         })
     return render(request,'./exams/viewStudentRank.html',{'data':l})
+
+def viewNleQues2(request):
+    # c=checkpermission(request,request.path)
+    # if(c==-1):
+    #     return redirect('/')
+    # elif(c==0):
+    #     return redirect('/home')
+    d=request.GET.get('qid')
+    nle=d[8:]+d[5:7]+d[:4]
+    data=database.child('exams').child('NLE').child(nle).child('mainly').get()
+    mainlydata = database.child('prepration').get().val()
+    mainly = (data.val().keys())
+    if mainly:
+        l=[]
+        for j in mainly:
+            f=[]
+            for m in data.val()[j]['questions']:
+                if m!="free":
+                    print(data.val()[j]['questions'][m])
+                    if 'optC' in (data.val()[j]['questions'][m]):
+                        f.append({'id':m,'ques':data.val()[j]['questions'][m]['question'],'opt1':data.val()[j]['questions'][m]['opt1'],'opt2':data.val()[j]['questions'][m]['opt2'],'opt3':data.val()[j]['questions'][m]['opt3'],'opt4':data.val()[j]['questions'][m]['opt4'],'ans':data.val()[j]['questions'][m]['optC']})
+                    else:
+                        f.append({'id':m,'ans':'false'})
+            print(j)
+
+            l.append({'name':mainlydata[j[:6]]['mainly'][j]['details']['name'],'id':j,'question':f})
+
+
+    return render(request,'./exams/viewNLEQuestions2.html',{'mainly':l,'nle':nle})

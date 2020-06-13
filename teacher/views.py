@@ -239,3 +239,26 @@ def tickets(request):
     elif(c == 0):
         return redirect('/home')
     return render(request,'./teacher/tickets.html')
+
+    
+
+def viewTopicQues(request):
+    idd = request.GET.get('id')
+    print(idd)
+    t = database.child('teachers').child(idd).child('questions').get()
+    data = {}
+    count=0
+    topicList = []
+    if t.val() is not None:
+        for i in t:
+            topic = i.val()['topic']
+            if topic not in topicList:
+                topicList.append(topic)
+                count+=1
+                data[topic]=[]
+            data[topic].append({'qid': i.key()})
+    print(data)
+
+    print(count)
+    print(topicList)
+    return render(request,'./teacher/viewTopicQues.html',{'data':data,'count':count,'topic':topicList})

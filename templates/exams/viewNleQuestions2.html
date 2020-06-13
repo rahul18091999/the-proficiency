@@ -1,0 +1,14 @@
+{% comment %} {{mainly}} {% endcomment %}
+{% for i in mainly %}
+{{i.name }}{{i.id}}
+{% for j in i.question %}
+id {{j.id}}<br>
+ques {{j.ques}}<br>
+opt1 {{j.opt1}}<br>
+opt2 {{j.opt2}}<br>
+opt3 {{j.opt3}}<br>
+opt4 {{j.opt4}}<br>
+ans {{j.ans}}<br>
+<br><br>
+{% endfor %}
+{% endfor %}

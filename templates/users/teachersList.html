@@ -29,6 +29,7 @@
                                         <th>Name</th>
                                         <th>City, State</th>
                                         <th>Phone Number</th>
+                                        <th>View Topic Ques</th>
                                         <th>Edit</th>
                                         <th>Dashboard</th>
                                     </tr>
@@ -43,6 +44,13 @@
                                         <td>{{i.name}}</td>
                                         <td>{{i.d}}, {{i.s}}</td>
                                         <td>{{i.number}}</td>
+                                        <td>
+                                            <a href='/teacher/viewTopicQues?id={{i.tId}}'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> View Topic Ques
+                                                </button>
+                                            </a>
+                                        </td>
                                         <td>
                                             <a href='/user/editteacher?id={{i.tId}}'> <button type="button"
                                                     class="btn btn-default btn-sm">
@@ -67,6 +75,7 @@
                                         <th>Name</th>
                                         <th>City, State</th>
                                         <th>Phone Number</th>
+                                        <th>View Topic Ques</th>
                                         <th>Edit</th>
                                         <th>Dashboard</th>
                                     </tr>
