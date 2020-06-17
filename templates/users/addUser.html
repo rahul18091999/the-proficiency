@@ -25,6 +25,8 @@
                         <!-- left column -->
                         <div class="col-md-12">
                             <!-- general form elements -->
+                            {% for i in menu %}{{i.id}}<br>{{i.name}}<br><br>
+                            {% endfor %}
                             {% if error %}
                             <div class="alert alert-danger">
                                 <center>{{error}}</center>

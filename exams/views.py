@@ -620,12 +620,37 @@ def viewNleQues2(request):
                 if m!="free":
                     print(data.val()[j]['questions'][m])
                     if 'optC' in (data.val()[j]['questions'][m]):
-                        f.append({'id':m,'ques':data.val()[j]['questions'][m]['question'],'opt1':data.val()[j]['questions'][m]['opt1'],'opt2':data.val()[j]['questions'][m]['opt2'],'opt3':data.val()[j]['questions'][m]['opt3'],'opt4':data.val()[j]['questions'][m]['opt4'],'ans':data.val()[j]['questions'][m]['optC']})
+                        f.append({'id':m,'ques':data.val()[j]['questions'][m]['question'],'opt1':data.val()[j]['questions'][m]['opt1'],'opt2':data.val()[j]['questions'][m]['opt2'],'opt3':data.val()[j]['questions'][m]['opt3'],'opt4':data.val()[j]['questions'][m]['opt4'],'ans':chr(ord('`')+int(data.val()[j]['questions'][m]['optC'][3]))})
                     else:
                         f.append({'id':m,'ans':'false'})
-            print(j)
+            
 
             l.append({'name':mainlydata[j[:6]]['mainly'][j]['details']['name'],'id':j,'question':f})
 
 
     return render(request,'./exams/viewNLEQuestions2.html',{'mainly':l,'nle':nle})
+
+
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+
+def pdf(request):
+    # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    p.drawString(100, 100, "Hello world.")
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='hello.pdf')

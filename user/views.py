@@ -31,12 +31,12 @@ def users(request):
         return redirect('/')
     elif(c == 0):
         return redirect('/home')
-    c = checkpermission(request, request.path)
-    if(c == -1):
-        return redirect('/')
-    elif(c == 0):
-        return redirect('/home')
     else:
+        menu = database.child('menu').get()
+        menuList = []
+        for i in menu:
+            if i.key()!="free":
+                menuList.append({'id':i.key(),'name':i.val()['name']})
         if request.method == "POST":
             name = request.POST.get('name')
             number = request.POST.get('number')
@@ -55,6 +55,7 @@ def users(request):
                 'experience': experience,
                 'gen': gen,
                 's': s,
+                'menu':menuList,
                 'd': d,
             }
             if(not name.replace(' ', '').isalpha()):
@@ -114,7 +115,7 @@ def users(request):
                         'gen': gen
                     }
                 )
-                teachers = database.child('share').child('teachers').child('12'+str(tempid)).update(
+                database.child('share').child('teachers').child('12'+str(tempid)).update(
                     {
                         'earned': '0'
                     }
@@ -351,9 +352,7 @@ def users(request):
                 d=database.child('email').child('registration').shallow().get().val()
                 d = d.replace('[Full Name]',name)
                 d = d.replace('[USER ID]',"11"+str(tempid))
-                print(d.find('[phone number'))
                 d = d.replace('[phone number]',number)
-                print(d.find('[phone number'))
 
                 d = d.replace('[password]',number+"@TP@"+age)
 
@@ -368,7 +367,7 @@ def users(request):
                 return render(request, './users/addUser.html', data)
 
         else:
-            # print(request.session['user'])
+            
             name = ""
             email = ""
             data = {
@@ -377,7 +376,8 @@ def users(request):
                 's': 'Select State First',
                 'error': '',
                 'success': '',
-                'info': ''
+                'info': '',
+                'menu':menuList,
             }
             return render(request, './users/addUser.html', data)
 
