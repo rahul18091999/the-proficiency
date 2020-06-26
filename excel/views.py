@@ -63,11 +63,15 @@ def createAccount(request):
 
 
 def send(request):
-#     msg=urllib.parse.quote("Dear Student, as you've filled our form for 
-# For more info call:- +917072191877, +918810544042, +917424959601, +918307264602, +918295848645")
+
     h = database.child('users').get().val()
-    print(h)
+    
     for i in h:
-        h[i]['details']['phone']=str(h[i]['details']['phone'])
+        if 'batch' in h[i]:
+            if h[i]['batch']=='Weekend':
+                h[i]['batch']='Weekdays'
+            else:
+                print(i)
+        
     database.child('/').update({'users':h})
     print(h)

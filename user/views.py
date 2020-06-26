@@ -390,11 +390,11 @@ def viewteacher(request):
         return redirect('/home')
     teacherData = database.child('teachers').get()
     # if teacherData:
-    print(teacherData)
+    
     l = []
     if(teacherData.val()):
         for i in teacherData:
-            print(i.key())
+            
             if(i.key() != 'qBank'):
                 l.append(
                     {
