@@ -636,13 +636,13 @@ def viewNleQues2(request):
                 if m != "free":
                     print(data.val()[j]['questions'][m])
                     if 'optC' in (data.val()[j]['questions'][m]):
-                        f.append({'id': m, 'ques': data.val()[j]['questions'][m]['question'], 'opt1': data.val()[j]['questions'][m]['opt1'], 'opt2': data.val()[j]['questions'][m]['opt2'], 'opt3': data.val()[
-                                 j]['questions'][m]['opt3'], 'opt4': data.val()[j]['questions'][m]['opt4'], 'ans': chr(ord('`')+int(data.val()[j]['questions'][m]['optC'][3]))})
+                        f.append({'id':m,'ques':data.val()[j]['questions'][m]['question'],'opt1':data.val()[j]['questions'][m]['opt1'],'opt2':data.val()[j]['questions'][m]['opt2'],'opt3':data.val()[j]['questions'][m]['opt3'],'opt4':data.val()[j]['questions'][m]['opt4'],'ans':chr(ord('`')+int(data.val()[j]['questions'][m]['optC'][3]))})
                     else:
-                        f.append({'id': m, 'ans': 'false'})
-            print(j)
+                        f.append({'id':m,'ans':'false'})
+            
 
             l.append({'name': mainlydata[j[:6]]['mainly'][j]
                       ['details']['name'], 'id': j, 'question': f})
 
-    return render(request, './exams/viewNLEQuestions2.html', {'mainly': l, 'nle': nle})
+    return render(request,'./exams/viewNLEQuestions2.html',{'mainly':l,'nle':nle})
+
