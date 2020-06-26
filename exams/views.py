@@ -553,11 +553,7 @@ def viewStudentRank(request):
         return redirect('/')
     elif(c==0):
         return redirect('/home')
-    c=checkpermission(request,request.path)
-    if(c==-1):
-        return redirect('/')
-    elif(c==0):
-        return redirect('/home')
+    
     d=database.child('/').get()
     NLEdate=list(d.val()['exams']['NLE'].keys())
     for i in range(len(NLEdate)):
