@@ -152,9 +152,7 @@ def users(request):
                 d=database.child('email').child('registration').shallow().get().val()
                 d = d.replace('[Full Name]',name)
                 d = d.replace('[USER ID]',"12"+str(tempid))
-                print(d.find('[phone number'))
                 d = d.replace('[phone number]',number)
-                print(d.find('[phone number'))
 
                 d = d.replace('[password]',number+"@TP@"+age)
 
@@ -169,6 +167,7 @@ def users(request):
                     tempid) + " is the ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
             elif userType == "Admin":
+
                 if (database.child('aIds').child(number).shallow().get().val()):
                     error = "Phone Number Already exists"
                     data['error'] = error
