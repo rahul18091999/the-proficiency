@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'g*ej$5wzhp20du5(-p)b$k2e5f)xbz5r=^fnmtzs8a%jfw%68@'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =True
@@ -142,11 +142,7 @@ STATICFILES_DIRS = [
 ]
 STATIC_ROOT=os.path.join(BASE_DIR,'assets')
 
-EMAIL_HOST='mail.the-proficiency.com'
-EMAIL_PORT=587
-EMAIL_HOST_USER='no-reply@the-proficiency.com'
-EMAIL_HOST_PASSWORD='80531@PApa'
-EMAIL_USE_TLS=True
+
 
 
 EMAIL_USE_SSL=False
