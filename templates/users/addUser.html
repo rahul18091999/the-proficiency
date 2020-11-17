@@ -8,6 +8,18 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include "../includes/top.html" %}
+
+    <script>
+        function abPer($val) {
+            var sh = document.getElementById("abPerSh");
+            if ($val == "Admin") {
+                sh.style.display = "block";
+            } else {
+                sh.style.display = "none";
+            }
+            return 0;
+        }
+    </script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -25,14 +37,6 @@
                         <!-- left column -->
                         <div class="col-md-12">
                             <!-- general form elements -->
-                            {% for i in menu %}
-                            <div class="icheck-primary d-inline">
-                                <input type="checkbox" id="checkboxPrimary1" name="{{i.name}}" value="{{i.id}}">
-                                <label for="checkboxPrimary1">
-                                    {{i.name}}{{i.id}}
-                                </label><br>
-                            </div>
-                            {% endfor %}
                             {% if error %}
                             <div class="alert alert-danger">
                                 <center>{{error}}</center>
@@ -123,13 +127,26 @@
                                         <div class="form-group">
                                             <label>User Type</label>
                                             <select class="form-control select2" name="userType" style="width: 100%;"
-                                                onchange='selct_district(this.value)'>
+                                                onchange="abPer(this.value)">
                                                 <option selected value="" disabled>Select Type</option>
                                                 <option value="Admin">Admin</option>
                                                 <option value="Teacher">Teacher</option>
                                                 <option value="Typer">Typer</option>
                                                 <option value="Marketer">Marketer</option>
                                             </select>
+                                        </div>
+                                        <div class="form-group" style="display: none;" id="abPerSh">
+                                            {% for i in menu %}
+                                            <div class="form-group clearfix">
+                                                <div class="icheck-primary d-inline">
+                                                    <input type="checkbox" id="{{i.id}}" name="{{i.id}}"
+                                                        value="{{i.id}}">
+                                                    <label for="{{i.id}}">
+                                                        {{i.name}}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
                                         </div>
                                         <div class="form-group">
                                             <label>State</label>

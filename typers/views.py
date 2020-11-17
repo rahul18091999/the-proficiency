@@ -14,18 +14,21 @@ def viewQues(request):
         return redirect('/home')
     iduser = request.session['user']
     typerdata = database.child('typers').child(iduser).child('questionsAdded').get()
-    try:
-        l = []
+    l = []
+    if typerdata:
         for i in typerdata:
-            l.append(
-                {
-                    'id': i.key(),
-                    'by': i.val()["by"],
-                }
-            )
-        return render(request, './typer/viewQuestyper.html', {'question': l})
-    except:
-        return render(request, './typer/viewQuestyper.html', {})
+            ty = typerdata.val()
+            m = i.key()
+            for j in ty[i.key()]:
+                l.append(
+                    {
+                        'id': j,
+                        'by': ty[m][j]["by"],
+                    }
+                )
+    return render(request, './typer/viewQuestyper.html', {'question': l})
+
+
 
 
 def editProfile(request):
@@ -81,13 +84,32 @@ def mistakeQues(request):
     elif(c==0):
         return redirect('/home')
     idd = request.session['user']
-    data = database.child('typers').child(idd).child('questionsAdded').shallow().get().val()
+    data = database.child('typers').child(idd).child('questionsAdded').get().val()
+
     question = database.child('questions').get().val()
     l=[]
     if data:
         for i in data:
-            if question[i]['details']['approved']==False:
-                
-                l.append({'id':i,'tid':question[i]['details']['by']})
-    print(l)
+            for j in data[i]:
+                if question[j]['details']['approved']==False:
+                    
+                    l.append({'id':j,'tid':question[j]['details']['by']})
     return render(request,'./typer/viewMistakedQues.html',{'dataa':l})
+
+def typerPayment(request):
+    data = database.child('typers').child('14100004').child('questionsAdded').child('2020-07').get().val()
+    qdata = database.child('questions').get().val()
+    
+    img = 0
+    no = 0
+    for i in data:
+        
+        if "<img" in qdata[i]['details']['question'] or "<img" in qdata[i]['details']['opt1'] or "<img" in qdata[i]['details']['opt2'] or "<img" in qdata[i]['details']['opt3'] or "<img" in qdata[i]['details']['opt4']:
+            img+=1
+            print(i)
+        else:
+            no +=1
+    print(len(data))
+    print(img)
+    print(no) 
+    return render(request,'./typer/payment.html')

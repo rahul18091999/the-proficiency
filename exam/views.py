@@ -34,8 +34,7 @@ def checkpermission(r, url):
         idd = r.session['us']
         l11 = ['/logout','/home','/marketer/referal','/marketer/editProfile']
         l12 = ['/logout','/home','/teacher/viewQuestion','/teacher/rating','/teacher/editProfile','/teacher/referal','/teacher/earning','/teacher/tickets']
-        l13 = ['/logout', '/home','/teacher/addTeacher',
-                '/question/addQuestion', '/question/viewQuestion','/user/teacher','/user/typer','/user/addUser']
+        
         l14 = ['/logout', '/home', '/question/addQuestion','/typer/mistakeQues',
                '/typer/viewquestion','/typer/editProfile']
         l15 = ['/logout', '/home', '/question/addQuestion', '/question/viewQuestion','/user/addUser','/user/teacher','/user/typer','/user/marketer',
@@ -57,6 +56,8 @@ def checkpermission(r, url):
             else:
                 return 0
         elif(idd == '13'):
+            l13 = r.session["link"]
+            print(l13)
             if url in l13:
                 return 1
             else:
@@ -141,7 +142,30 @@ def header(request):
         elif(us=='11'):
             return render(request, './marketer/dashboard.html')
 
+def permissionLink(permission,data):
+    permissions = []
+    for i in permission:
+        permissions.append({'name':data[i]['name'],'priority':data[i]['priority'],'url':data[i]['url']})
+    return permissions
 
+def link(permission):
+    dat = permission
+    l13=['/home','/logout']
+    if '1001' in dat:
+        l13.append("/user/viewStu")
+        l13.append("/user/resendOTP")
+        l13.append("/user/addMoney")
+    if '1002' in dat:
+        l13.append("/trnc/viewTrnc")
+        l13.append("/trnc/seeTrnc")
+    if '1003' in dat:
+        l13.append("/tickets/viewTickets")
+        l13.append("/tickets/seeTicket")
+        l13.append("/tickets/changestatus")
+    if '1004' in dat:
+        l13.append("/exams/viewCouponsTo")
+        l13.append("/exams/viewCoupons")
+    return l13
 def index(request):
     from ipware import get_client_ip
     ip, is_routable = get_client_ip(request)
@@ -184,6 +208,7 @@ def index(request):
                 elif(user == '13'):
                     admindata = database.child('aIds').child(number).get().val()
                     if(admindata and getpass(password)[2:-1] == admindata['pass']):
+                        data = database.child('menu').get().val()
                         request.session['name']=database.child('admin').child(admindata['id']).child('details').get().val()['name']
                         request.session['user'] = admindata['id']
                         request.session['us'] = user
@@ -191,6 +216,10 @@ def index(request):
                         request.session['number']=number
                         request.session['table']='aIds'
                         request.session['ipp']=ip
+                        request.session['permissions']= admindata['permissions']
+                        request.session['permissionLink']=permissionLink(admindata['permissions'],data)
+                        request.session['link']=link(admindata['permissions'])
+                        print(request.session['link'])
                         database.child('aIds').child(number).update({'lastLogin':int(datetime.now().timestamp()*1000),'lastIP':ip})
                         return redirect('/home')
                     else:

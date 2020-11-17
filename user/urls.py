@@ -11,5 +11,6 @@ urlpatterns = [
     path('edittyper',edit.edittyper),    
     path('viewStu',views.viewStudents),
     path('resendOTP',views.resendOTP),
+    path('addMoney',views.addMoney),
     
 ]

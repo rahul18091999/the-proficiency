@@ -11,14 +11,18 @@ def add_variable_to_context(request):
             isApp=True
         else:
             isApp = False
+        if 'permissionLink' in request.session:
+            permission = request.session["permissionLink"]
+        else:
+            permission = []
         if 'subid' in request.session:
             path = request.session['subid']
             return {
-                'session': ses, 'homeimage': image, 'homename': name, 'subid': str(path)[:2],'jamura':userid,'isApp':isApp
+                'session': ses, 'homeimage': image, 'homename': name, 'subid': str(path)[:2],'jamura':userid,'isApp':isApp,'permission':permission
             }
         else:
             return {
-                'session': ses, 'homeimage': image, 'homename': name, 'jamura':userid,'isApp':isApp
+                'session': ses, 'homeimage': image, 'homename': name, 'jamura':userid,'isApp':isApp,'permission':permission
             }
     except:
         return {}

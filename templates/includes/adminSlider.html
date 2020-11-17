@@ -25,6 +25,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+               
                 <li class="nav-item">
                     <a href="/home" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
@@ -33,31 +34,16 @@
                         </p>
                     </a>
                 </li>
+                {% for i in permission %}
                 <li class="nav-item">
-                    <a href="/trnc/viewTrnc" class="nav-link">
+                    <a href="{{i.url}}" class="nav-link">
                         <i class="fas fa-list-ul nav-icon"></i>
-                        <p>View Transactions</p>
+                        <p>{{i.name}}</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="/tickets/viewTickets" class="nav-link">
-                        <i class="fas fa-list-ul nav-icon"></i>
-                        <p>View Tickets</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/exams/viewCoupons" class="nav-link">
-                        <i class="fas fa-list-ul nav-icon"></i>
-                        <p>View Coupons</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/user/viewStu" class="nav-link">
-                        <i class="fas fa-list-ul nav-icon"></i>
-                        <p>View students</p>
-                    </a>
-                </li>
+                {% endfor %}
                 
+              
                 {% if subid %}
                 <li class="nav-item">
                     <a href="/back" class="nav-link">

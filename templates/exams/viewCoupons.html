@@ -29,7 +29,7 @@
                                         <th>expDate</th>
                                         <th>minAmt</th>
                                         <th>sp</th>
-                                        <th>edit</th>
+                                        
                                         <th>to</th>
                                     </tr>
                                 </thead>
@@ -43,13 +43,7 @@
                                         <td>{{i.exp}}</td>
                                         <td>{{i.min}}</td>
                                         <td>{{i.sp}}</td>
-                                        <td>
-                                            <a href='/editTeacher/<%= data[i].tId%>'> <button type="button"
-                                                    class="btn btn-default btn-sm">
-                                                    <span class="glyphicon glyphicon-edit"></span> Edit
-                                                </button>
-                                            </a>
-                                        </td>
+                                        
                                         <td>
                                             <a href='/exams/viewCouponsTo?cid={{i.name}}'> <button type="button"
                                                     class="btn btn-default btn-sm">
@@ -67,7 +61,7 @@
                                         <th>expDate</th>
                                         <th>minAmt</th>
                                         <th>sp</th>
-                                        <th>edit</th>
+                                    
                                         <th>to</th>
                                     </tr>
                                 </tfoot>

@@ -53,7 +53,6 @@ def question(request):
         user=getuserdetail(request.session['us'])
         userid=request.session['user']
         notification=request.POST.get('notification')
-        print(notification)
         if subject:
             import ast
             subjId = ast.literal_eval(subj)[int(subject)]['id']
@@ -71,7 +70,12 @@ def question(request):
                 check = "true"
             else:
                 check = "review"
+            from datetime import date,datetime
 
+            time_now = int(datetime.now().timestamp()*1000)
+
+            dat = str(date.fromtimestamp(time_now/1000))
+            date = dat[0:7]
             database.child('questions').child("q"+str(tempid)).child('details').update(
                 {   
                     'approved': check,
@@ -83,7 +87,8 @@ def question(request):
                     'opt4': opt4,
                     'optC': optc, 
                     'typer':request.session['user'] ,
-                    'topic':topic 
+                    'topic':topic ,
+                    'time':time_now,
                 }
             )
             database.child('teachers').child(teach).child('questions').child("q"+str(tempid)).update({'topic': topic})
@@ -98,7 +103,7 @@ def question(request):
                     'by':teach
                 }
             )
-            database.child(user[0]).child(userid).child('questionsAdded').child("q"+str(tempid)).update(
+            database.child(user[0]).child(userid).child('questionsAdded').child(date).child("q"+str(tempid)).update(
                 {
                     'by':teach,
                     'topic':topic,
@@ -111,7 +116,6 @@ def question(request):
                 if noti:
                     token.append(noti)
 
-                print(token)
                 from datetime import datetime
                 time_now = int(datetime.now().timestamp()*1000)
                 temp = database.child('notifications').child('free').shallow().get().val()

@@ -4,4 +4,5 @@ urlpatterns = [
     path('viewquestion', views.viewQues),
     path('editProfile', views.editProfile),
     path('mistakeQues',views.mistakeQues),
+    path('typerPayment',views.typerPayment),
 ]

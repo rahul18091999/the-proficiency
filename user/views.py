@@ -146,6 +146,7 @@ def users(request):
                 data = {
                     'name': '',
                     'email': '',
+                'menu':menuList,
 
                 }
                 
@@ -167,7 +168,12 @@ def users(request):
                     tempid) + " is the ID for " + ("Mr. " if gen == 'Male' else "Ms. ") + name
                 return render(request, './users/addUser.html', data)
             elif userType == "Admin":
-
+                permission = []
+                for i in menuList:
+                    permissions = request.POST.get(i["id"])
+                    if permissions:
+                        permission.append(permissions)
+                
                 if (database.child('aIds').child(number).shallow().get().val()):
                     error = "Phone Number Already exists"
                     data['error'] = error
@@ -184,7 +190,8 @@ def users(request):
                         'id': '13'+str(tempid),
                         'createdOn': time_now,
                         'createdBy': create,
-                        'pass': getpass(number+"@TP@"+age)[2:-1]
+                        'pass': getpass(number+"@TP@"+age)[2:-1],
+                        'permissions':permission
                     }
                 )
                 database.child('admin').child('13'+str(tempid)).child('details').update(
@@ -261,6 +268,7 @@ def users(request):
                 data = {
                     'name': '',
                     'email': '',
+                'menu':menuList,
 
                 }
                 d=database.child('email').child('registration').shallow().get().val()
@@ -346,6 +354,7 @@ def users(request):
                 data = {
                     'name': '',
                     'email': '',
+                'menu':menuList,
 
                 }
                 d=database.child('email').child('registration').shallow().get().val()
@@ -395,6 +404,7 @@ def viewteacher(request):
         for i in teacherData:
             
             if(i.key() != 'qBank'):
+                print(i.key())
                 l.append(
                     {
                         'tId': i.key(),
@@ -597,6 +607,7 @@ def viewStudents(request):
     students = database.child('users').get()
     ids = database.child('ids').get().val()
     l=[]
+    from datetime import datetime
     for i in students:
         l.append(
             {
@@ -604,7 +615,9 @@ def viewStudents(request):
                 'name': i.val()['details']['name'],
                 'parent': i.val()['details']['parent'],
                 'phone': i.val()['details']['phone'],
-                'verify':ids[i.val()['details']['phone']]['verify']
+                'verify':ids[i.val()['details']['phone']]['verify'],
+                'createdOn':datetime.fromtimestamp(int(ids[i.val()['details']['phone']]['createdOn'])/1000),
+                'wallet':i.val()['wallet']['balance'] if 'wallet' in i.val() and 'balance' in i.val()['wallet'] else '-'
             }
         )
     return render(request,'./users/viewStu.html',{'data': l})
@@ -623,3 +636,93 @@ def resendOTP(request):
         link = "http://sms.whybulksms.com/api/sendhttp.php?authkey="+msgdata['key']+"&mobiles="+idd+"&message="+verify+str(data['verify'])+"&sender="+msgdata['sndrID']+"&route=4"
         requests.get(link)
     return redirect('/user/viewStu')
+
+def addMoney(request):
+    idd = request.GET.get('id')
+    print(idd)
+    if(request.method=="POST"):
+        amount = int(request.POST.get('amount'))
+        from datetime import datetime
+        from exam.views import getuserdetail
+        us = getuserdetail(request.session['us'])
+        print(datetime.now().strftime("%Y-%m-%d %H.%M.%S"))
+        if amount:
+            userData = database.child('users').child(idd).get().val()
+            
+            time_now = int(datetime.now().timestamp()*1000)
+            trncID = idd+str(time_now)
+            database.child(us[0]).child(request.session['user']).child('trnc').child(idd).child(trncID).update({
+                "BANKTXNID" : "",
+                "CURRENCY" : "INR",
+                "CUST_ID" : userData['details']['name']+"@"+idd,
+                "EMAIL" : "userInfo@tp.com",
+                "MID" : "FbFRgc66424314189642CT",
+                "MOBILE_NO" : userData['details']['phone'],
+                "ORDERID" : trncID,
+                "ORDER_ID" : trncID,
+                "RESPCODE" : "141",
+                "RESPMSG" : "Txn Conplete By Calling team",
+                "STATUS" : "TXN_SUCCESS",
+                "TXNAMOUNT" : amount,
+                "TXNDATE" : datetime.now().strftime("%Y-%m-%d %H.%M.%S"),
+                "TXNID" : "20200623111212800110168559732604329CT",
+                "TXN_AMOUNT" : amount,
+                "cmnts" : "By Calling Team",
+                "coupon" : False,
+                "sp" : amount*6
+            })
+
+            database.child('trnc').child(trncID).update({
+                "BANKTXNID" : "",
+                "CURRENCY" : "INR",
+                "CUST_ID" : userData['details']['name']+"@"+idd,
+                "EMAIL" : "userInfo@tp.com",
+                "MID" : "FbFRgc66424314189642CT",
+                "MOBILE_NO" : userData['details']['phone'],
+                "ORDERID" : trncID,
+                "ORDER_ID" : trncID,
+                "RESPCODE" : "141",
+                "RESPMSG" : "Txn Conplete By Calling team",
+                "STATUS" : "TXN_SUCCESS",
+                "TXNAMOUNT" : amount,
+                "TXNDATE" : datetime.now().strftime("%Y-%m-%d %H.%M.%S"),
+                "TXNID" : "20200623111212800110168559732604329CT",
+                "TXN_AMOUNT" : amount,
+                "cmnts" : "By Calling Team",
+                "coupon" : False,
+                "sp" : amount*6
+
+            })
+            try:
+                wallet = userData['wallet']['balance']
+            except:
+                wallet = 0
+            database.child('users').child(idd).child('wallet').update({
+                'balance':str(int(wallet)+int(amount*6)),
+                
+            })
+            database.child('users').child(idd).child('wallet').child('transactions').child(trncID).update({
+                "BANKTXNID" : "",
+                "CURRENCY" : "INR",
+                "CUST_ID" : userData['details']['name']+"@"+idd,
+                "EMAIL" : "userInfo@tp.com",
+                "MID" : "FbFRgc66424314189642CT",
+                "MOBILE_NO" : userData['details']['phone'],
+                "ORDERID" : trncID,
+                "ORDER_ID" : trncID,
+                "RESPCODE" : "141",
+                "RESPMSG" : "Txn Conplete By Calling team",
+                "STATUS" : "TXN_SUCCESS",
+                "TXNAMOUNT" : amount,
+                "TXNDATE" : datetime.now().strftime("%Y-%m-%d %H.%M.%S"),
+                "TXNID" : "20200623111212800110168559732604329CT",
+                "TXN_AMOUNT" : amount,
+                "cmnts" : "By Calling Team",
+                "coupon" : False,
+                "sp" : amount*6
+
+            })
+            return redirect('/user/viewStu')
+        else:
+            return render(request,'./users/addMoney.html',{'id':idd,'error':"Please enter amount"})
+    return render(request,'./users/addMoney.html',{'id':idd})

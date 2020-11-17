@@ -97,10 +97,11 @@ def viewQuestion(request):
     idd = request.session['user']
     t = database.child('teachers').child(idd).child('questions').get()
     data = []
-    print(t.val())
+    ques = database.child('questions').get().val()
+    
     if t.val() is not None:
         for i in t:
-            data.append({'qid': i.key(), 'topicid': i.val()['topic']})
+            data.append({'qid': i.key(), 'topicid': i.val()['topic'],'status':ques[i.key()]['details']['approved']})
     return render(request, './teacher/questions.html', {'data': data})
 
 

@@ -27,8 +27,10 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>parent</th>
                                         <th>phone</th>
+                                        <th>Registered on</th>
+                                        <th>Wallet</th>
+                                        <th>Add Money</th>
                                         <th>Resend OTP</th>
                                     </tr>
                                 </thead>
@@ -40,8 +42,16 @@
                                     <tr>
                                         <td>{{i.id}}</td>
                                         <td>{{i.name}}</td>
-                                        <td>{{i.parent}}</td>
                                         <td>{{i.phone}}</td>
+                                        <td>{{i.createdOn}}</td>
+                                        <td>{{i.wallet}}</td>
+                                        <td>
+                                            <a href='/user/addMoney?id={{i.id}}'> <button type="button"
+                                                    class="btn btn-default btn-sm">
+                                                    <span class="glyphicon glyphicon-edit"></span> Add Money
+                                                </button>
+                                            </a>
+                                        </td>
                                         {% if i.verify is not True %}
                                         <td>
                                             <a href='/user/resendOTP?id={{i.phone}}'> <button type="button"
@@ -51,19 +61,21 @@
                                             </a>
                                         </td>
                                         {% else %}
-<td></td>
+<td></td> 
                                         {% endif %}
                                     </tr>
                                     {% endfor %}
                                     {% endif %}
                                 </tbody>
                                 <tfoot>
-                                    <tr>
+                                    <tr> 
                                         <th>ID</th>
                                         <th>Name</th>
-                                        <th>parent</th>
+                                       
                                         <th>phone</th>
-                                        <th>click</th>
+                                        <th>Registered on</th>
+                                        <th>Wallet</th>
+                                        <th>Resend OTP</th>
                                     </tr>
                                 </tfoot>
                             </table>

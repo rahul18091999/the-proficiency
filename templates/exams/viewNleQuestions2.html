@@ -1,14 +1,51 @@
-{% comment %} {{mainly}} {% endcomment %}
-{% for i in mainly %}
-{{i.name }}{{i.id}}
-{% for j in i.question %}
-id {{j.id}}<br>
-ques {{j.ques}}<br>
-opt1 {{j.opt1}}<br>
-opt2 {{j.opt2}}<br>
-opt3 {{j.opt3}}<br>
-opt4 {{j.opt4}}<br>
-ans {{j.ans}}<br>
-<br><br>
-{% endfor %}
-{% endfor %}
+<html>
+
+<head>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+      </script>
+    <script type="text/javascript"
+        src="http://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <style>
+        body {
+            background-image: url("https://firebasestorage.googleapis.com/v0/b/the-proficiency.appspot.com/o/logo%2FProfile%20Pic.png?alt=media&token=f5efb3c0-394e-4c28-9442-d061e1204e9b");
+            background-size: 700px 700px;
+            background-repeat: repeat-y;
+            background-position: center;
+            
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>The<b>PROFICIENCY</b></h1>
+        {% comment %} {{mainly}} {% endcomment %}
+        {% for i in mainly %}
+        <h2>Sample Question Paper for {{i.name }}<br></h2>
+        Course Code = {{i.id}}
+    </center>
+    {% for j in i.question %} <br>
+    <font size="+3">{{j.id}}.) {{j.ques}}</font><br>
+    <div>
+        <div style="width: 25%; float:left">
+            <font size="+1">a) {{j.opt1}}</font>
+        </div>
+        <div style="width: 25%; float:right">
+            <font size="+1">b) {{j.opt2}}</font>
+        </div>
+        <div style="width: 25%; float:right">
+            <font size="+1">b) {{j.opt3}}</font>
+        </div>
+        <div style="width: 25%; float:right">
+            <font size="+1">b) {{j.opt4}}</font>
+        </div>
+    </div>
+    <font size="+2">Answer = {{j.ans}}</font><br>
+    <br><br>
+    {% endfor %}
+    {% endfor %}
+</body>
+
+</html>
